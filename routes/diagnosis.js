@@ -20,11 +20,19 @@ function getCurrentTimestamp() {
   return `${day}-${month}-${year}`;
 }
 
-// Route to get all diagnoses from Realtime Database
+// Route to get all diagnoses from Realtime Database, filtered by username if provided
 router.get('/', (req, res) => {
+  const requestedUsername = req.query.username;
+
   db.ref('diagnosis').once('value', (snapshot) => {
     const data = snapshot.val();
-    res.json(data);
+
+    // Filter data based on the requested username, example: http://localhost:8080/diagnosis?username=john
+    const filteredDiagnosis = requestedUsername
+      ? Object.values(data).filter(diagnosis => diagnosis.username === requestedUsername)
+      : Object.values(data);
+
+    res.json(filteredDiagnosis);
   }, (error) => {
     res.status(500).json({ message: 'Error fetching diagnoses', error: error.message });
   });
@@ -46,9 +54,24 @@ router.get('/:id', (req, res) => {
 
 // Route to create a new diagnosis in Realtime Database
 router.post('/', (req, res) => {
-  const { username, age, result } = req.body;
-  if (!result) {
-    return res.status(400).json({ message: 'ERROR: Try it again' });
+  const {
+    date,
+    gender,
+    username,
+    age,
+    sleepDuration,
+    qualityOfSleep,
+    physicalActivityLevel,
+    stressLevel,
+    BMIcategory,
+    bloodPressure,
+    heartRate,
+    dailySteps,
+    sleepDisorder
+  } = req.body;
+
+  if (!sleepDisorder) {
+    return res.status(400).json({ message: 'ERROR: Please provide all required fields' });
   }
 
   const newId = generateUniqueId(8); // Generate a unique ID using crypto
@@ -56,11 +79,21 @@ router.post('/', (req, res) => {
 
   const newDiagnosis = {
     id: newId,
+    gender,
     username,
     age,
-    date:createdAt,
-    result
+    sleepDuration,
+    qualityOfSleep,
+    physicalActivityLevel,
+    stressLevel,
+    BMIcategory,
+    bloodPressure,
+    heartRate,
+    dailySteps,
+    sleepDisorder,
+    date: createdAt
   };
+
   db.ref(`diagnosis/${newId}`).set(newDiagnosis)
     .then(() => {
       res.status(201).json(newDiagnosis);
@@ -73,13 +106,35 @@ router.post('/', (req, res) => {
 // Route to update a diagnosis by ID in Realtime Database
 router.put('/:id', (req, res) => {
   const diagnosisId = req.params.id;
-  const { username, age, result } = req.body;
+  const {
+    gender,
+    username,
+    age,
+    sleepDuration,
+    qualityOfSleep,
+    physicalActivityLevel,
+    stressLevel,
+    BMIcategory,
+    bloodPressure,
+    heartRate,
+    dailySteps,
+    sleepDisorder
+  } = req.body;
 
   const updateData = {
     id: diagnosisId,
+    gender,
     username,
     age,
-    result
+    sleepDuration,
+    qualityOfSleep,
+    physicalActivityLevel,
+    stressLevel,
+    BMIcategory,
+    bloodPressure,
+    heartRate,
+    dailySteps,
+    sleepDisorder
   };
 
   db.ref(`diagnosis/${diagnosisId}`).update(updateData)

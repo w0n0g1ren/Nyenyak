@@ -10,20 +10,14 @@ function generateUniqueId(size) {
   return crypto.randomBytes(size).toString('hex');
 }
 
-// Number to String Month
-const month = {
-  1:"Jan",
-  2:"Feb",
-  3:"Mar",
-  4:"Apr",
-  5:"May",
-  6:"Jun",
-  7:"Jul",
-  8:"Aug",
-  9:"Sep",
-  10:"Oct",
-  11:"Nov",
-  12:"Dec"
+// Function to get the current timestamp in dd-mm-yyyy format
+function getCurrentTimestamp() {
+  const date = new Date();
+  const day = String(date.getDate()).padStart(2, '0');
+  const month = String(date.getMonth() + 1).padStart(2, '0');
+  const year = date.getFullYear();
+
+  return `${day}-${month}-${year}`;
 }
 
 // Route to get all diagnoses from Realtime Database
@@ -56,19 +50,15 @@ router.post('/', (req, res) => {
   if (!result) {
     return res.status(400).json({ message: 'ERROR: Try it again' });
   }
-  // const newId = nanoid(8);
+
   const newId = generateUniqueId(8); // Generate a unique ID using crypto
-  
-  // Get Date
-  const current = Date.now()
-  const dateTime = new Date(current);
-  const date = dateTime.getDate() + " " + month[dateTime.getMonth().toString()] + " " + dateTime.getFullYear();
+  const createdAt = getCurrentTimestamp(); // Get current timestamp
 
   const newDiagnosis = {
     id: newId,
     username,
     age,
-    date:date,
+    date:createdAt,
     result
   };
   db.ref(`diagnosis/${newId}`).set(newDiagnosis)

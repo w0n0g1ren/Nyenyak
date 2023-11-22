@@ -64,8 +64,7 @@ router.post('/', (req, res) => {
     qualityOfSleep,
     physicalActivityLevel,
     stressLevel,
-    // 6 separate integer parameters for blood pressure
-    stage1Systolic, stage1Diastolic, stage2Systolic, stage2Diastolic, elevatedSystolic, elevatedDiastolic,
+    bloodPressure,
     heartRate,
     dailySteps,
     sleepDisorder
@@ -87,10 +86,6 @@ router.post('/', (req, res) => {
     BMIcategory = 'Obese';
   }
 
-  // Convert separate int parameters to array of strings
-  const formattedBloodPressure = [`${stage1Systolic}/${stage1Diastolic}`, `${stage2Systolic}/${stage2Diastolic}`, `${elevatedSystolic}/${elevatedDiastolic}`];
-
-
   const newId = generateUniqueId(8);
   const createdAt = getCurrentTimestamp();
 
@@ -105,7 +100,7 @@ router.post('/', (req, res) => {
     qualityOfSleep,
     physicalActivityLevel,
     stressLevel,
-    bloodPressure: formattedBloodPressure,
+    bloodPressure,
     heartRate,
     dailySteps,
     sleepDisorder

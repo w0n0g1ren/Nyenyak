@@ -55,16 +55,17 @@ router.get('/:id', (req, res) => {
 // Route to create a new diagnosis in Realtime Database
 router.post('/', (req, res) => {
   const {
-    date,
     gender,
     username,
     age,
+    weight,
+    height, // height in cm
     sleepDuration,
     qualityOfSleep,
     physicalActivityLevel,
     stressLevel,
-    BMIcategory,
-    bloodPressure,
+    // 6 separate integer parameters for blood pressure
+    stage1Systolic, stage1Diastolic, stage2Systolic, stage2Diastolic, elevatedSystolic, elevatedDiastolic,
     heartRate,
     dailySteps,
     sleepDisorder
@@ -73,25 +74,41 @@ router.post('/', (req, res) => {
   if (!sleepDisorder) {
     return res.status(400).json({ message: 'ERROR: Please provide all required fields' });
   }
+  // Count BMI
+  const heightInMeters = height / 100;
+  const BMI = weight / (heightInMeters ** 2);
 
-  const newId = generateUniqueId(8); // Generate a unique ID using crypto
-  const createdAt = getCurrentTimestamp(); // Get current timestamp
+  let BMIcategory;
+  if (BMI < 25) {
+    BMIcategory = 'Normal';
+  } else if (BMI < 30) {
+    BMIcategory = 'Overweight';
+  } else {
+    BMIcategory = 'Obese';
+  }
+
+  // Convert separate int parameters to array of strings
+  const formattedBloodPressure = [`${stage1Systolic}/${stage1Diastolic}`, `${stage2Systolic}/${stage2Diastolic}`, `${elevatedSystolic}/${elevatedDiastolic}`];
+
+
+  const newId = generateUniqueId(8);
+  const createdAt = getCurrentTimestamp();
 
   const newDiagnosis = {
     id: newId,
+    date: createdAt,
     gender,
     username,
     age,
+    BMIcategory,
     sleepDuration,
     qualityOfSleep,
     physicalActivityLevel,
     stressLevel,
-    BMIcategory,
-    bloodPressure,
+    bloodPressure: formattedBloodPressure,
     heartRate,
     dailySteps,
-    sleepDisorder,
-    date: createdAt
+    sleepDisorder
   };
 
   db.ref(`diagnosis/${newId}`).set(newDiagnosis)
@@ -100,49 +117,6 @@ router.post('/', (req, res) => {
     })
     .catch((error) => {
       res.status(500).json({ message: 'Error creating diagnosis', error: error.message });
-    });
-});
-
-// Route to update a diagnosis by ID in Realtime Database
-router.put('/:id', (req, res) => {
-  const diagnosisId = req.params.id;
-  const {
-    gender,
-    username,
-    age,
-    sleepDuration,
-    qualityOfSleep,
-    physicalActivityLevel,
-    stressLevel,
-    BMIcategory,
-    bloodPressure,
-    heartRate,
-    dailySteps,
-    sleepDisorder
-  } = req.body;
-
-  const updateData = {
-    id: diagnosisId,
-    gender,
-    username,
-    age,
-    sleepDuration,
-    qualityOfSleep,
-    physicalActivityLevel,
-    stressLevel,
-    BMIcategory,
-    bloodPressure,
-    heartRate,
-    dailySteps,
-    sleepDisorder
-  };
-
-  db.ref(`diagnosis/${diagnosisId}`).update(updateData)
-    .then(() => {
-      res.json({ message: 'Data is updated', updatedDiagnosis: updateData });
-    })
-    .catch((error) => {
-      res.status(500).json({ message: 'Error updating diagnosis', error: error.message });
     });
 });
 

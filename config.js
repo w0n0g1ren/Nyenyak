@@ -1,15 +1,15 @@
-// config.js
-const admin = require('firebase-admin');
+var admin = require('firebase-admin');
+const firebase = require('firebase');
 
-// Initialize Firebase Admin SDK
-const serviceAccount = require("./serviceAccountKey.json");
+const serviceAccount = require('./serviceAccountKey.json');
 admin.initializeApp({
-    credential: admin.credential.cert(serviceAccount),
-    databaseURL: 'https://nyenyak-project-dev-default-rtdb.asia-southeast1.firebasedatabase.app/'
+  credential: admin.credential.cert(serviceAccount),
+  databaseURL: 'https://nyenyak-project-dev-default-rtdb.asia-southeast1.firebasedatabase.app/',
 });
 
 // Initialize Realtime Database and get a reference to the service
 const db = admin.database(); // Using Realtime Database
+const authorization = admin.auth(); // Access Authentication service
 
 // Middleware for Firebase Authentication
 const verifyFirebaseToken = async (req, res, next) => {
@@ -21,7 +21,7 @@ const verifyFirebaseToken = async (req, res, next) => {
         }
 
         const idToken = authorizationHeader.split('Bearer ')[1]; // Extract the token part
-        const decodedToken = await auth.verifyIdToken(idToken);
+        const decodedToken = await authorization.verifyIdToken(idToken);
         req.user = decodedToken;
         next();
     } catch (error) {
@@ -45,4 +45,4 @@ const firebaseConfig = {
 const firebaseApp = firebase.initializeApp(firebaseConfig);
 const auth = firebaseApp.auth(); // Initialize Firebase Auth
 
-module.exports = { db, auth, verifyFirebaseToken};
+module.exports = { db, auth, verifyFirebaseToken, authorization};

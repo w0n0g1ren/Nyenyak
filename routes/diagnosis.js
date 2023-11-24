@@ -1,9 +1,12 @@
 const express = require('express');
 const crypto = require('crypto');
-const { db } = require('../config'); // Import your Firebase database reference
+const { db, verifyFirebaseToken } = require('../config'); // Import your Firebase database reference
 
 const router = express.Router();
 router.use(express.json());
+
+// Apply Firebase Auth middleware to protect routes that require authentication
+router.use(verifyFirebaseToken);
 
 // Function to generate a unique ID using crypto with a specified size
 function generateUniqueId(size) {
@@ -40,20 +43,27 @@ router.get('/', (req, res) => {
 
 // Route to get a specific diagnosis by ID from Realtime Database
 router.get('/:id', (req, res) => {
-  const diagnosisId = req.params.id;
-  db.ref(`diagnosis/${diagnosisId}`).once('value', (snapshot) => {
-    const diagnosis = snapshot.val();
-    if (!diagnosis) {
-      return res.status(404).json({ message: 'Diagnosis not found' });
-    }
-    res.json(diagnosis);
-  }, (error) => {
-    res.status(500).json({ message: 'Error fetching diagnosis', error: error.message });
-  });
+  try {
+      const diagnosisId = req.params.id;
+      db.ref(`diagnosis/${diagnosisId}`).once('value', (snapshot) => {
+          const diagnosis = snapshot.val();
+          if (!diagnosis) {
+              return res.status(404).json({ message: 'Diagnosis not found' });
+          }
+          res.json(diagnosis);
+      }, (error) => {
+          console.error('Error fetching diagnosis:', error.message);
+          res.status(500).json({ message: 'Error fetching diagnosis', error: error.message });
+      });
+  } catch (error) {
+      console.error('Exception in fetching diagnosis:', error.message);
+      res.status(500).json({ message: 'Exception in fetching diagnosis', error: error.message });
+  }
 });
 
 // Route to create a new diagnosis in Realtime Database
 router.post('/', (req, res) => {
+  try {
   const {
     gender,
     username,
@@ -106,25 +116,37 @@ router.post('/', (req, res) => {
     sleepDisorder
   };
 
+  // Perform data insertion
   db.ref(`diagnosis/${newId}`).set(newDiagnosis)
-    .then(() => {
+  .then(() => {
       res.status(201).json(newDiagnosis);
-    })
-    .catch((error) => {
+  })
+  .catch((error) => {
+      console.error('Error creating diagnosis:', error.message);
       res.status(500).json({ message: 'Error creating diagnosis', error: error.message });
-    });
+  });
+} catch (error) {
+console.error('Exception in creating diagnosis:', error.message);
+res.status(500).json({ message: 'Exception in creating diagnosis', error: error.message });
+}
 });
 
 // Route to delete a diagnosis by ID from Realtime Database
 router.delete('/:id', (req, res) => {
-  const diagnosisId = req.params.id;
-  db.ref(`diagnosis/${diagnosisId}`).remove()
-    .then(() => {
-      res.json({ message: 'Data is deleted' });
-    })
-    .catch((error) => {
-      res.status(500).json({ message: 'Error deleting diagnosis', error: error.message });
-    });
+  try {
+      const diagnosisId = req.params.id;
+      db.ref(`diagnosis/${diagnosisId}`).remove()
+          .then(() => {
+              res.json({ message: 'Data is deleted' });
+          })
+          .catch((error) => {
+              console.error('Error deleting diagnosis:', error.message);
+              res.status(500).json({ message: 'Error deleting diagnosis', error: error.message });
+          });
+  } catch (error) {
+      console.error('Exception in deleting diagnosis:', error.message);
+      res.status(500).json({ message: 'Exception in deleting diagnosis', error: error.message });
+  }
 });
 
 module.exports = router;

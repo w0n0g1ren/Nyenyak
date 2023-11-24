@@ -1,19 +1,26 @@
-const express = require('express')
-const app = express()
-const diagnosisRouter = require("./routes/diagnosis")
+const express = require('express');
+const app = express();
+const diagnosisRouter = require('./routes/diagnosis');
+const { verifyFirebaseToken } = require('./config'); // Import the middleware
 
-// Midleware
-app.use(express.json())
-app.use(express.urlencoded({extended: true}))
-app.use('/diagnosis', diagnosisRouter)
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
-const port = process.env.PORT || 8080
+// Apply Firebase Auth middleware to routes that require authentication
+app.use('/diagnosis', verifyFirebaseToken, diagnosisRouter); // Apply middleware to the routes
+app.use('/auth', authRouter); // Use the authentication routes
+
+const port = process.env.PORT || 4000;
 
 app.get('/', (req, res) => {
-    res.send('Hello World!')
-})
+  res.send(`
+  <p>Hello World!</p>
+  <form action="http://localhost:8080/auth/google-login" method="post">
+    <button type="submit">Google Login Test</button>
+  </form>
+`);
+});
 
-// Start the server
 app.listen(port, () => {
-    console.log(`Server is running on http://localhost:${port}`);
-  });
+  console.log(`Server is running on http://localhost:${port}`);
+});

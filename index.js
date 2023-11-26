@@ -1,15 +1,15 @@
 const express = require('express');
-const app = express();
 const diagnosisRouter = require('./routes/diagnosis');
 const authRouter = require('./routes/auth');
-const { verifyFirebaseToken } = require('./config'); // Import the middleware
+const { verifyFirebaseToken } = require('./config');
+
+const app = express();
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Apply Firebase Auth middleware to routes that require authentication
-app.use('/diagnosis', verifyFirebaseToken, diagnosisRouter); // Apply middleware to the routes
-app.use('/auth', authRouter); // Use the authentication routes
+app.use('/diagnosis', verifyFirebaseToken, diagnosisRouter);
+app.use('/auth', authRouter); 
 
 const port = process.env.PORT || 8080;
 

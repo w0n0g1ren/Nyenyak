@@ -100,6 +100,8 @@ router.post('/', (req, res) => {
   const newId = generateUniqueId(8);
   const createdAt = getCurrentTimestamp();
 
+  const toMinute = physicalActivityLevel*60;
+
   const newDiagnosis = {
     id: newId,
     uid: uid,
@@ -109,7 +111,7 @@ router.post('/', (req, res) => {
     BMIcategory,
     sleepDuration,
     qualityOfSleep,
-    physicalActivityLevel,
+    physicalActivityLevel: toMinute,
     stressLevel,
     bloodPressure,
     heartRate,

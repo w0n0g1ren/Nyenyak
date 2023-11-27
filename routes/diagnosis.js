@@ -23,41 +23,41 @@ function getCurrentTimestamp() {
   return `${day}-${month}-${year}`;
 }
 
-// Route to get all diagnoses from Realtime Database, filtered by username if provided
+// Route to get all diagnoses from Realtime Database, filtered by user UID
 router.get('/', (req, res) => {
-  const requestedUsername = req.query.username;
+  const uid = req.user.uid;
 
-  db.ref('diagnosis').once('value', (snapshot) => {
+  db.ref(`diagnosis/${uid}`).once('value', (snapshot) => {
     const data = snapshot.val();
+    const diagnoses = data ? Object.values(data) : [];
 
-    // Filter data based on the requested username, example: http://localhost:8080/diagnosis?username=john
-    const filteredDiagnosis = requestedUsername
-      ? Object.values(data).filter(diagnosis => diagnosis.username === requestedUsername)
-      : Object.values(data);
-
-    res.json(filteredDiagnosis);
+    res.json(diagnoses);
   }, (error) => {
     res.status(500).json({ message: 'Error fetching diagnoses', error: error.message });
   });
 });
 
-// Route to get a specific diagnosis by ID from Realtime Database
+// Route to get a specific diagnosis by ID for the logged-in user
 router.get('/:id', (req, res) => {
   try {
-      const diagnosisId = req.params.id;
-      db.ref(`diagnosis/${diagnosisId}`).once('value', (snapshot) => {
-          const diagnosis = snapshot.val();
-          if (!diagnosis) {
-              return res.status(404).json({ message: 'Diagnosis not found' });
-          }
-          res.json(diagnosis);
-      }, (error) => {
-          console.error('Error fetching diagnosis:', error.message);
-          res.status(500).json({ message: 'Error fetching diagnosis', error: error.message });
-      });
+    const diagnosisId = req.params.id;
+    const uid = req.user.uid;
+
+    db.ref(`diagnosis/${uid}/${diagnosisId}`).once('value', (snapshot) => {
+      const diagnosis = snapshot.val();
+
+      if (!diagnosis) {
+        return res.status(404).json({ message: 'Diagnosis not found for the logged-in user' });
+      }
+
+      res.json(diagnosis);
+    }, (error) => {
+      console.error('Error fetching diagnosis:', error.message);
+      res.status(500).json({ message: 'Error fetching diagnosis', error: error.message });
+    });
   } catch (error) {
-      console.error('Exception in fetching diagnosis:', error.message);
-      res.status(500).json({ message: 'Exception in fetching diagnosis', error: error.message });
+    console.error('Exception in fetching diagnosis:', error.message);
+    res.status(500).json({ message: 'Exception in fetching diagnosis', error: error.message });
   }
 });
 
@@ -66,7 +66,6 @@ router.post('/', (req, res) => {
   try {
   const {
     gender,
-    username,
     age,
     weight,
     height, // height in cm
@@ -96,14 +95,16 @@ router.post('/', (req, res) => {
     BMIcategory = 'Obese';
   }
 
+  const uid = req.user.uid;
+
   const newId = generateUniqueId(8);
   const createdAt = getCurrentTimestamp();
 
   const newDiagnosis = {
     id: newId,
+    uid: uid,
     date: createdAt,
     gender,
-    username,
     age,
     BMIcategory,
     sleepDuration,
@@ -117,7 +118,7 @@ router.post('/', (req, res) => {
   };
 
   // Perform data insertion
-  db.ref(`diagnosis/${newId}`).set(newDiagnosis)
+  db.ref(`diagnosis/${uid}/${newId}`).set(newDiagnosis)
   .then(() => {
       res.status(201).json(newDiagnosis);
   })

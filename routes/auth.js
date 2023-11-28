@@ -1,6 +1,7 @@
 var admin = require('firebase-admin');
 const express = require('express');
 const { auth } = require('../config');
+const { signInWithEmailAndPassword, createUserWithEmailAndPassword } = require('firebase/auth')
 
 const router = express.Router();
 router.use(express.json());
@@ -10,12 +11,13 @@ router.post('/register', async (req, res) => {
     const { email, password } = req.body;
   
     try {
-      const userRecord = await admin.auth().createUser({
-        email,
-        password,
-      });
+      // const userRecord = await admin.auth().createUser({
+      //   email,
+      //   password,
+      // });
+      const userRecord = await createUserWithEmailAndPassword(auth, email, password);
   
-      res.status(201).json({ message: 'User registered successfully', uid: userRecord.uid });
+      res.status(201).json({ message: 'User registered successfully', userId: userRecord.user.uid });
     } catch (error) {
       res.status(500).json({ message: 'Error registering user', error: error.message });
     }
@@ -26,10 +28,12 @@ router.post('/login', async (req, res) => {
     const { email, password } = req.body;
   
     try {
-      const userRecord = await auth.signInWithEmailAndPassword(email, password);
+      const userRecord = await signInWithEmailAndPassword(auth, email, password);
       const token = await userRecord.user.getIdToken();
+      const tokenExp = userRecord.user.stsTokenManager.expirationTime;
+      const expirateTime = new Date(tokenExp).toLocaleString();
   
-      res.status(200).json({ message: 'Login successful', token });
+      res.status(200).json({ message: 'Login successful', token, expirateTime });
     } catch (error) {
       res.status(401).json({ message: 'Invalid credentials', error: error.message });
     }

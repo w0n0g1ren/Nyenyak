@@ -1,5 +1,6 @@
 const express = require('express');
 const crypto = require('crypto');
+const axios = require('axios');
 const { db, verifyFirebaseToken } = require('../config'); // Import your Firebase database reference
 
 const router = express.Router();
@@ -62,7 +63,7 @@ router.get('/:id', (req, res) => {
 });
 
 // Route to create a new diagnosis in Realtime Database
-router.post('/', (req, res) => {
+router.post('/', async (req, res) => {
   try {
   const {
     gender,
@@ -75,11 +76,10 @@ router.post('/', (req, res) => {
     stressLevel,
     bloodPressure,
     heartRate,
-    dailySteps,
-    sleepDisorder
+    dailySteps
   } = req.body;
 
-  if (!sleepDisorder) {
+  if (!sleepDuration) {
     return res.status(400).json({ message: 'ERROR: Please provide all required fields' });
   }
   // Count BMI
@@ -102,6 +102,33 @@ router.post('/', (req, res) => {
 
   const toMinute = physicalActivityLevel*60;
 
+  // Data in the format accepted by the Flask model API
+  const modelApiInput = {
+    "Age": age,
+    "Sleep_Duration": sleepDuration,
+    "Sleep_Quality": qualityOfSleep,
+    "Physical_Activity_Level": physicalActivityLevel,
+    "Stress_Level": stressLevel,
+    "Heart_Rate": heartRate,
+    "Daily_Steps": dailySteps,
+    "Gender_Male": gender === 'Male' ? 1 : 0,
+    "BMI_Category_Obese": BMIcategory === 'Obese' ? 1 : 0,
+    "BMI_Category_Overweight": BMIcategory === 'Overweight' ? 1 : 0,
+    "BP_Category_Normal": bloodPressure === 'Normal' ? 1 : 0,
+    "BP_Category_Stage 1": bloodPressure === 'Stage 1' ? 1 : 0,
+    "BP_Category_Stage 2": bloodPressure === 'Stage 2' ? 1 : 0
+  };
+
+  // Send data to Flask model API
+  const modelApiResponse = await axios.post('http://127.0.0.1:5000/prediction', modelApiInput);
+
+  // Extract the sleep disorder prediction from the Flask model API response
+  const sleepDisorderPrediction = modelApiResponse.data.sleep_disorder;
+
+  // Add sleep disorder prediction to the new diagnosis data
+  // newDiagnosis.sleepDisorder = sleepDisorderPrediction;
+
+
   const newDiagnosis = {
     id: newId,
     uid: uid,
@@ -116,7 +143,7 @@ router.post('/', (req, res) => {
     bloodPressure,
     heartRate,
     dailySteps,
-    sleepDisorder
+    sleepDisorder: sleepDisorderPrediction
   };
 
   // Perform data insertion
@@ -138,7 +165,8 @@ res.status(500).json({ message: 'Exception in creating diagnosis', error: error.
 router.delete('/:id', (req, res) => {
   try {
       const diagnosisId = req.params.id;
-      db.ref(`diagnosis/${diagnosisId}`).remove()
+      const uid = req.user.uid;
+      db.ref(`diagnosis/${uid}/${diagnosisId}`).remove()
           .then(() => {
               res.json({ message: 'Data is deleted' });
           })

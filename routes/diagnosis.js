@@ -27,14 +27,16 @@ function getCurrentTimestamp() {
 router.get('/', (req, res) => {
   const uid = req.user.uid;
 
-  db.ref(`diagnosis/${uid}`).once('value', (snapshot) => {
-    const data = snapshot.val();
-    const diagnoses = data ? Object.values(data) : [];
-
-    res.json(diagnoses);
-  }, (error) => {
-    res.status(500).json({ message: 'Error fetching diagnoses', error: error.message });
-  });
+  db.ref(`diagnosis/${uid}`).once('value')
+    .then((snapshot) => {
+      const data = snapshot.val();
+      const diagnoses = data ? Object.values(data) : [];
+      res.json(diagnoses);
+    })
+    .catch((error) => {
+      console.error('Error fetching diagnoses:', error.message);
+      res.status(500).json({ status: "failed", message: 'Error fetching diagnoses', error: error.message });
+    });
 });
 
 // Route to get a specific diagnosis by ID for the logged-in user
@@ -47,17 +49,17 @@ router.get('/:id', (req, res) => {
       const diagnosis = snapshot.val();
 
       if (!diagnosis) {
-        return res.status(404).json({ message: 'Diagnosis not found for the logged-in user' });
+        return res.status(404).json({ status: "failed", message: 'Diagnosis not found for the logged-in user' });
       }
 
       res.json(diagnosis);
     }, (error) => {
       console.error('Error fetching diagnosis:', error.message);
-      res.status(500).json({ message: 'Error fetching diagnosis', error: error.message });
+      res.status(500).json({ status: "failed", message: 'Error fetching diagnosis', error: error.message });
     });
   } catch (error) {
-    console.error('Exception in fetching diagnosis:', error.message);
-    res.status(500).json({ message: 'Exception in fetching diagnosis', error: error.message });
+      console.error('Exception in fetching diagnosis:', error.message);
+      res.status(500).json({ status: "failed", message: 'Exception in fetching diagnosis', error: error.message });
   }
 });
 
@@ -68,7 +70,7 @@ router.post('/', (req, res) => {
     gender,
     age,
     weight,
-    height, // height in cm
+    height,
     sleepDuration,
     qualityOfSleep,
     physicalActivityLevel,
@@ -80,7 +82,7 @@ router.post('/', (req, res) => {
   } = req.body;
 
   if (!sleepDisorder) {
-    return res.status(400).json({ message: 'ERROR: Please provide all required fields' });
+    return res.status(400).json({ status: "failed", message: 'ERROR: Please provide all required fields' });
   }
   // Count BMI
   const heightInMeters = height / 100;
@@ -122,33 +124,35 @@ router.post('/', (req, res) => {
   // Perform data insertion
   db.ref(`diagnosis/${uid}/${newId}`).set(newDiagnosis)
   .then(() => {
-      res.status(201).json(newDiagnosis);
+      res.status(201).json({ status: "success", message: "Data successfully added", newDiagnosis });
   })
   .catch((error) => {
       console.error('Error creating diagnosis:', error.message);
-      res.status(500).json({ message: 'Error creating diagnosis', error: error.message });
+      res.status(500).json({ status: "failed", message: 'Error creating diagnosis', error: error.message });
   });
-} catch (error) {
-console.error('Exception in creating diagnosis:', error.message);
-res.status(500).json({ message: 'Exception in creating diagnosis', error: error.message });
-}
+  } catch (error) {
+    console.error('Exception in creating diagnosis:', error.message);
+    res.status(500).json({ status: "failed", message: 'Exception in creating diagnosis', error: error.message });
+  }
 });
 
 // Route to delete a diagnosis by ID from Realtime Database
 router.delete('/:id', (req, res) => {
   try {
-      const diagnosisId = req.params.id;
-      db.ref(`diagnosis/${diagnosisId}`).remove()
-          .then(() => {
-              res.json({ message: 'Data is deleted' });
-          })
-          .catch((error) => {
-              console.error('Error deleting diagnosis:', error.message);
-              res.status(500).json({ message: 'Error deleting diagnosis', error: error.message });
-          });
+    const diagnosisId = req.params.id;
+    const uid = req.user.uid;
+
+    db.ref(`diagnosis/${uid}/${diagnosisId}`).remove()
+      .then(() => {
+        res.status(200).json({ status: "success", message: 'Data is deleted' });
+      })
+      .catch((error) => {
+        console.error('Error deleting diagnosis:', error.message);
+        res.status(500).json({ status: "failed", message: 'Error deleting diagnosis', error: error.message });
+      });
   } catch (error) {
-      console.error('Exception in deleting diagnosis:', error.message);
-      res.status(500).json({ message: 'Exception in deleting diagnosis', error: error.message });
+    console.error('Exception in deleting diagnosis:', error.message);
+    res.status(500).json({ status: "failed", message: 'Exception in deleting diagnosis', error: error.message });
   }
 });
 

@@ -32,6 +32,7 @@
     <string name="lorem_ipsum">Lorem Ipsum</string>
     <string name="solusi">Solusi</string>
     <string name="lanjut">Lanjut</string>
+    <string name="list">List</string>
 
     <string-array name="gender">
         <item>Laki Laki</item>

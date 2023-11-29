@@ -63,4 +63,9 @@ dependencies {
     implementation("androidx.compose.runtime:runtime-livedata") //observeAsState
     implementation("androidx.constraintlayout:constraintlayout-compose:1.0.1") //ConstraintLayout
     implementation("io.coil-kt:coil-compose:2.2.2") //AsyncImage
+
+    implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.6.2")
+    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.2")
+    implementation("androidx.navigation:navigation-fragment-ktx:2.7.5")
+    implementation("androidx.navigation:navigation-ui-ktx:2.7.5")
 }

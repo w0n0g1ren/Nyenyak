@@ -1,0 +1,40 @@
+<resources>
+    <string name="app_name">Nyenyak</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="pengecekan_terakhir">Pengecekan Terakhir</string>
+    <string name="tips_tidur">Tips Tidur</string>
+    <string name="dashboard">Dashboard</string>
+    <string name="kondisi_tidur">Kondisi Tidur</string>
+    <string name="kurang_tidur">Kurang Tidur</string>
+    <string name="tanggal">12/12/2012</string>
+    <string name="tips_uji">beliau bukan sembarang beliau</string>
+    <string name="list_pengecekan">List Pengecekan</string>
+    <string name="gender">Gender</string>
+    <string name="umur">Umur\n</string>
+    <string name="tahun">Tahun</string>
+    <string name="tinggi">Tinggi</string>
+    <string name="cm">Cm</string>
+    <string name="berat_badan">Berat Badan</string>
+    <string name="kg">Kg</string>
+    <string name="durasi_tidur">Durasi Tidur</string>
+    <string name="jam_hari">Jam/Hari</string>
+    <string name="rating_tidur">Rating Tidur</string>
+    <string name="rating_stres">Rating Stres</string>
+    <string name="tekanan_darah">Tekanan Darah</string>
+    <string name="detak_jantung">Detak Jantung</string>
+    <string name="bpm">Bpm</string>
+    <string name="langkah_per_hari">langkah/Hari</string>
+    <string name="input">Input</string>
+    <string name="hasil_diagnosa">Hasil\nDiagnosa\n</string>
+    <string name="tanggal_tes">12-12-1212</string>
+    <string name="penyakit_tidur">Penyakit Tidur</string>
+    <string name="lorem_ipsum">Lorem Ipsum</string>
+    <string name="solusi">Solusi</string>
+    <string name="lanjut">Lanjut</string>
+
+    <string-array name="gender">
+        <item>Laki Laki</item>
+        <item>perempuan</item>
+    </string-array>
+</resources>

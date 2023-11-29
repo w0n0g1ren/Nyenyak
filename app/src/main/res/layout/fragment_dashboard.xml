@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".DashboardFragment">
+
+    <LinearLayout
+        android:background="@color/dark_purple"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:background="@drawable/background_1"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="120dp">
+
+            <TextView
+                android:textSize="30dp"
+                android:textColor="@color/white"
+                android:fontFamily="@font/poppins_medium"
+                android:layout_marginLeft="20dp"
+                android:paddingBottom="5dp"
+                android:layout_gravity="bottom"
+                android:gravity="bottom"
+                android:text="@string/dashboard"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"/>
+        </LinearLayout>
+
+        <TextView
+            android:textColor="@color/white"
+            android:textSize="16dp"
+            android:gravity="center"
+            android:fontFamily="@font/poppins_medium"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="17dp"
+            android:text="@string/pengecekan_terakhir"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <androidx.recyclerview.widget.RecyclerView
+            tools:itemCount="4"
+            android:id="@+id/rv_dashboard"
+            tools:listitem="@layout/cek_item"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="19dp"
+            android:layout_width="match_parent"
+            android:layout_marginRight="20dp"
+            android:layout_height="360dp"/>
+
+        <TextView
+            android:textColor="@color/white"
+            android:textSize="16dp"
+            android:fontFamily="@font/poppins_medium"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="40dp"
+            android:text="@string/tips_tidur"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+        
+        <androidx.recyclerview.widget.RecyclerView
+            tools:listitem="@layout/tips_item"
+            android:orientation="horizontal"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="20dp"
+            android:layout_width="match_parent"
+            android:layout_height="120dp"/>
+    </LinearLayout>
+</ScrollView>

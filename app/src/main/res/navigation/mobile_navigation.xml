@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@id/dashboardFragment">
+
+    <fragment
+        android:id="@+id/dashboardFragment"
+        android:name="com.dicoding.nyenyak.DashboardFragment"
+        android:label="fragment_dashboard"
+        tools:layout="@layout/fragment_dashboard" />
+    <fragment
+        android:id="@+id/listFragment"
+        android:name="com.dicoding.nyenyak.ListFragment"
+        android:label="fragment_list"
+        tools:layout="@layout/fragment_list" />
+</navigation>

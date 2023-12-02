@@ -33,6 +33,17 @@
     <string name="solusi">Solusi</string>
     <string name="lanjut">Lanjut</string>
     <string name="list">List</string>
+    <string name="welcome_text">Selamat Datang di Nyenyak!</string>
+    <string name="register">Daftar</string>
+    <string name="login">Masuk</string>
+    <string name="or">Atau</string>
+    <string name="name_title">Nama Lengkap</string>
+    <string name="email_title">Email</string>
+    <string name="password_title">Password</string>
+    <string name="sign_up_title">Daftar Sekarang</string>
+    <string name="sign_in_title">Masuk Sekarang</string>
+    <string name="sub_title_register">Buat akun untuk ketahui\nkualitas dan penyakit tidur anda</string>
+    <string name="sub_title_login">Selamat datang kembali !\nMasuk untuk lihat kualitas dan penyakit tidur</string>
 
     <string-array name="gender">
         <item>Laki Laki</item>

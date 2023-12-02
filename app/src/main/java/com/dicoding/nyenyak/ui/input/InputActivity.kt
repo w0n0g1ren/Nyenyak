@@ -1,4 +1,4 @@
-package com.dicoding.nyenyak
+package com.dicoding.nyenyak.ui.input
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle

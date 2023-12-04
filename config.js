@@ -1,5 +1,7 @@
 var admin = require('firebase-admin');
-const firebase = require('firebase');
+// const firebase = require('firebase');
+const { getAuth }  = require("firebase/auth");
+const { initializeApp } = require("firebase/app");
 
 const serviceAccount = require('./serviceAccountKey.json');
 admin.initializeApp({
@@ -26,7 +28,7 @@ const verifyFirebaseToken = async (req, res, next) => {
         next();
     } catch (error) {
         console.error('Firebase Authentication Error:', error.message);
-        return res.status(401).json({ error: 'Unauthorized: Invalid or missing token', authorizationHeader });
+        return res.status(401).json({ error: 'Unauthorized: Invalid or missing token' });
     }
 };
 
@@ -42,7 +44,10 @@ const firebaseConfig = {
     measurementId: "G-7CKP2X9LNN"
   };
 
-const firebaseApp = firebase.initializeApp(firebaseConfig);
-const auth = firebaseApp.auth(); // Initialize Firebase Auth
+const firebaseApp = initializeApp(firebaseConfig);
+const auth = getAuth(firebaseApp)
+
+// const firebaseApp = firebase.initializeApp(firebaseConfig);
+// const auth = firebaseApp.auth(); // Initialize Firebase Auth
 
 module.exports = { db, auth, verifyFirebaseToken, authorization};

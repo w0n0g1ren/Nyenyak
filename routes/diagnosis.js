@@ -1,5 +1,6 @@
 const express = require('express');
 const crypto = require('crypto');
+const axios = require('axios');
 const { db, verifyFirebaseToken } = require('../config'); // Import your Firebase database reference
 
 const router = express.Router();
@@ -27,14 +28,16 @@ function getCurrentTimestamp() {
 router.get('/', (req, res) => {
   const uid = req.user.uid;
 
-  db.ref(`diagnosis/${uid}`).once('value', (snapshot) => {
-    const data = snapshot.val();
-    const diagnoses = data ? Object.values(data) : [];
-
-    res.json(diagnoses);
-  }, (error) => {
-    res.status(500).json({ message: 'Error fetching diagnoses', error: error.message });
-  });
+  db.ref(`diagnosis/${uid}`).once('value')
+    .then((snapshot) => {
+      const data = snapshot.val();
+      const diagnoses = data ? Object.values(data) : [];
+      res.json(diagnoses);
+    })
+    .catch((error) => {
+      console.error('Error fetching diagnoses:', error.message);
+      res.status(500).json({ status: 'failed', message: 'Error fetching diagnoses' });
+    });
 });
 
 // Route to get a specific diagnosis by ID for the logged-in user
@@ -47,39 +50,38 @@ router.get('/:id', (req, res) => {
       const diagnosis = snapshot.val();
 
       if (!diagnosis) {
-        return res.status(404).json({ message: 'Diagnosis not found for the logged-in user' });
+        return res.status(404).json({ status: "failed", message: 'Diagnosis not found for the logged-in user' });
       }
 
       res.json(diagnosis);
     }, (error) => {
       console.error('Error fetching diagnosis:', error.message);
-      res.status(500).json({ message: 'Error fetching diagnosis', error: error.message });
+      res.status(500).json({ status: "failed", message: 'Error fetching diagnosis' });
     });
   } catch (error) {
-    console.error('Exception in fetching diagnosis:', error.message);
-    res.status(500).json({ message: 'Exception in fetching diagnosis', error: error.message });
+      console.error('Exception in fetching diagnosis:', error.message);
+      res.status(500).json({ status: "failed", message: 'Exception in fetching diagnosis' });
   }
 });
 
 // Route to create a new diagnosis in Realtime Database
-router.post('/', (req, res) => {
+router.post('/', async (req, res) => {
   try {
   const {
     gender,
     age,
     weight,
-    height, // height in cm
+    height,
     sleepDuration,
     qualityOfSleep,
     physicalActivityLevel,
     stressLevel,
     bloodPressure,
     heartRate,
-    dailySteps,
-    sleepDisorder
+    dailySteps
   } = req.body;
 
-  if (!sleepDisorder) {
+  if (!sleepDuration) {
     return res.status(400).json({ message: 'ERROR: Please provide all required fields' });
   }
   // Count BMI
@@ -100,6 +102,36 @@ router.post('/', (req, res) => {
   const newId = generateUniqueId(8);
   const createdAt = getCurrentTimestamp();
 
+  const toMinute = physicalActivityLevel*60;
+
+  // Data in the format accepted by the Flask model API
+  const modelApiInput = {
+    "Age": age,
+    "Sleep_Duration": sleepDuration,
+    "Sleep_Quality": qualityOfSleep,
+    "Physical_Activity_Level": physicalActivityLevel,
+    "Stress_Level": stressLevel,
+    "Heart_Rate": heartRate,
+    "Daily_Steps": dailySteps,
+    "Gender_Male": gender === 'Male' ? 1 : 0,
+    "BMI_Category_Obese": BMIcategory === 'Obese' ? 1 : 0,
+    "BMI_Category_Overweight": BMIcategory === 'Overweight' ? 1 : 0,
+    "BP_Category_Normal": bloodPressure === 'Normal' ? 1 : 0,
+    "BP_Category_Stage 1": bloodPressure === 'Stage 1' ? 1 : 0,
+    "BP_Category_Stage 2": bloodPressure === 'Stage 2' ? 1 : 0
+  };
+
+  // Send data to Flask model API
+  const modelApiResponse = await axios.post('https://nyenyak-model-api-z2dhcxitca-et.a.run.app/prediction', modelApiInput);
+
+  // Extract the sleep disorder prediction from the Flask model API response
+  const sleepDisorderPrediction = modelApiResponse.data.sleep_disorder;
+
+  // Get the corresponding solution based on sleep disorder condition
+  const solution = await db.ref(`solution/${sleepDisorderPrediction}`).once('value').then(snapshot => snapshot.val());
+
+
+
   const newDiagnosis = {
     id: newId,
     uid: uid,
@@ -109,44 +141,47 @@ router.post('/', (req, res) => {
     BMIcategory,
     sleepDuration,
     qualityOfSleep,
-    physicalActivityLevel,
+    physicalActivityLevel: toMinute,
     stressLevel,
     bloodPressure,
     heartRate,
     dailySteps,
-    sleepDisorder
+    sleepDisorder: sleepDisorderPrediction,
+    solution: solution
   };
 
   // Perform data insertion
   db.ref(`diagnosis/${uid}/${newId}`).set(newDiagnosis)
   .then(() => {
-      res.status(201).json(newDiagnosis);
+      res.status(201).json({ status: "success", message: "Data successfully added", newDiagnosis });
   })
   .catch((error) => {
       console.error('Error creating diagnosis:', error.message);
-      res.status(500).json({ message: 'Error creating diagnosis', error: error.message });
+      res.status(500).json({ status: "failed", message: 'Error creating diagnosis' });
   });
-} catch (error) {
-console.error('Exception in creating diagnosis:', error.message);
-res.status(500).json({ message: 'Exception in creating diagnosis', error: error.message });
-}
+  } catch (error) {
+    console.error('Exception in creating diagnosis:', error.message);
+    res.status(500).json({ status: "failed", message: 'Exception in creating diagnosis' });
+  }
 });
 
 // Route to delete a diagnosis by ID from Realtime Database
 router.delete('/:id', (req, res) => {
   try {
-      const diagnosisId = req.params.id;
-      db.ref(`diagnosis/${diagnosisId}`).remove()
-          .then(() => {
-              res.json({ message: 'Data is deleted' });
-          })
-          .catch((error) => {
-              console.error('Error deleting diagnosis:', error.message);
-              res.status(500).json({ message: 'Error deleting diagnosis', error: error.message });
-          });
+    const diagnosisId = req.params.id;
+    const uid = req.user.uid;
+
+    db.ref(`diagnosis/${uid}/${diagnosisId}`).remove()
+      .then(() => {
+        res.status(200).json({ status: "success", message: 'Data is deleted' });
+      })
+      .catch((error) => {
+        console.error('Error deleting diagnosis:', error.message);
+        res.status(500).json({ status: "failed", message: 'Error deleting diagnosis' });
+      });
   } catch (error) {
-      console.error('Exception in deleting diagnosis:', error.message);
-      res.status(500).json({ message: 'Exception in deleting diagnosis', error: error.message });
+    console.error('Exception in deleting diagnosis:', error.message);
+    res.status(500).json({ status: "failed", message: 'Exception in deleting diagnosis' });
   }
 });
 

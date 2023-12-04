@@ -1,49 +1,100 @@
 var admin = require('firebase-admin');
 const express = require('express');
 const { auth } = require('../config');
+const { signInWithEmailAndPassword, createUserWithEmailAndPassword} = require('firebase/auth')
 
 const router = express.Router();
 router.use(express.json());
 
-// Route to register a new user with email and password
 router.post('/register', async (req, res) => {
-    const { email, password } = req.body;
-  
-    try {
-      const userRecord = await admin.auth().createUser({
-        email,
-        password,
+  const { email, password } = req.body;
+  try {
+    // Create a new user
+    const userRecord = await createUserWithEmailAndPassword(auth, email, password);
+    res.status(201).json({ 
+      status: 'success',
+      message: 'User registered successfully', 
+      userId: userRecord.user.uid 
+    });
+  } catch (error) {
+    if (error.code === 'auth/invalid-email') {
+      res.status(400).json({ 
+        status: 'failed',
+        message: 'Email must valid',
+        error: 'Email is not valid'
       });
-  
-      res.status(201).json({ message: 'User registered successfully', uid: userRecord.uid });
-    } catch (error) {
-      res.status(500).json({ message: 'Error registering user', error: error.message });
+    } else if (error.code === 'auth/email-already-in-use') {
+      res.status(400).json({ 
+        status: 'failed',
+        message: 'User is existed, login or use another email',
+        error: 'Email is used'
+      });
+    } else if (error.code === 'auth/weak-password') {
+      res.status(400).json({ 
+        status: 'failed',
+        message: 'Weak Password, use valid password (at least 6 characters)',
+        error: 'Weak Password'
+      });
+    } else {
+      res.status(500).json({ 
+        status: 'failed',
+        message: 'Error registering user',
+        error: 'Server Error'
+      });
     }
-  });
+    
+  }
+});
 
 // Route to log in with email and password
 router.post('/login', async (req, res) => {
-    const { email, password } = req.body;
-  
-    try {
-      const userRecord = await auth.signInWithEmailAndPassword(email, password);
-      const token = await userRecord.user.getIdToken();
-  
-      res.status(200).json({ message: 'Login successful', token });
-    } catch (error) {
-      res.status(401).json({ message: 'Invalid credentials', error: error.message });
+  const { email, password } = req.body;
+
+  try {
+    const userRecord = await signInWithEmailAndPassword(auth, email, password);
+    const token = await userRecord.user.getIdToken();
+    const tokenExp = userRecord.user.stsTokenManager.expirationTime;
+    const expirateTime = new Date(tokenExp).toLocaleString();
+
+    res.status(200).json({
+      status: 'success',
+      message: 'Login successful',
+      token,
+      expirateTime,
+    });
+  } catch (error) {
+    if (error.code === 'auth/invalid-credential' ) {
+      res.status(401).json({
+        status: 'failed',
+        message: 'Email or password is incorrect',
+        error: 'Invalid Credential'
+      });
+    } else {
+      res.status(500).json({
+        status: 'failed',
+        message: 'Cannot login, try it again',
+        error: 'Server Error'
+      });
     }
-  });
+  }
+});
+
 
 // Route to log out
 router.post('/logout', (req, res) => {
   // logout logic
   auth.signOut()
     .then(() => {
-      res.status(200).json({ message: 'Logout successful' });
+      res.status(200).json({ 
+        status: 'success',
+        message: 'Logout success' });
     })
     .catch((error) => {
-      res.status(500).json({ message: 'Error during logout', error: error.message });
+      res.status(500).json({ 
+        status: 'failed',
+        message: 'Error during logout', 
+        error: 'Server Error'
+      });
     });
 });
 
@@ -57,9 +108,16 @@ router.post('/google-login', async (req, res) => {
   
       const token = await userRecord.getIdToken();
   
-      res.status(200).json({ message: 'Google login successful', token });
+      res.status(200).json({ 
+        status: 'success',
+        message: 'Google login successful', 
+        token 
+      });
     } catch (error) {
-      res.status(401).json({ message: 'Google login failed', error: error.message });
+      res.status(401).json({ 
+        status: 'failed',
+        message: 'Google login failed'
+      });
     }
   });
 
@@ -70,12 +128,18 @@ router.get('/', async (req, res) => {
       const users = userRecords.users.map(userRecord => ({
         uid: userRecord.uid,
         email: userRecord.email,
-        // Include any other user information you want to expose
       }));
   
-      res.status(200).json({ users });
+      res.status(200).json({ 
+        status: 'success', 
+        users 
+      });
     } catch (error) {
-      res.status(500).json({ message: 'Error fetching users', error: error.message });
+      res.status(500).json({ 
+        status: 'failed', 
+        message: 'Error fetching users', 
+        error: "Server Error"
+      });
     }
   });
 

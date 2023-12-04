@@ -127,8 +127,9 @@ router.post('/', async (req, res) => {
   // Extract the sleep disorder prediction from the Flask model API response
   const sleepDisorderPrediction = modelApiResponse.data.sleep_disorder;
 
-  // Add sleep disorder prediction to the new diagnosis data
-  // newDiagnosis.sleepDisorder = sleepDisorderPrediction;
+  // Get the corresponding solution based on sleep disorder condition
+  const solution = await db.ref(`solution/${sleepDisorderPrediction}`).once('value').then(snapshot => snapshot.val());
+
 
 
   const newDiagnosis = {
@@ -145,7 +146,8 @@ router.post('/', async (req, res) => {
     bloodPressure,
     heartRate,
     dailySteps,
-    sleepDisorder: sleepDisorderPrediction
+    sleepDisorder: sleepDisorderPrediction,
+    solution: solution
   };
 
   // Perform data insertion

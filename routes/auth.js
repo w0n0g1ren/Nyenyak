@@ -12,28 +12,34 @@ router.post('/register', async (req, res) => {
     // Create a new user
     const userRecord = await createUserWithEmailAndPassword(auth, email, password);
     res.status(201).json({ 
-      status: "success",
+      status: 'success',
       message: 'User registered successfully', 
       userId: userRecord.user.uid 
     });
   } catch (error) {
     if (error.code === 'auth/invalid-email') {
-      res.status(500).json({ 
-        status: "failed",
-        message: 'Email must valid', 
-        error: error.message 
+      res.status(400).json({ 
+        status: 'failed',
+        message: 'Email must valid',
+        error: 'Email is not valid'
       });
     } else if (error.code === 'auth/email-already-in-use') {
-      res.status(500).json({ 
-        status: "failed",
-        message: 'User is existed', 
-        error: error.message 
+      res.status(400).json({ 
+        status: 'failed',
+        message: 'User is existed, login or use another email',
+        error: 'Email is used'
+      });
+    } else if (error.code === 'auth/weak-password') {
+      res.status(400).json({ 
+        status: 'failed',
+        message: 'Weak Password, use valid password (at least 6 characters)',
+        error: 'Weak Password'
       });
     } else {
       res.status(500).json({ 
-        status: "failed",
-        message: 'Error registering user', 
-        error: error.message 
+        status: 'failed',
+        message: 'Error registering user',
+        error: 'Server Error'
       });
     }
     
@@ -61,13 +67,13 @@ router.post('/login', async (req, res) => {
       res.status(401).json({
         status: 'failed',
         message: 'Email or password is incorrect',
-        error: error.message
+        error: 'Invalid Credential'
       });
     } else {
-      res.status(401).json({
+      res.status(500).json({
         status: 'failed',
-        message: 'Invalid credential',
-        error: error.message
+        message: 'Cannot login, try it again',
+        error: 'Server Error'
       });
     }
   }
@@ -81,13 +87,14 @@ router.post('/logout', (req, res) => {
     .then(() => {
       res.status(200).json({ 
         status: 'success',
-        message: 'Logout successful' });
+        message: 'Logout success' });
     })
     .catch((error) => {
       res.status(500).json({ 
         status: 'failed',
         message: 'Error during logout', 
-        error: error.message });
+        error: 'Server Error'
+      });
     });
 });
 
@@ -109,8 +116,7 @@ router.post('/google-login', async (req, res) => {
     } catch (error) {
       res.status(401).json({ 
         status: 'failed',
-        message: 'Google login failed', 
-        error: error.message 
+        message: 'Google login failed'
       });
     }
   });
@@ -132,7 +138,7 @@ router.get('/', async (req, res) => {
       res.status(500).json({ 
         status: 'failed', 
         message: 'Error fetching users', 
-        error: error.message 
+        error: "Server Error"
       });
     }
   });

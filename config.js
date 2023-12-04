@@ -28,7 +28,7 @@ const verifyFirebaseToken = async (req, res, next) => {
         next();
     } catch (error) {
         console.error('Firebase Authentication Error:', error.message);
-        return res.status(401).json({ error: 'Unauthorized: Invalid or missing token', authorizationHeader });
+        return res.status(401).json({ error: 'Unauthorized: Invalid or missing token' });
     }
 };
 

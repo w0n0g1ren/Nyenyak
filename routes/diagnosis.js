@@ -36,7 +36,7 @@ router.get('/', (req, res) => {
     })
     .catch((error) => {
       console.error('Error fetching diagnoses:', error.message);
-      res.status(500).json({ status: "failed", message: 'Error fetching diagnoses', error: error.message });
+      res.status(500).json({ status: 'failed', message: 'Error fetching diagnoses' });
     });
 });
 
@@ -56,11 +56,11 @@ router.get('/:id', (req, res) => {
       res.json(diagnosis);
     }, (error) => {
       console.error('Error fetching diagnosis:', error.message);
-      res.status(500).json({ status: "failed", message: 'Error fetching diagnosis', error: error.message });
+      res.status(500).json({ status: "failed", message: 'Error fetching diagnosis' });
     });
   } catch (error) {
       console.error('Exception in fetching diagnosis:', error.message);
-      res.status(500).json({ status: "failed", message: 'Exception in fetching diagnosis', error: error.message });
+      res.status(500).json({ status: "failed", message: 'Exception in fetching diagnosis' });
   }
 });
 
@@ -157,11 +157,11 @@ router.post('/', async (req, res) => {
   })
   .catch((error) => {
       console.error('Error creating diagnosis:', error.message);
-      res.status(500).json({ status: "failed", message: 'Error creating diagnosis', error: error.message });
+      res.status(500).json({ status: "failed", message: 'Error creating diagnosis' });
   });
   } catch (error) {
     console.error('Exception in creating diagnosis:', error.message);
-    res.status(500).json({ status: "failed", message: 'Exception in creating diagnosis', error: error.message });
+    res.status(500).json({ status: "failed", message: 'Exception in creating diagnosis' });
   }
 });
 
@@ -177,11 +177,11 @@ router.delete('/:id', (req, res) => {
       })
       .catch((error) => {
         console.error('Error deleting diagnosis:', error.message);
-        res.status(500).json({ status: "failed", message: 'Error deleting diagnosis', error: error.message });
+        res.status(500).json({ status: "failed", message: 'Error deleting diagnosis' });
       });
   } catch (error) {
     console.error('Exception in deleting diagnosis:', error.message);
-    res.status(500).json({ status: "failed", message: 'Exception in deleting diagnosis', error: error.message });
+    res.status(500).json({ status: "failed", message: 'Exception in deleting diagnosis' });
   }
 });
 

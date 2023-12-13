@@ -104,25 +104,50 @@ router.post('/', async (req, res) => {
 
   const toMinute = physicalActivityLevel*60;
 
+  
   // Data in the format accepted by the Flask model API
   const modelApiInput = {
+    "Gender": gender === 'Male' ? 1 : 0,
     "Age": age,
     "Sleep_Duration": sleepDuration,
-    "Sleep_Quality": qualityOfSleep,
+    "Sleep_Quality": (() => {
+      if (qualityOfSleep >= 4 && qualityOfSleep <= 9) {
+        return qualityOfSleep - 4;
+      } else if (qualityOfSleep < 4) {
+        return 0;
+      } else {
+        return 5;
+      }
+    })(),
     "Physical_Activity_Level": physicalActivityLevel,
-    "Stress_Level": stressLevel,
+    "Stress_Level": (() => {
+      if (stressLevel >= 3 && stressLevel <= 8) {
+        return stressLevel - 3;
+      } else if (stressLevel < 3) {
+        return 0;
+      } else {
+        return 5;
+      }
+    })(),
+    "BMI_Category": BMIcategory === 'Obese' ? 1 : (BMIcategory === 'Overweight' ? 2 : 0),
     "Heart_Rate": heartRate,
     "Daily_Steps": dailySteps,
-    "Gender_Male": gender === 'Male' ? 1 : 0,
-    "BMI_Category_Obese": BMIcategory === 'Obese' ? 1 : 0,
-    "BMI_Category_Overweight": BMIcategory === 'Overweight' ? 1 : 0,
-    "BP_Category_Normal": bloodPressure === 'Normal' ? 1 : 0,
-    "BP_Category_Stage 1": bloodPressure === 'Stage 1' ? 1 : 0,
-    "BP_Category_Stage 2": bloodPressure === 'Stage 2' ? 1 : 0
+    "BP_Category": (() => {
+      if (bloodPressure === 'Normal') {
+        return 1;
+      } else if (bloodPressure === 'Stage 1') {
+        return 2;
+      } else if (bloodPressure === 'Stage 2') {
+        return 3;
+      } else {
+        return 0;
+      }
+    })()
   };
+  
 
   // Send data to Flask model API
-  const modelApiResponse = await axios.post('https://nyenyak-model-api-z2dhcxitca-et.a.run.app/prediction', modelApiInput);
+  const modelApiResponse = await axios.post('http://127.0.0.1:5000/prediction', modelApiInput);
 
   // Extract the sleep disorder prediction from the Flask model API response
   const sleepDisorderPrediction = modelApiResponse.data.sleep_disorder;

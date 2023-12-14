@@ -67,9 +67,23 @@ router.get('/:id', (req, res) => {
 // Route to create a new diagnosis in Realtime Database
 router.post('/', async (req, res) => {
   try {
+  const uid = req.user.uid;
+
+  // Fetch user details from the logged-in user's database
+  const userSnapshot = await db.ref(`/users/${uid}`).once('value');
+  const userData = userSnapshot.val();
+
+  if (!userData) {
+    return res.status(400).json({ message: 'ERROR: User data not found' });
+  }
+
   const {
-    gender,
-    age,
+    gender: userGender,
+    age: userAge,
+    name: userName,
+  } = userData;
+
+  const {
     weight,
     height,
     sleepDuration,
@@ -97,8 +111,6 @@ router.post('/', async (req, res) => {
     BMIcategory = 'Obese';
   }
 
-  const uid = req.user.uid;
-
   const newId = generateUniqueId(8);
   const createdAt = getCurrentTimestamp();
 
@@ -106,21 +118,44 @@ router.post('/', async (req, res) => {
 
   // Data in the format accepted by the Flask model API
   const modelApiInput = {
-    "Age": age,
+    "Gender": userGender === 'Male' ? 1 : 0,
+    "Age": userAge,
     "Sleep_Duration": sleepDuration,
-    "Sleep_Quality": qualityOfSleep,
+    "Sleep_Quality": (() => {
+      if (qualityOfSleep >= 4 && qualityOfSleep <= 9) {
+        return qualityOfSleep - 4;
+      } else if (qualityOfSleep < 4) {
+        return 0;
+      } else {
+        return 5;
+      }
+    })(),
     "Physical_Activity_Level": physicalActivityLevel,
-    "Stress_Level": stressLevel,
+    "Stress_Level": (() => {
+      if (stressLevel >= 3 && stressLevel <= 8) {
+        return stressLevel - 3;
+      } else if (stressLevel < 3) {
+        return 0;
+      } else {
+        return 5;
+      }
+    })(),
+    "BMI_Category": BMIcategory === 'Obese' ? 1 : (BMIcategory === 'Overweight' ? 2 : 0),
     "Heart_Rate": heartRate,
     "Daily_Steps": dailySteps,
-    "Gender_Male": gender === 'Male' ? 1 : 0,
-    "BMI_Category_Obese": BMIcategory === 'Obese' ? 1 : 0,
-    "BMI_Category_Overweight": BMIcategory === 'Overweight' ? 1 : 0,
-    "BP_Category_Normal": bloodPressure === 'Normal' ? 1 : 0,
-    "BP_Category_Stage 1": bloodPressure === 'Stage 1' ? 1 : 0,
-    "BP_Category_Stage 2": bloodPressure === 'Stage 2' ? 1 : 0
+    "BP_Category": (() => {
+      if (bloodPressure === 'Normal') {
+        return 1;
+      } else if (bloodPressure === 'Stage 1') {
+        return 2;
+      } else if (bloodPressure === 'Stage 2') {
+        return 3;
+      } else {
+        return 0;
+      }
+    })()
   };
-
+  
   // Send data to Flask model API
   const modelApiResponse = await axios.post('https://nyenyak-model-api-z2dhcxitca-et.a.run.app/prediction', modelApiInput);
 
@@ -136,8 +171,9 @@ router.post('/', async (req, res) => {
     id: newId,
     uid: uid,
     date: createdAt,
-    gender,
-    age,
+    gender: userGender,
+    age: userAge,
+    name: userName,
     BMIcategory,
     sleepDuration,
     qualityOfSleep,

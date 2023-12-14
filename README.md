@@ -6,5 +6,6 @@ npm install express
 npm install firebase
 npm install firebase-admin@latest
 npm install axios
+npm install date-fns
 ```
 ## 2. Add serviceAccountKey.json from cloud firebase

@@ -6,15 +6,35 @@ const { signInWithEmailAndPassword, createUserWithEmailAndPassword} = require('f
 const router = express.Router();
 router.use(express.json());
 
+const { differenceInYears, parse } = require('date-fns');
+function calculateAge(dateOfBirth) {
+  const dob = parse(dateOfBirth, 'dd-MM-yyyy', new Date());
+  const age = differenceInYears(new Date(), dob);
+  return age;
+}
+
 router.post('/register', async (req, res) => {
-  const { email, password } = req.body;
+  const { email, password, name, gender, birthDate } = req.body;
+
   try {
-    // Create a new user
     const userRecord = await createUserWithEmailAndPassword(auth, email, password);
+    const age = calculateAge(birthDate)
+    await admin.database().ref(`/users/${userRecord.user.uid}`).set({
+      name,
+      email,
+      gender,
+      birthDate,
+      age
+    });
+
     res.status(201).json({ 
       status: 'success',
       message: 'User registered successfully', 
-      userId: userRecord.user.uid 
+      userId: userRecord.user.uid,
+      name,
+      gender,
+      birthDate,
+      age
     });
   } catch (error) {
     if (error.code === 'auth/invalid-email') {
@@ -42,20 +62,17 @@ router.post('/register', async (req, res) => {
         error: 'Server Error'
       });
     }
-    
   }
 });
 
 // Route to log in with email and password
 router.post('/login', async (req, res) => {
   const { email, password } = req.body;
-
   try {
     const userRecord = await signInWithEmailAndPassword(auth, email, password);
     const token = await userRecord.user.getIdToken();
     const tokenExp = userRecord.user.stsTokenManager.expirationTime;
     const expirateTime = new Date(tokenExp).toLocaleString();
-
     res.status(200).json({
       status: 'success',
       message: 'Login successful',

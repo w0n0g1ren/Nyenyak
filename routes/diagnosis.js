@@ -157,7 +157,7 @@ router.post('/', async (req, res) => {
   };
   
   // Send data to Flask model API
-  const modelApiResponse = await axios.post('http://127.0.0.1:5000/prediction', modelApiInput);
+  const modelApiResponse = await axios.post('https://nyenyak-model-api-z2dhcxitca-et.a.run.app/prediction', modelApiInput);
 
   // Extract the sleep disorder prediction from the Flask model API response
   const sleepDisorderPrediction = modelApiResponse.data.sleep_disorder;

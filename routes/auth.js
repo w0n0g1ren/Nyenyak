@@ -21,6 +21,7 @@ router.post('/register', async (req, res) => {
     const age = calculateAge(birthDate)
     await admin.database().ref(`/users/${userRecord.user.uid}`).set({
       name,
+      email,
       gender,
       birthDate,
       age
@@ -29,7 +30,11 @@ router.post('/register', async (req, res) => {
     res.status(201).json({ 
       status: 'success',
       message: 'User registered successfully', 
-      userId: userRecord.user.uid
+      userId: userRecord.user.uid,
+      name,
+      gender,
+      birthDate,
+      age
     });
   } catch (error) {
     if (error.code === 'auth/invalid-email') {

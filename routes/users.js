@@ -5,9 +5,9 @@ const router = express.Router();
 router.use(express.json());
 
 // Route to get user data by UID
-router.get('/:uid', async (req, res) => {
+router.get('/', async (req, res) => {
   try {
-    const uid = req.params.uid;
+    const uid = req.user.uid;
 
     const userSnapshot = await db.ref(`/users/${uid}`).once('value');
     const userData = userSnapshot.val();
@@ -23,11 +23,23 @@ router.get('/:uid', async (req, res) => {
   }
 });
 
-// Route to update user data by UID
-router.put('/:uid', async (req, res) => {
+const { differenceInYears, parse } = require('date-fns');
+function calculateAge(dateOfBirth) {
+  const dob = parse(dateOfBirth, 'dd-MM-yyyy', new Date());
+  const age = differenceInYears(new Date(), dob);
+  return age;
+}
+
+// Route to update user data
+router.put('/', async (req, res) => {
   try {
-    const uid = req.params.uid;
+    const uid = req.user.uid;
     const newData = req.body;
+
+    // Check if birthDate is being updated and calculate age
+    if (newData.birthDate && !newData.age) {
+      newData.age = calculateAge(newData.birthDate);
+    }
 
     // Update the user data in the database
     await db.ref(`/users/${uid}`).update(newData);

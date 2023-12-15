@@ -23,11 +23,16 @@ router.get('/', async (req, res) => {
   }
 });
 
-const { differenceInYears, parse } = require('date-fns');
+const { differenceInYears, parse, isValid } = require('date-fns');
 function calculateAge(dateOfBirth) {
   const dob = parse(dateOfBirth, 'dd-MM-yyyy', new Date());
   const age = differenceInYears(new Date(), dob);
   return age;
+}
+
+function isValidDateFormat(dateString) {
+  const parsedDate = parse(dateString, 'dd-MM-yyyy', new Date());
+  return isValid(parsedDate);
 }
 
 // Route to update user data
@@ -38,6 +43,13 @@ router.put('/', async (req, res) => {
 
     // Check if birthDate is being updated and calculate age
     if (newData.birthDate && !newData.age) {
+      if (!isValidDateFormat(birthDate)) {
+        return res.status(400).json({
+          status: 'failed',
+          message: 'Invalid date format',
+          error: 'Date of birth must be in dd-MM-yyyy format',
+        });
+      }
       newData.age = calculateAge(newData.birthDate);
     }
 

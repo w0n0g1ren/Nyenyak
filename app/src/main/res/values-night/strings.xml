@@ -23,4 +23,7 @@
     <string name="lorem_ipsum">Lorem Ipsum</string>
     <string name="solusi">Solusi</string>
     <string name="lanjut">Lanjut</string>
+    <string name="detail_ndiagnosa">Detail\nDiagnosa</string>
+    <string name="indeks_masa_tubuh">Indeks Masa Tubuh</string>
+    <string name="level_aktivitas_fisik">Level Aktivitas Fisik</string>
 </resources>

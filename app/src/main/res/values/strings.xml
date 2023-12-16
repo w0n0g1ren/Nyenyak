@@ -11,7 +11,7 @@
     <string name="tips_uji">beliau bukan sembarang beliau</string>
     <string name="list_pengecekan">List Pengecekan</string>
     <string name="gender">Gender</string>
-    <string name="umur">Umur\n</string>
+    <string name="umur">Umur</string>
     <string name="tahun">Tahun</string>
     <string name="tinggi">Tinggi</string>
     <string name="cm">Cm</string>
@@ -44,9 +44,18 @@
     <string name="sign_in_title">Masuk Sekarang</string>
     <string name="sub_title_register">Buat akun untuk ketahui\nkualitas dan penyakit tidur anda</string>
     <string name="sub_title_login">Selamat datang kembali !\nMasuk untuk lihat kualitas dan penyakit tidur</string>
+    <string name="detail_ndiagnosa">Detail\nDiagnosa</string>
+    <string name="indeks_masa_tubuh">Indeks Masa Tubuh</string>
+    <string name="level_aktivitas_fisik">Level Aktivitas Fisik</string>
 
     <string-array name="gender">
         <item>Laki Laki</item>
         <item>perempuan</item>
+    </string-array>
+
+    <string-array name="bloodpressure">
+        <item>stage 1</item>
+        <item>stage 2</item>
+        <item>elevated</item>
     </string-array>
 </resources>

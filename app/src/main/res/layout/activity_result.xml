@@ -37,7 +37,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/tv_tanggal_output"
+        android:id="@+id/tv_tanggal_result"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="20dp"
@@ -79,13 +79,14 @@
                 android:id="@+id/textView2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="30dp"
                 android:layout_marginTop="40dp"
                 android:fontFamily="@font/poppins_semibold"
                 android:text="@string/penyakit_tidur"
                 android:textColor="@color/dark_purple"
                 android:textSize="18dp"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.1"
+                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -106,12 +107,13 @@
                 android:id="@+id/tv_diagnosis_result"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="30dp"
                 android:fontFamily="@font/poppins_regular"
                 android:text="@string/lorem_ipsum"
                 android:textColor="@color/dark_purple"
                 android:textSize="14sp"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.087"
+                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textView2" />
 
@@ -119,6 +121,7 @@
                 android:id="@+id/textView3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="30dp"
                 android:layout_marginTop="20dp"
                 android:fontFamily="@font/poppins_semibold"
                 android:text="@string/solusi"
@@ -126,22 +129,24 @@
                 android:textSize="18dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.078"
+                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tv_diagnosis_result"
                 app:layout_constraintVertical_bias="0.0" />
 
             <TextView
                 android:id="@+id/tv_solusi_result"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="30dp"
+                android:layout_marginEnd="30dp"
                 android:fontFamily="@font/poppins_regular"
                 android:text="@string/lorem_ipsum"
                 android:textColor="@color/dark_purple"
                 android:textSize="14sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.087"
+                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textView3"
                 app:layout_constraintVertical_bias="0.0" />

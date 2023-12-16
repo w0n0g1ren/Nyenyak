@@ -15,4 +15,15 @@
         <item name="android:textColor">@color/dark_purple</item>
         <item name="textAllCaps">false</item>
     </style>
+
+    <style name="tvdetailresult">
+        <item name="fontFamily">@font/poppins_semibold</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:textColor">@color/dark_purple</item>
+    </style>
+    <style name="tvdetailresult2">
+        <item name="fontFamily">@font/poppins_regular</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@color/dark_purple</item>
+    </style>
 </resources>

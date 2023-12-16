@@ -8,13 +8,12 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 object ApiConfig {
 
-    fun getApiService(token : String? = null): ApiService {
+    fun getApiService(): ApiService {
         val loggingInterceptor =
             HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY)
         val authInterceptor = Interceptor { chain ->
             val req = chain.request()
             val requestHeaders = req.newBuilder()
-                .addHeader("Authorization", "Bearer $token")
                 .build()
             chain.proceed(requestHeaders)
         }
@@ -23,7 +22,7 @@ object ApiConfig {
             .addInterceptor(authInterceptor)
             .build()
         val retrofit = Retrofit.Builder()
-            .baseUrl("")
+            .baseUrl("https://nyenyak-project-dev.et.r.appspot.com/")
             .addConverterFactory(GsonConverterFactory.create())
             .client(client)
             .build()

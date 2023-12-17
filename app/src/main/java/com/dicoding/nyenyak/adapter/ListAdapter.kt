@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.dicoding.nyenyak.data.GetDiagnosisResponseItem
+import com.dicoding.nyenyak.data.response.GetDiagnosisResponseItem
 import com.dicoding.nyenyak.databinding.CekItemBinding
 import com.dicoding.nyenyak.ui.detail.DetailActivity
 

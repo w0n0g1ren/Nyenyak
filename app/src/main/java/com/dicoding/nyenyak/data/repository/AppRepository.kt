@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.dicoding.nyenyak.data.api.ApiService
+import com.dicoding.nyenyak.data.response.InputResponse
 import com.dicoding.nyenyak.data.response.LoginResponse
 import com.dicoding.nyenyak.data.response.RegisterResponse
 import com.dicoding.nyenyak.session.DataModel
@@ -25,6 +26,19 @@ class AppRepository private constructor(
 
     suspend fun register(email: String, password: String, name: String, gender: String, birthdate: String): RegisterResponse {
         return apiService.register(email, password, name, gender, birthdate)
+    }
+    suspend fun inputdiagnosis(
+        weight: Int,
+        height: Int,
+        sleepDuration: Float,
+        qualityOfSleep: Int,
+        physicalActivityLevel: Int,
+        bloodPressure: String,
+        stressLevel: Int,
+        heartRate: Int,
+        dailySteps: Int
+    ): InputResponse{
+        return apiService.inputDiagnosis(weight,height,sleepDuration,qualityOfSleep,physicalActivityLevel,bloodPressure,stressLevel,heartRate,dailySteps)
     }
 
     fun getSession(): Flow<DataModel> {

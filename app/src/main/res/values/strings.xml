@@ -50,6 +50,7 @@
     <string name="indeks_masa_tubuh">Indeks Masa Tubuh</string>
     <string name="level_aktivitas_fisik">Level Aktivitas Fisik</string>
     <string name="settings">Settings</string>
+    <string name="rating_aktivitas_fisik">Rating Aktivitas Fisik</string>
 
     <string-array name="gender">
         <item>Laki Laki</item>

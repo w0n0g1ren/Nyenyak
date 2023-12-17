@@ -1,16 +1,16 @@
-package com.dicoding.nyenyak.data
+package com.dicoding.nyenyak.data.response
 
 import com.google.gson.annotations.SerializedName
 
 data class InputResponse(
 
-	@field:SerializedName("message")
+    @field:SerializedName("message")
 	val message: String? = null,
 
-	@field:SerializedName("newDiagnosis")
+    @field:SerializedName("newDiagnosis")
 	val newDiagnosis: NewDiagnosis? = null,
 
-	@field:SerializedName("status")
+    @field:SerializedName("status")
 	val status: String? = null
 )
 

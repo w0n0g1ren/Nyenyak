@@ -1,4 +1,4 @@
-package com.dicoding.nyenyak.data
+package com.dicoding.nyenyak.data.response
 
 import com.google.gson.annotations.SerializedName
 

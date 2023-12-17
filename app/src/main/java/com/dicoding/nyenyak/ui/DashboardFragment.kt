@@ -5,13 +5,16 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.dicoding.nyenyak.adapter.ArticleAdapter
 import com.dicoding.nyenyak.adapter.adapter
-import com.dicoding.nyenyak.data.ApiConfig
-import com.dicoding.nyenyak.data.ArticleResponseItem
-import com.dicoding.nyenyak.data.GetDiagnosisResponseItem
+import com.dicoding.nyenyak.data.response.ArticleResponseItem
+import com.dicoding.nyenyak.data.response.GetDiagnosisResponseItem
+import com.dicoding.nyenyak.data.api.ApiConfig
 import com.dicoding.nyenyak.databinding.FragmentDashboardBinding
+import com.dicoding.nyenyak.session.SessionPreference
+import com.dicoding.nyenyak.session.datastore
 import com.dicoding.nyenyak.ui.main.MainActivity
 import retrofit2.Call
 import retrofit2.Callback
@@ -38,29 +41,43 @@ class DashboardFragment : Fragment() {
     }
 
     private fun showlatestdiagnosis() {
-        val client = ApiConfig.getApiService().getalldiagnosis()
-        client.enqueue(object: Callback<List<GetDiagnosisResponseItem>>{
-            override fun onResponse(
-                call: Call<List<GetDiagnosisResponseItem>>,
-                response: Response<List<GetDiagnosisResponseItem>>
-            ) {
-                if (response != null){
-                    val responseBody = response.body()
-                    if(responseBody != null){
-                        setLatestDiagnose(responseBody.subList(responseBody.lastIndex-3,responseBody.lastIndex+1))
-                    }
+        val pref = SessionPreference.getInstance(requireContext().datastore)
+        val viewmodel =
+            (context as? MainActivity)?.let {
+                ViewModelProvider(it, FragmentViewModelFactory(pref)).get(
+                    DashboardFragmentViewModel::class.java
+                )
+            }
+
+        (context as? MainActivity)?.let {
+            viewmodel?.getToken()?.observe(it){
+                if (it.token != null){
+                    val client = ApiConfig.getApiService(it.token).getalldiagnosis()
+                    client.enqueue(object: Callback<List<GetDiagnosisResponseItem>>{
+                        override fun onResponse(
+                            call: Call<List<GetDiagnosisResponseItem>>,
+                            response: Response<List<GetDiagnosisResponseItem>>
+                        ) {
+                            if (response != null){
+                                val responseBody = response.body()
+                                if(responseBody != null){
+                                    setLatestDiagnose(responseBody)
+                                }
+                            }
+                        }
+
+                        override fun onFailure(call: Call<List<GetDiagnosisResponseItem>>, t: Throwable) {
+                            TODO("Not yet implemented")
+                        }
+
+                    })
                 }
             }
-
-            override fun onFailure(call: Call<List<GetDiagnosisResponseItem>>, t: Throwable) {
-                TODO("Not yet implemented")
-            }
-
-        })
+        }
     }
 
     private fun setLatestDiagnose(subList: List<GetDiagnosisResponseItem>) {
-        val layoutManager = LinearLayoutManager(context as MainActivity)
+        val layoutManager = LinearLayoutManager(context as? MainActivity)
         binding.rvList.setLayoutManager(layoutManager)
         binding.rvList.setHasFixedSize(true)
         val adapter = adapter(context as MainActivity)

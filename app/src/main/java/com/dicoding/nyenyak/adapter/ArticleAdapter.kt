@@ -7,8 +7,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.dicoding.nyenyak.data.ArticleResponseItem
-import com.dicoding.nyenyak.data.GetDiagnosisResponseItem
+import com.dicoding.nyenyak.data.response.ArticleResponseItem
 import com.dicoding.nyenyak.databinding.TipsItemBinding
 
 class ArticleAdapter (private val context: Context): ListAdapter<ArticleResponseItem, ArticleAdapter.ViewHolder>(DIFF_CALLBACK) {

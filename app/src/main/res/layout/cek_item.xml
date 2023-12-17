@@ -6,6 +6,7 @@
     android:layout_marginBottom="10dp"
     app:cardCornerRadius="10dp"
     android:id="@+id/cek_item"
+    android:background="@color/white"
     android:layout_height="wrap_content">
 
     <androidx.constraintlayout.widget.ConstraintLayout

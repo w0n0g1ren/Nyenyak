@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.dicoding.nyenyak.data.di.Injection
 import com.dicoding.nyenyak.data.repository.AppRepository
+import com.dicoding.nyenyak.ui.input.InputViewModel
 import com.dicoding.nyenyak.ui.login.LoginViewModel
 import com.dicoding.nyenyak.ui.main.MainViewModel
 import com.dicoding.nyenyak.ui.register.RegisterViewModel

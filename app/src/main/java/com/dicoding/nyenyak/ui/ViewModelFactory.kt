@@ -9,6 +9,7 @@ import com.dicoding.nyenyak.ui.input.InputViewModel
 import com.dicoding.nyenyak.ui.login.LoginViewModel
 import com.dicoding.nyenyak.ui.main.MainViewModel
 import com.dicoding.nyenyak.ui.register.RegisterViewModel
+import com.dicoding.nyenyak.ui.splash.SplashViewModel
 
 class ViewModelFactory(
     private val repository: AppRepository
@@ -16,6 +17,9 @@ class ViewModelFactory(
     @Suppress("UNCHECKED_CAST")
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         return when {
+            modelClass.isAssignableFrom(SplashViewModel::class.java) -> {
+                SplashViewModel(repository) as T
+            }
             modelClass.isAssignableFrom(MainViewModel::class.java) -> {
                 MainViewModel(repository) as T
             }

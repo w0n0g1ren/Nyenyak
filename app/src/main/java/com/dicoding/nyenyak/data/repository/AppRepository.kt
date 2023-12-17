@@ -41,6 +41,20 @@ class AppRepository private constructor(
         return apiService.inputDiagnosis(weight,height,sleepDuration,qualityOfSleep,physicalActivityLevel,bloodPressure,stressLevel,heartRate,dailySteps)
     }
 
+    suspend fun inputdiagnosis(
+        weight: Int,
+        height: Int,
+        sleepDuration: Float,
+        qualityOfSleep: Int,
+        physicalActivityLevel: Int,
+        bloodPressure: String,
+        stressLevel: Int,
+        heartRate: Int,
+        dailySteps: Int
+    ): InputResponse {
+        return apiService.inputDiagnosis(weight,height,sleepDuration,qualityOfSleep,physicalActivityLevel,bloodPressure,stressLevel,heartRate,dailySteps)
+    }
+
     fun getSession(): Flow<DataModel> {
         return sessionPreference.getToken()
     }

@@ -1,4 +1,3 @@
-package com.dicoding.nyenyak.data
 
 import retrofit2.Call
 import retrofit2.http.DELETE

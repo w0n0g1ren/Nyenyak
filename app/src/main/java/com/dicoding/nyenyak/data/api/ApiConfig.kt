@@ -1,4 +1,4 @@
-package com.dicoding.nyenyak.data
+package com.dicoding.nyenyak.data.api
 
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient

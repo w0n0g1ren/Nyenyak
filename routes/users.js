@@ -1,5 +1,5 @@
 const express = require('express');
-const { db } = require('../config'); // Import your Firebase database reference
+const { db } = require('../config');
 
 const router = express.Router();
 router.use(express.json());
@@ -41,7 +41,6 @@ router.put('/', async (req, res) => {
     const uid = req.user.uid;
     const newData = req.body;
 
-    // Check if birthDate is being updated and calculate age
     if (newData.birthDate && !newData.age) {
       if (!isValidDateFormat(birthDate)) {
         return res.status(400).json({
@@ -53,7 +52,6 @@ router.put('/', async (req, res) => {
       newData.age = calculateAge(newData.birthDate);
     }
 
-    // Update the user data in the database
     await db.ref(`/users/${uid}`).update(newData);
 
     res.status(200).json({ status: 'success', message: 'User data updated successfully', data: newData });

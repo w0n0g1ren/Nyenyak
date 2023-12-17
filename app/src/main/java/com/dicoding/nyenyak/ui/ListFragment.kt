@@ -1,4 +1,4 @@
-package com.dicoding.nyenyak
+package com.dicoding.nyenyak.ui
 
 import android.content.Intent
 import android.os.Bundle
@@ -10,12 +10,10 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.dicoding.nyenyak.adapter.adapter
 import com.dicoding.nyenyak.data.ApiConfig
-import com.dicoding.nyenyak.data.GetDiagnosisResponse
 import com.dicoding.nyenyak.data.GetDiagnosisResponseItem
 import com.dicoding.nyenyak.databinding.FragmentListBinding
 import com.dicoding.nyenyak.ui.input.InputActivity
 import com.dicoding.nyenyak.ui.main.MainActivity
-import com.google.gson.GsonBuilder
 import retrofit2.Callback
 import retrofit2.Call
 import retrofit2.Response
@@ -53,13 +51,13 @@ class ListFragment : Fragment() {
                     if(responseBody != null){
                         setUserDiagnosis(responseBody.subList(0,responseBody.lastIndex+1))
                     }else{
-                        Log.e(ListFragment.TAG, "onFailure: ${response.message()}")
+                        Log.e(TAG, "onFailure: ${response.message()}")
                     }
                 }
             }
 
             override fun onFailure(call: Call<List<GetDiagnosisResponseItem>>, t: Throwable) {
-                Log.e(ListFragment.TAG, "onFailure: ${t.message}")
+                Log.e(TAG, "onFailure: ${t.message}")
             }
 
         })

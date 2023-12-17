@@ -4,10 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".DashboardFragment">
+
+    tools:context=".ui.DashboardFragment">
 
     <ScrollView
-        android:id="@+id/scrollView2"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -16,6 +16,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <LinearLayout
+            android:paddingBottom="95dp"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@color/dark_purple"
@@ -72,9 +73,9 @@
                 android:textSize="16dp" />
 
             <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_tips"
                 android:layout_width="match_parent"
                 android:layout_height="120dp"
-                android:layout_marginLeft="20dp"
                 android:layout_marginTop="20dp"
                 android:orientation="horizontal"
                 tools:listitem="@layout/tips_item" />

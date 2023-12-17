@@ -26,4 +26,9 @@
         <item name="android:textSize">14sp</item>
         <item name="android:textColor">@color/dark_purple</item>
     </style>
+
+    <style name="slider" parent="Theme.Material3.DayNight.NoActionBar">
+    </style>
+
+    <style name="theme" parent="slider"/>
 </resources>

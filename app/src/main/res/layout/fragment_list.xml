@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/dark_purple"
-    tools:context=".ListFragment">
+    tools:context=".ui.ListFragment">
 
     <LinearLayout
         android:id="@+id/linearLayout"
@@ -32,6 +32,7 @@
     </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView
+        android:paddingBottom="95dp"
         android:paddingLeft="20dp"
         android:paddingRight="20dp"
         android:layout_marginTop="140dp"
@@ -51,6 +52,7 @@
         android:layout_height="wrap_content"
         android:src="@drawable/baseline_add_circle_outline_24"
         android:backgroundTint="@color/light_purple"
+        style="@style/Widget.Design.FloatingActionButton"
         android:layout_marginEnd="50dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

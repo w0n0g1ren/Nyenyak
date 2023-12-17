@@ -10,4 +10,8 @@
         android:id="@+id/listFragment"
         android:icon="@drawable/baseline_list_24"
         android:title="@string/list" />
+    <item
+        android:id="@+id/settingsFragment"
+        android:icon="@drawable/settings"
+        android:title="@string/settings" />
 </menu>

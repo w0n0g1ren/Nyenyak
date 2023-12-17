@@ -1,4 +1,4 @@
-package com.dicoding.nyenyak
+package com.dicoding.nyenyak.ui
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

@@ -18,6 +18,11 @@ class SessionPreference private constructor(private val dataStore: DataStore<Pre
         @Volatile
         private var INSTANCE: SessionPreference? = null
 
+        private val SESSION_KEY = booleanPreferencesKey("session")
+        private val TOKEN_KEY = stringPreferencesKey("token")
+        private val NAME_KEY = stringPreferencesKey("name")
+        private val USER_ID = stringPreferencesKey("userId")
+
         fun getInstance(dataStore: DataStore<Preferences>): SessionPreference {
             return INSTANCE ?: synchronized(this) {
                 val instance = SessionPreference(dataStore)
@@ -26,9 +31,6 @@ class SessionPreference private constructor(private val dataStore: DataStore<Pre
             }
         }
     }
-
-    private val SESSION_KEY = booleanPreferencesKey("session")
-    private val TOKEN_KEY = stringPreferencesKey("token")
 
     fun getSessionSetting(): Flow<Boolean> {
         return dataStore.data.map { preferences ->
@@ -39,14 +41,19 @@ class SessionPreference private constructor(private val dataStore: DataStore<Pre
     fun getToken(): Flow<DataModel>{
         return dataStore.data.map { preferences ->
             DataModel(
-                preferences[TOKEN_KEY] ?: ""
+                preferences[TOKEN_KEY].toString(),
+                preferences[NAME_KEY].toString(),
+                preferences[USER_ID].toString(),
+                preferences[SESSION_KEY] ?: false
             )
         }
     }
 
-    suspend fun saveSessionSetting(token : String) {
+    suspend fun saveSessionSetting(user : DataModel) {
         dataStore.edit { preferences ->
-            preferences[TOKEN_KEY] = token
+            preferences[TOKEN_KEY] = user.token
+            preferences[NAME_KEY] = user.name
+            preferences[USER_ID] = user.userId
             preferences[SESSION_KEY] = true
         }
     }
@@ -54,6 +61,8 @@ class SessionPreference private constructor(private val dataStore: DataStore<Pre
     suspend fun sessiondestroy(){
         dataStore.edit { preference ->
             preference[TOKEN_KEY] = ""
+            preference[NAME_KEY] = ""
+            preference[USER_ID] = ""
             preference[SESSION_KEY] = false
         }
     }

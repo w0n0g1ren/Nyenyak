@@ -40,6 +40,8 @@
     <string name="name_title">Nama Lengkap</string>
     <string name="email_title">Email</string>
     <string name="password_title">Password</string>
+    <string name="gender_title">Jenis Kelamin</string>
+    <string name="birthdate_title">Tanggal Lahir</string>
     <string name="sign_up_title">Daftar Sekarang</string>
     <string name="sign_in_title">Masuk Sekarang</string>
     <string name="sub_title_register">Buat akun untuk ketahui\nkualitas dan penyakit tidur anda</string>

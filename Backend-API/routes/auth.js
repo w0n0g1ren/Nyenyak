@@ -6,15 +6,28 @@ const { signInWithEmailAndPassword, createUserWithEmailAndPassword} = require('f
 const router = express.Router();
 router.use(express.json());
 
-const { differenceInYears, parse } = require('date-fns');
+const { differenceInYears, parse, isValid } = require('date-fns');
 function calculateAge(dateOfBirth) {
   const dob = parse(dateOfBirth, 'dd-MM-yyyy', new Date());
   const age = differenceInYears(new Date(), dob);
   return age;
 }
 
+function isValidDateFormat(dateString) {
+  const parsedDate = parse(dateString, 'dd-MM-yyyy', new Date());
+  return isValid(parsedDate);
+}
+
 router.post('/register', async (req, res) => {
   const { email, password, name, gender, birthDate } = req.body;
+
+  if (!isValidDateFormat(birthDate)) {
+    return res.status(400).json({
+      status: 'failed',
+      message: 'Invalid date format',
+      error: 'Date of birth must be in dd-MM-yyyy format',
+    });
+  }
 
   try {
     const userRecord = await createUserWithEmailAndPassword(auth, email, password);
@@ -72,7 +85,7 @@ router.post('/login', async (req, res) => {
     const userRecord = await signInWithEmailAndPassword(auth, email, password);
     const token = await userRecord.user.getIdToken();
     const tokenExp = userRecord.user.stsTokenManager.expirationTime;
-    const expirateTime = new Date(tokenExp).toLocaleString();
+    const expirateTime = new Date(tokenExp).toLocaleString('en-US', { timeZone: 'Asia/Bangkok' });
     res.status(200).json({
       status: 'success',
       message: 'Login successful',

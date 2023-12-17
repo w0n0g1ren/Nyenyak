@@ -1,5 +1,4 @@
 var admin = require('firebase-admin');
-// const firebase = require('firebase');
 const { getAuth }  = require("firebase/auth");
 const { initializeApp } = require("firebase/app");
 
@@ -10,8 +9,8 @@ admin.initializeApp({
 });
 
 // Initialize Realtime Database and get a reference to the service
-const db = admin.database(); // Using Realtime Database
-const authorization = admin.auth(); // Access Authentication service
+const db = admin.database(); 
+const authorization = admin.auth(); 
 
 // Middleware for Firebase Authentication
 const verifyFirebaseToken = async (req, res, next) => {
@@ -22,7 +21,7 @@ const verifyFirebaseToken = async (req, res, next) => {
             throw new Error('No ID token provided');
         }
 
-        const idToken = authorizationHeader.split('Bearer ')[1]; // Extract the token part
+        const idToken = authorizationHeader.split('Bearer ')[1];
         const decodedToken = await authorization.verifyIdToken(idToken);
         req.user = decodedToken;
         next();
@@ -46,8 +45,5 @@ const firebaseConfig = {
 
 const firebaseApp = initializeApp(firebaseConfig);
 const auth = getAuth(firebaseApp)
-
-// const firebaseApp = firebase.initializeApp(firebaseConfig);
-// const auth = firebaseApp.auth(); // Initialize Firebase Auth
 
 module.exports = { db, auth, verifyFirebaseToken, authorization};

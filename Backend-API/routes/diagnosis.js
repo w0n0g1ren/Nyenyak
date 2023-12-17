@@ -1,20 +1,17 @@
 const express = require('express');
 const crypto = require('crypto');
 const axios = require('axios');
-const { db, verifyFirebaseToken } = require('../config'); // Import your Firebase database reference
+const { db, verifyFirebaseToken } = require('../config');
 
 const router = express.Router();
 router.use(express.json());
 
-// Apply Firebase Auth middleware to protect routes that require authentication
 router.use(verifyFirebaseToken);
 
-// Function to generate a unique ID using crypto with a specified size
 function generateUniqueId(size) {
   return crypto.randomBytes(size).toString('hex');
 }
 
-// Function to get the current timestamp in dd-mm-yyyy format
 function getCurrentTimestamp() {
   const date = new Date();
   const day = String(date.getDate()).padStart(2, '0');
@@ -24,7 +21,7 @@ function getCurrentTimestamp() {
   return `${day}-${month}-${year}`;
 }
 
-// Route to get all diagnoses from Realtime Database, filtered by user UID
+// Route to get all diagnoses by logged user
 router.get('/', (req, res) => {
   const uid = req.user.uid;
 
@@ -64,12 +61,11 @@ router.get('/:id', (req, res) => {
   }
 });
 
-// Route to create a new diagnosis in Realtime Database
+// Route to create a new diagnosis
 router.post('/', async (req, res) => {
   try {
   const uid = req.user.uid;
 
-  // Fetch user details from the logged-in user's database
   const userSnapshot = await db.ref(`/users/${uid}`).once('value');
   const userData = userSnapshot.val();
 
@@ -98,7 +94,7 @@ router.post('/', async (req, res) => {
   if (!sleepDuration) {
     return res.status(400).json({ message: 'ERROR: Please provide all required fields' });
   }
-  // Count BMI
+
   const heightInMeters = height / 100;
   const BMI = weight / (heightInMeters ** 2);
 
@@ -157,15 +153,12 @@ router.post('/', async (req, res) => {
   };
   
   // Send data to Flask model API
-  const modelApiResponse = await axios.post('https://nyenyak-model-api-z2dhcxitca-et.a.run.app/prediction', modelApiInput);
+  const modelApi = 'https://nyenyak-model-api-z2dhcxitca-et.a.run.app/prediction'; // PUT DEPLOYED MODEL API ENDPOINT HERE, DONT FORGET TO ADD /prediction to ENDPOINT
+  const modelApiResponse = await axios.post(modelApi, modelApiInput);
 
-  // Extract the sleep disorder prediction from the Flask model API response
   const sleepDisorderPrediction = modelApiResponse.data.sleep_disorder;
 
-  // Get the corresponding solution based on sleep disorder condition
   const solution = await db.ref(`solution/${sleepDisorderPrediction}`).once('value').then(snapshot => snapshot.val());
-
-
 
   const newDiagnosis = {
     id: newId,
@@ -186,7 +179,6 @@ router.post('/', async (req, res) => {
     solution: solution
   };
 
-  // Perform data insertion
   db.ref(`diagnosis/${uid}/${newId}`).set(newDiagnosis)
   .then(() => {
       res.status(201).json({ status: "success", message: "Data successfully added", newDiagnosis });
@@ -201,7 +193,7 @@ router.post('/', async (req, res) => {
   }
 });
 
-// Route to delete a diagnosis by ID from Realtime Database
+// Route to delete a diagnosis by ID
 router.delete('/:id', (req, res) => {
   try {
     const diagnosisId = req.params.id;

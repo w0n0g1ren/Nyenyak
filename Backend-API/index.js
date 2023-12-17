@@ -20,9 +20,6 @@ const port = process.env.PORT || 8080;
 app.get('/', (req, res) => {
   res.send(`
   <p>Hello World!</p>
-  <form action="http://localhost:8080/auth/google-login" method="post">
-    <button type="submit">Google Login Test</button>
-  </form>
 `);
 });
 

@@ -12,11 +12,11 @@ Nyenyak uses Google Cloud Platform (GCP) and Firebase to develop a system capabl
   - [Project Summary](#project-summary)
   - [Table of Contents](#table-of-contents)
   - [Cloud Architecture](#cloud-architecture)
-  - [Setup Google Cloud Platform](#1.-setup-google-cloud-platform)
-  - [Setup Firebase](#2.-setup-firebase)
-  - [Clone Project and Set Google Cloud Account](#3.-clone-project-and-set-google-cloud-account)
-  - [Set Project and Deploy Application to App Engine and Cloud Run](#4.-set-project-and-deploy-application)
-  - [API Documentation](#5.-api-documentation)
+  - [Setup Google Cloud Platform](#1-setup-google-cloud-platform)
+  - [Setup Firebase](#2-setup-firebase)
+  - [Clone Project and Set Google Cloud Account](#3-clone-project-and-set-google-cloud-account)
+  - [Set Project and Deploy Application to App Engine and Cloud Run](#4-set-project-and-deploy-application)
+  - [API Documentation](#5-api-documentation)
   - [Conclusion](#conclusion)
 
 ## Cloud Architecture

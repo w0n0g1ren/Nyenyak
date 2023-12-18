@@ -58,6 +58,17 @@
     <string name="update_informasi_user">Update \nInformasi User</string>
     <string name="user">User</string>
     <string name="logout">Logout</string>
+    <string name="tinggi_info">Tinggi badan seseorang</string>
+    <string name="berat_info">Berat badan seseorang</string>
+    <string name="durasi_info">Jumlah jam tidur seseorang per hari</string>
+    <string name="rating_tidur_info">Penilaian subjektif terhadap kualitas tidur, berkisar antara 1 hingga 10</string>
+    <string name="rating_stres_info">Peringkat subjektif dari tingkat stres yang dialami seseorang, berkisar antara 1 hingga 10</string>
+    <string name="aktivitas_fisik_info">Jumlah jam seseorang melakukan aktivitas fisik setiap hari</string>
+    <string name="tekanan_darah_info">Pengukuran tekanan darah seseorang, ditunjukkan sebagai tekanan sistolik dan tekanan diastolik</string>
+    <string name="detak_jantung_info">Detak jantung istirahat seseorang dalam detak per menit (BPM)</string>
+    <string name="langkah_info">Jumlah langkah yang dilakukan seseorang per hari</string>
+    <string name="input_ndata">Input\nData</string>
+    <string name="langkah_harian">Langkah Harian</string>
 
     <string-array name="gender">
         <item>Laki Laki</item>

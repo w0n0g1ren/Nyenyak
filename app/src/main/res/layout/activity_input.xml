@@ -9,7 +9,7 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content">
 
         <TextView
             android:id="@+id/textView4"
@@ -18,7 +18,7 @@
             android:layout_marginStart="20dp"
             android:layout_marginTop="40dp"
             android:fontFamily="@font/poppins_medium"
-            android:text="Input\nData"
+            android:text="@string/input_ndata"
             android:textColor="@color/white"
             android:textSize="30sp"
             app:layout_constraintEnd_toEndOf="parent"
@@ -38,14 +38,29 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView4">
 
-            <TextView
-                android:text="@string/tinggi"
-                android:gravity="center"
-                android:fontFamily="@font/poppins_medium"
-                android:textSize="16sp"
-                android:textColor="@color/white"
+            <LinearLayout
+                android:id="@+id/ll_tinggi_title"
                 android:layout_width="wrap_content"
-                android:layout_height="40dp"/>
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:text="@string/tinggi"
+                    android:gravity="center"
+                    android:fontFamily="@font/poppins_medium"
+                    android:textSize="16sp"
+                    android:textColor="@color/white"
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"/>
+
+                <ImageView
+                    android:id="@+id/iv_tinggi_dialog"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:src="@drawable/ic_info_dialog"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="10dp"/>
+            </LinearLayout>
 
             <LinearLayout
                 android:orientation="horizontal"
@@ -55,14 +70,15 @@
                 <EditText
                     android:id="@+id/et_tinggi_input"
                     android:inputType="number"
-                    android:paddingLeft="15dp"
+                    android:paddingStart="15dp"
                     android:background="@drawable/isian"
                     android:layout_width="120dp"
                     android:layout_marginBottom="20dp"
-                    android:layout_height="55dp"/>
+                    android:layout_height="55dp"
+                    tools:ignore="RtlSymmetry" />
 
                 <TextView
-                    android:layout_marginLeft="20dp"
+                    android:layout_marginStart="20dp"
                     android:text="@string/cm"
                     android:fontFamily="@font/poppins_medium"
                     android:textSize="16sp"
@@ -71,15 +87,29 @@
                     android:layout_height="wrap_content"/>
             </LinearLayout>
 
-
-            <TextView
-                android:text="@string/berat_badan"
-                android:gravity="center"
-                android:fontFamily="@font/poppins_medium"
-                android:textSize="16sp"
-                android:textColor="@color/white"
+            <LinearLayout
+                android:id="@+id/ll_berat_title"
                 android:layout_width="wrap_content"
-                android:layout_height="40dp"/>
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:text="@string/berat_badan"
+                    android:gravity="center"
+                    android:fontFamily="@font/poppins_medium"
+                    android:textSize="16sp"
+                    android:textColor="@color/white"
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"/>
+
+                <ImageView
+                    android:id="@+id/iv_berat_dialog"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:src="@drawable/ic_info_dialog"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="10dp"/>
+            </LinearLayout>
 
             <LinearLayout
                 android:orientation="horizontal"
@@ -89,14 +119,15 @@
                 <EditText
                     android:id="@+id/et_bb_input"
                     android:inputType="number"
-                    android:paddingLeft="15dp"
+                    android:paddingStart="15dp"
                     android:background="@drawable/isian"
                     android:layout_width="120dp"
                     android:layout_marginBottom="20dp"
-                    android:layout_height="55dp"/>
+                    android:layout_height="55dp"
+                    tools:ignore="RtlSymmetry" />
 
                 <TextView
-                    android:layout_marginLeft="20dp"
+                    android:layout_marginStart="20dp"
                     android:text="@string/kg"
                     android:fontFamily="@font/poppins_medium"
                     android:textSize="16sp"
@@ -105,15 +136,29 @@
                     android:layout_height="wrap_content"/>
             </LinearLayout>
 
-
-            <TextView
-                android:text="@string/durasi_tidur"
-                android:gravity="center"
-                android:fontFamily="@font/poppins_medium"
-                android:textSize="16sp"
-                android:textColor="@color/white"
+            <LinearLayout
+                android:id="@+id/ll_durasi_title"
                 android:layout_width="wrap_content"
-                android:layout_height="40dp"/>
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:text="@string/durasi_tidur"
+                    android:gravity="center"
+                    android:fontFamily="@font/poppins_medium"
+                    android:textSize="16sp"
+                    android:textColor="@color/white"
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"/>
+
+                <ImageView
+                    android:id="@+id/iv_durasi_dialog"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:src="@drawable/ic_info_dialog"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="10dp"/>
+            </LinearLayout>
 
             <LinearLayout
                 android:orientation="horizontal"
@@ -123,14 +168,15 @@
                 <EditText
                     android:id="@+id/et_tidur_input"
                     android:inputType="number"
-                    android:paddingLeft="15dp"
+                    android:paddingStart="15dp"
                     android:background="@drawable/isian"
                     android:layout_width="120dp"
                     android:layout_marginBottom="20dp"
-                    android:layout_height="55dp"/>
+                    android:layout_height="55dp"
+                    tools:ignore="RtlSymmetry" />
 
                 <TextView
-                    android:layout_marginLeft="20dp"
+                    android:layout_marginStart="20dp"
                     android:text="@string/jam_hari"
                     android:fontFamily="@font/poppins_medium"
                     android:textSize="16sp"
@@ -139,15 +185,29 @@
                     android:layout_height="wrap_content"/>
             </LinearLayout>
 
-
-            <TextView
-                android:text="@string/rating_tidur"
-                android:gravity="center"
-                android:fontFamily="@font/poppins_medium"
-                android:textSize="16sp"
-                android:textColor="@color/white"
+            <LinearLayout
+                android:id="@+id/ll_rating_tidur_title"
                 android:layout_width="wrap_content"
-                android:layout_height="40dp"/>
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:text="@string/rating_tidur"
+                    android:gravity="center"
+                    android:fontFamily="@font/poppins_medium"
+                    android:textSize="16sp"
+                    android:textColor="@color/white"
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"/>
+
+                <ImageView
+                    android:id="@+id/iv_rating_tidur_dialog"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:src="@drawable/ic_info_dialog"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="10dp"/>
+            </LinearLayout>
 
             <com.google.android.material.slider.Slider
                 android:id="@+id/sliderratingtidur"
@@ -159,14 +219,29 @@
                 android:valueTo="10.0"
                 android:layout_marginBottom="20dp"/>
 
-            <TextView
-                android:text="@string/rating_stres"
-                android:gravity="center"
-                android:fontFamily="@font/poppins_medium"
-                android:textSize="16sp"
-                android:textColor="@color/white"
+            <LinearLayout
+                android:id="@+id/ll_rating_stres_title"
                 android:layout_width="wrap_content"
-                android:layout_height="40dp"/>
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:text="@string/rating_stres"
+                    android:gravity="center"
+                    android:fontFamily="@font/poppins_medium"
+                    android:textSize="16sp"
+                    android:textColor="@color/white"
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"/>
+
+                <ImageView
+                    android:id="@+id/iv_rating_stres_dialog"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:src="@drawable/ic_info_dialog"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="10dp"/>
+            </LinearLayout>
 
             <com.google.android.material.slider.Slider
                 android:id="@+id/sliderratingstres"
@@ -178,15 +253,29 @@
                 android:valueTo="10.0"
                 android:layout_marginBottom="20dp"/>
 
-
-            <TextView
-                android:text="@string/rating_aktivitas_fisik"
-                android:gravity="center"
-                android:fontFamily="@font/poppins_medium"
-                android:textSize="16sp"
-                android:textColor="@color/white"
+            <LinearLayout
+                android:id="@+id/ll_rating_aktivitas_title"
                 android:layout_width="wrap_content"
-                android:layout_height="40dp"/>
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:text="@string/rating_aktivitas_fisik"
+                    android:gravity="center"
+                    android:fontFamily="@font/poppins_medium"
+                    android:textSize="16sp"
+                    android:textColor="@color/white"
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"/>
+
+                <ImageView
+                    android:id="@+id/iv_rating_aktivitas_dialog"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:src="@drawable/ic_info_dialog"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="10dp"/>
+            </LinearLayout>
 
             <LinearLayout
                 android:orientation="horizontal"
@@ -196,14 +285,15 @@
                 <EditText
                     android:id="@+id/et_fisik_input"
                     android:inputType="number"
-                    android:paddingLeft="15dp"
+                    android:paddingStart="15dp"
                     android:background="@drawable/isian"
                     android:layout_width="120dp"
                     android:layout_marginBottom="20dp"
-                    android:layout_height="55dp"/>
+                    android:layout_height="55dp"
+                    tools:ignore="RtlSymmetry" />
 
                 <TextView
-                    android:layout_marginLeft="20dp"
+                    android:layout_marginStart="20dp"
                     android:text="@string/jam_hari"
                     android:fontFamily="@font/poppins_medium"
                     android:textSize="16sp"
@@ -212,15 +302,29 @@
                     android:layout_height="wrap_content"/>
             </LinearLayout>
 
-
-            <TextView
-                android:text="@string/tekanan_darah"
-                android:gravity="center"
-                android:fontFamily="@font/poppins_medium"
-                android:textSize="16sp"
-                android:textColor="@color/white"
+            <LinearLayout
+                android:id="@+id/ll_tekanan_darah_title"
                 android:layout_width="wrap_content"
-                android:layout_height="40dp"/>
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:text="@string/tekanan_darah"
+                    android:gravity="center"
+                    android:fontFamily="@font/poppins_medium"
+                    android:textSize="16sp"
+                    android:textColor="@color/white"
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"/>
+
+                <ImageView
+                    android:id="@+id/iv_tekanan_darah_dialog"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:src="@drawable/ic_info_dialog"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="10dp"/>
+            </LinearLayout>
 
            <Spinner
                android:background="@drawable/isian"
@@ -230,15 +334,29 @@
                android:layout_height="55dp"
                android:layout_marginBottom="20dp"/>
 
-
-            <TextView
-                android:text="@string/detak_jantung"
-                android:gravity="center"
-                android:fontFamily="@font/poppins_medium"
-                android:textSize="16sp"
-                android:textColor="@color/white"
+            <LinearLayout
+                android:id="@+id/ll_detak_jantung_title"
                 android:layout_width="wrap_content"
-                android:layout_height="40dp"/>
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:text="@string/detak_jantung"
+                    android:gravity="center"
+                    android:fontFamily="@font/poppins_medium"
+                    android:textSize="16sp"
+                    android:textColor="@color/white"
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"/>
+
+                <ImageView
+                    android:id="@+id/iv_detak_jantung_dialog"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:src="@drawable/ic_info_dialog"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="10dp"/>
+            </LinearLayout>
 
             <LinearLayout
                 android:orientation="horizontal"
@@ -248,14 +366,15 @@
                 <EditText
                     android:id="@+id/et_langkah_input"
                     android:inputType="number"
-                    android:paddingLeft="15dp"
+                    android:paddingStart="15dp"
                     android:background="@drawable/isian"
                     android:layout_width="120dp"
                     android:layout_marginBottom="20dp"
-                    android:layout_height="55dp"/>
+                    android:layout_height="55dp"
+                    tools:ignore="RtlSymmetry" />
 
                 <TextView
-                    android:layout_marginLeft="20dp"
+                    android:layout_marginStart="20dp"
                     android:text="@string/bpm"
                     android:fontFamily="@font/poppins_medium"
                     android:textSize="16sp"
@@ -264,15 +383,29 @@
                     android:layout_height="wrap_content"/>
             </LinearLayout>
 
-
-            <TextView
-                android:text="langkah Harian"
-                android:gravity="center"
-                android:fontFamily="@font/poppins_medium"
-                android:textSize="16sp"
-                android:textColor="@color/white"
+            <LinearLayout
+                android:id="@+id/ll_langkah_harian_title"
                 android:layout_width="wrap_content"
-                android:layout_height="40dp"/>
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:text="@string/langkah_harian"
+                    android:gravity="center"
+                    android:fontFamily="@font/poppins_medium"
+                    android:textSize="16sp"
+                    android:textColor="@color/white"
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"/>
+
+                <ImageView
+                    android:id="@+id/iv_langkah_harian_dialog"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:src="@drawable/ic_info_dialog"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="10dp"/>
+            </LinearLayout>
 
             <LinearLayout
                 android:orientation="horizontal"
@@ -282,14 +415,15 @@
                 <EditText
                     android:id="@+id/et_jantung_input"
                     android:inputType="number"
-                    android:paddingLeft="15dp"
+                    android:paddingStart="15dp"
                     android:background="@drawable/isian"
                     android:layout_width="120dp"
                     android:layout_marginBottom="20dp"
-                    android:layout_height="55dp"/>
+                    android:layout_height="55dp"
+                    tools:ignore="RtlSymmetry" />
 
                 <TextView
-                    android:layout_marginLeft="20dp"
+                    android:layout_marginStart="20dp"
                     android:text="@string/langkah_per_hari"
                     android:fontFamily="@font/poppins_medium"
                     android:textSize="16sp"

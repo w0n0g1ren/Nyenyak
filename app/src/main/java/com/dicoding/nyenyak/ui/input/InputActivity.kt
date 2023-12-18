@@ -2,10 +2,13 @@ package com.dicoding.nyenyak.ui.input
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import com.dicoding.nyenyak.R
 import com.dicoding.nyenyak.data.api.ApiConfig
 import com.dicoding.nyenyak.data.response.InputResponse
 import com.dicoding.nyenyak.databinding.ActivityInputBinding
@@ -14,6 +17,7 @@ import com.dicoding.nyenyak.session.datastore
 import com.dicoding.nyenyak.ui.fragment.FragmentViewModelFactory
 import com.dicoding.nyenyak.ui.login.LoginActivity
 import com.dicoding.nyenyak.ui.result.ResultActivity
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.gson.Gson
 import kotlinx.coroutines.launch
 import retrofit2.HttpException
@@ -28,6 +32,8 @@ class InputActivity : AppCompatActivity() {
         binding = ActivityInputBinding.inflate(layoutInflater)
         setContentView(binding.root)
         supportActionBar?.hide()
+
+        setOnClickListenerDialogInfoItem()
 
         binding.sliderratingstres.addOnChangeListener { slider, value, fromUser ->
             sldstress = value.toInt()
@@ -76,6 +82,39 @@ class InputActivity : AppCompatActivity() {
                 }
             }
             }
+        }
+    }
+
+    private fun setOnClickListenerDialogInfoItem() {
+        setOnClickListener(R.id.iv_tinggi_dialog, R.string.tinggi, R.string.tinggi_info)
+        setOnClickListener(R.id.iv_berat_dialog, R.string.berat_badan, R.string.berat_info)
+        setOnClickListener(R.id.iv_durasi_dialog, R.string.durasi_tidur, R.string.durasi_info)
+        setOnClickListener(R.id.iv_rating_tidur_dialog, R.string.rating_tidur, R.string.rating_tidur_info)
+        setOnClickListener(R.id.iv_rating_stres_dialog, R.string.rating_stres, R.string.rating_stres_info)
+        setOnClickListener(R.id.iv_rating_aktivitas_dialog, R.string.rating_aktivitas_fisik, R.string.aktivitas_fisik_info)
+        setOnClickListener(R.id.iv_tekanan_darah_dialog, R.string.tekanan_darah, R.string.tekanan_darah_info)
+        setOnClickListener(R.id.iv_detak_jantung_dialog, R.string.detak_jantung, R.string.detak_jantung_info)
+        setOnClickListener(R.id.iv_langkah_harian_dialog, R.string.langkah_harian, R.string.langkah_info)
+    }
+
+    private fun setOnClickListener(viewId: Int, titleId:Int, messageId: Int) {
+        findViewById<View>(viewId).setOnClickListener {
+            showInfoDialog(titleId, messageId)
+        }
+    }
+
+    private fun showInfoDialog(titleId:Int, messageId: Int) {
+        val dialog: AlertDialog = MaterialAlertDialogBuilder(
+            this,
+            R.style.RoundedMaterialDialog
+        )
+            .setTitle(getString(titleId))
+            .setMessage(getString(messageId))
+            .setView(R.layout.item_info_dialog)
+            .show()
+
+        dialog.findViewById<View>(R.id.iv_close_dialog)?.setOnClickListener {
+            dialog.dismiss()
         }
     }
 

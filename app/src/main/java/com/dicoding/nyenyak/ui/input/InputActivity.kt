@@ -11,7 +11,7 @@ import com.dicoding.nyenyak.data.response.InputResponse
 import com.dicoding.nyenyak.databinding.ActivityInputBinding
 import com.dicoding.nyenyak.session.SessionPreference
 import com.dicoding.nyenyak.session.datastore
-import com.dicoding.nyenyak.ui.FragmentViewModelFactory
+import com.dicoding.nyenyak.ui.fragment.FragmentViewModelFactory
 import com.dicoding.nyenyak.ui.login.LoginActivity
 import com.dicoding.nyenyak.ui.result.ResultActivity
 import com.google.gson.Gson
@@ -27,6 +27,7 @@ class InputActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityInputBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        supportActionBar?.hide()
 
         binding.sliderratingstres.addOnChangeListener { slider, value, fromUser ->
             sldstress = value.toInt()
@@ -46,7 +47,7 @@ class InputActivity : AppCompatActivity() {
             var physicalActivityLevel = binding.etFisikInput.text.toString().toInt()
 
             val pref = SessionPreference.getInstance(application.datastore)
-            val viewmodel = ViewModelProvider(this,FragmentViewModelFactory(pref)).get(
+            val viewmodel = ViewModelProvider(this, FragmentViewModelFactory(pref)).get(
                 InputViewModel::class.java
             )
             viewmodel.gettoken().observe(this){
@@ -54,7 +55,6 @@ class InputActivity : AppCompatActivity() {
                 lifecycleScope.launch {
                     try {
                         val apiService = ApiConfig.getApiService(it.token)
-
                         val inputResponse = apiService.inputDiagnosis(
                             weight,height,sleepDuration,sldsleep,physicalActivityLevel,bloodPressure,sldstress,heartRate,dailySteps
                         )
@@ -69,18 +69,13 @@ class InputActivity : AppCompatActivity() {
 
                     }catch (e: HttpException){
                         val errorBody = e.response()?.errorBody()?.string()
-                        if (errorBody == "401"){
-                            val intent = Intent(this@InputActivity,LoginActivity::class.java)
-                            val errorResponse = Gson().fromJson(errorBody, InputResponse::class.java)
-                            showToast(errorResponse.message.toString())
-                            startActivity(intent)
-                        }
-
+                        val errorResponse = Gson().fromJson(errorBody, InputResponse::class.java)
+                        showToast(errorResponse.message.toString())
+                        startActivity(Intent(this@InputActivity,LoginActivity::class.java))
                     }
                 }
             }
             }
-
         }
     }
 

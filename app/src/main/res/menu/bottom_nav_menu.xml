@@ -12,6 +12,6 @@
         android:title="@string/list" />
     <item
         android:id="@+id/userFragment"
-        android:icon="@drawable/settings"
+        android:icon="@drawable/baseline_account_circle_24"
         android:title="@string/user" />
 </menu>

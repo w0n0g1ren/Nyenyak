@@ -1,4 +1,4 @@
-package com.dicoding.nyenyak.ui
+package com.dicoding.nyenyak.ui.fragment.dashboard
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -15,6 +15,7 @@ import com.dicoding.nyenyak.data.api.ApiConfig
 import com.dicoding.nyenyak.databinding.FragmentDashboardBinding
 import com.dicoding.nyenyak.session.SessionPreference
 import com.dicoding.nyenyak.session.datastore
+import com.dicoding.nyenyak.ui.fragment.FragmentViewModelFactory
 import com.dicoding.nyenyak.ui.main.MainActivity
 import retrofit2.Call
 import retrofit2.Callback
@@ -109,7 +110,7 @@ class DashboardFragment : Fragment() {
 
     private fun setArticle(subList: List<ArticleResponseItem>) {
         val layoutManager = LinearLayoutManager(context as MainActivity,LinearLayoutManager.HORIZONTAL,false)
-        binding.rvTips.setLayoutManager(layoutManager)
+        binding?.rvTips?.setLayoutManager(layoutManager)
         binding.rvTips.setHasFixedSize(true)
         val adapter = ArticleAdapter(context as MainActivity)
         binding.rvTips.adapter = adapter

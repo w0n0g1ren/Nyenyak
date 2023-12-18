@@ -1,4 +1,4 @@
-package com.dicoding.nyenyak.ui
+package com.dicoding.nyenyak.ui.fragment.user
 
 import android.content.Intent
 import android.os.Bundle
@@ -8,13 +8,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
-import com.dicoding.nyenyak.R
 import com.dicoding.nyenyak.data.api.ApiConfig
 import com.dicoding.nyenyak.data.response.GetDetailUserResponse
-import com.dicoding.nyenyak.databinding.FragmentListBinding
 import com.dicoding.nyenyak.databinding.FragmentUserBinding
 import com.dicoding.nyenyak.session.SessionPreference
 import com.dicoding.nyenyak.session.datastore
+import com.dicoding.nyenyak.ui.fragment.FragmentViewModelFactory
+import com.dicoding.nyenyak.ui.login.LoginActivity
 import com.dicoding.nyenyak.ui.main.MainActivity
 import com.dicoding.nyenyak.ui.update.UpdateUserActivity
 import retrofit2.Call
@@ -38,6 +38,20 @@ class UserFragment : Fragment() {
             val intent = Intent(context,UpdateUserActivity::class.java)
             startActivity(intent)
         }
+
+        binding.logoutInfoUser.setOnClickListener {
+            val pref = SessionPreference.getInstance(requireContext().datastore)
+            val viewModel =
+                (context as? MainActivity)?.let {
+                    ViewModelProvider(it, FragmentViewModelFactory(pref)).get(
+                        UserFragmentViewModel::class.java
+                    )
+                }
+            viewModel?.destroySession()
+            val intent = Intent(context as MainActivity,LoginActivity::class.java)
+            intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
+            startActivity(intent)
+        }
         return binding.root
     }
 
@@ -45,7 +59,7 @@ class UserFragment : Fragment() {
         val pref = SessionPreference.getInstance(requireContext().datastore)
         val viewModel =
             (context as? MainActivity)?.let {
-                ViewModelProvider(it,FragmentViewModelFactory(pref)).get(
+                ViewModelProvider(it, FragmentViewModelFactory(pref)).get(
                     UserFragmentViewModel::class.java
                 )
             }

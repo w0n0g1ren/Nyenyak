@@ -31,4 +31,5 @@
     <string name="update_ninformasi_user">Update\\n Informasi User</string>
     <string name="update_informasi_user">Update \nInformasi User</string>
     <string name="user">User</string>
+    <string name="logout">Logout</string>
 </resources>

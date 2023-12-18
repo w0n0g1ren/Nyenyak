@@ -7,17 +7,17 @@
 
     <fragment
         android:id="@+id/dashboardFragment"
-        android:name="com.dicoding.nyenyak.ui.DashboardFragment"
+        android:name="com.dicoding.nyenyak.ui.fragment.dashboard.DashboardFragment"
         android:label="fragment_dashboard"
         tools:layout="@layout/fragment_dashboard" />
     <fragment
         android:id="@+id/listFragment"
-        android:name="com.dicoding.nyenyak.ui.ListFragment"
+        android:name="com.dicoding.nyenyak.ui.fragment.list.ListFragment"
         android:label="fragment_list"
         tools:layout="@layout/fragment_list" />
     <fragment
         android:id="@+id/userFragment"
-        android:name="com.dicoding.nyenyak.ui.UserFragment"
+        android:name="com.dicoding.nyenyak.ui.fragment.user.UserFragment"
         android:label="fragment_settings"
         tools:layout="@layout/fragment_user" />
 </navigation>

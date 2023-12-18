@@ -11,7 +11,7 @@ import com.dicoding.nyenyak.data.response.GetDiagnosisResponseItem
 import com.dicoding.nyenyak.databinding.ActivityDetailBinding
 import com.dicoding.nyenyak.session.SessionPreference
 import com.dicoding.nyenyak.session.datastore
-import com.dicoding.nyenyak.ui.FragmentViewModelFactory
+import com.dicoding.nyenyak.ui.fragment.FragmentViewModelFactory
 import com.dicoding.nyenyak.ui.main.MainActivity
 import kotlinx.coroutines.launch
 import retrofit2.Call
@@ -29,7 +29,7 @@ class DetailActivity : AppCompatActivity() {
         supportActionBar?.hide()
 
         val pref = SessionPreference.getInstance(application.datastore)
-        val viewModel = ViewModelProvider(this,FragmentViewModelFactory(pref)).get(
+        val viewModel = ViewModelProvider(this, FragmentViewModelFactory(pref)).get(
             DetailViewModel::class.java)
 
         var id = intent.getStringExtra("uid")
@@ -78,6 +78,7 @@ class DetailActivity : AppCompatActivity() {
                             val message = apiService.message
                             Toast.makeText(this@DetailActivity,message.toString(),Toast.LENGTH_LONG).show()
                             val intent = Intent(this@DetailActivity,MainActivity::class.java)
+                            intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
                             startActivity(intent)
                         }catch (e:HttpException){
 

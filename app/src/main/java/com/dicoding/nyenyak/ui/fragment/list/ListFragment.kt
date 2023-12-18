@@ -1,4 +1,4 @@
-package com.dicoding.nyenyak.ui
+package com.dicoding.nyenyak.ui.fragment.list
 
 import android.content.Intent
 import android.os.Bundle
@@ -15,6 +15,7 @@ import com.dicoding.nyenyak.data.response.GetDiagnosisResponseItem
 import com.dicoding.nyenyak.databinding.FragmentListBinding
 import com.dicoding.nyenyak.session.SessionPreference
 import com.dicoding.nyenyak.session.datastore
+import com.dicoding.nyenyak.ui.fragment.FragmentViewModelFactory
 import com.dicoding.nyenyak.ui.input.InputActivity
 import com.dicoding.nyenyak.ui.main.MainActivity
 import retrofit2.Callback
@@ -88,11 +89,6 @@ class ListFragment : Fragment() {
         val adapter = adapter(context as MainActivity)
         binding.rvList.adapter = adapter
         adapter.submitList(diagnosisResponse)
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
     }
 
     companion object{

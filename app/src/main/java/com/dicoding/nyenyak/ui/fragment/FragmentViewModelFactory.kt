@@ -1,13 +1,13 @@
-package com.dicoding.nyenyak.ui
+package com.dicoding.nyenyak.ui.fragment
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.dicoding.nyenyak.session.SessionPreference
 import com.dicoding.nyenyak.ui.detail.DetailViewModel
+import com.dicoding.nyenyak.ui.fragment.dashboard.DashboardFragmentViewModel
+import com.dicoding.nyenyak.ui.fragment.list.ListFragmentViewModel
+import com.dicoding.nyenyak.ui.fragment.user.UserFragmentViewModel
 import com.dicoding.nyenyak.ui.input.InputViewModel
-import com.dicoding.nyenyak.ui.login.LoginViewModel
-import com.dicoding.nyenyak.ui.main.MainViewModel
-import com.dicoding.nyenyak.ui.register.RegisterViewModel
 import com.dicoding.nyenyak.ui.update.UpdateUserViewModel
 
 class FragmentViewModelFactory(private val pref: SessionPreference) : ViewModelProvider.NewInstanceFactory() {

@@ -3,7 +3,6 @@ package com.dicoding.nyenyak.ui.update
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.View
 import android.widget.TextView
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
@@ -14,7 +13,7 @@ import com.dicoding.nyenyak.data.response.InputResponse
 import com.dicoding.nyenyak.databinding.ActivityUpdateUserBinding
 import com.dicoding.nyenyak.session.SessionPreference
 import com.dicoding.nyenyak.session.datastore
-import com.dicoding.nyenyak.ui.FragmentViewModelFactory
+import com.dicoding.nyenyak.ui.fragment.FragmentViewModelFactory
 import com.dicoding.nyenyak.ui.main.MainActivity
 import com.dicoding.nyenyak.utils.DatePickerFragment
 import com.google.gson.Gson
@@ -34,7 +33,7 @@ class UpdateUserActivity : AppCompatActivity(),DatePickerFragment.DialogDateList
         supportActionBar?.hide()
 
         val pref = SessionPreference.getInstance(application.datastore)
-        val viewModel = ViewModelProvider(this,FragmentViewModelFactory(pref)).get(
+        val viewModel = ViewModelProvider(this, FragmentViewModelFactory(pref)).get(
             UpdateUserViewModel::class.java
         )
 

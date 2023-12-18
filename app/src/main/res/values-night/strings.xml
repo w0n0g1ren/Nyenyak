@@ -27,4 +27,8 @@
     <string name="indeks_masa_tubuh">Indeks Masa Tubuh</string>
     <string name="level_aktivitas_fisik">Level Aktivitas Fisik</string>
     <string name="rating_aktivitas_fisik">Rating Aktivitas Fisik</string>
+    <string name="informasi_user">Informasi User</string>
+    <string name="update_ninformasi_user">Update\\n Informasi User</string>
+    <string name="update_informasi_user">Update \nInformasi User</string>
+    <string name="user">User</string>
 </resources>

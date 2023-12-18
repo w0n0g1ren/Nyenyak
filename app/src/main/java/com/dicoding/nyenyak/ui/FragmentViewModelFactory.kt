@@ -8,6 +8,7 @@ import com.dicoding.nyenyak.ui.input.InputViewModel
 import com.dicoding.nyenyak.ui.login.LoginViewModel
 import com.dicoding.nyenyak.ui.main.MainViewModel
 import com.dicoding.nyenyak.ui.register.RegisterViewModel
+import com.dicoding.nyenyak.ui.update.UpdateUserViewModel
 
 class FragmentViewModelFactory(private val pref: SessionPreference) : ViewModelProvider.NewInstanceFactory() {
     @Suppress("UNCHECKED_CAST")
@@ -27,6 +28,14 @@ class FragmentViewModelFactory(private val pref: SessionPreference) : ViewModelP
 
             modelClass.isAssignableFrom(DetailViewModel::class.java) ->{
                 DetailViewModel(pref) as T
+            }
+
+            modelClass.isAssignableFrom(UserFragmentViewModel::class.java) ->{
+                UserFragmentViewModel(pref) as T
+            }
+
+            modelClass.isAssignableFrom(UpdateUserViewModel::class.java) ->{
+                UpdateUserViewModel(pref) as T
             }
             else -> throw IllegalArgumentException("Unknown ViewModel class: " + modelClass.name)
         }

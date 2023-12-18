@@ -16,8 +16,8 @@
         android:label="fragment_list"
         tools:layout="@layout/fragment_list" />
     <fragment
-        android:id="@+id/settingsFragment"
-        android:name="com.dicoding.nyenyak.ui.SettingsFragment"
+        android:id="@+id/userFragment"
+        android:name="com.dicoding.nyenyak.ui.UserFragment"
         android:label="fragment_settings"
-        tools:layout="@layout/fragment_settings" />
+        tools:layout="@layout/fragment_user" />
 </navigation>

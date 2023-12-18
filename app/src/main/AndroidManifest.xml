@@ -21,6 +21,9 @@
             android:name=".ui.detail.DetailActivity"
             android:exported="false" />
         <activity
+            android:name=".ui.update.UpdateUserActivity"
+            android:exported="false" />
+        <activity
             android:name=".ui.register.RegisterActivity"
             android:exported="false" />
         <activity

@@ -42,9 +42,23 @@ Nyenyak is a mobile-based application for diagnosing sleeping sickness that runs
             .build()
    ```
 
-3. Edit the Header section if using a header such as a token in the ApiConfig File in the RequestHeader variable and adjust it to your token configuration
+2. Edit the Header section if using a header such as a token in the ApiConfig File in the RequestHeader variable and adjust it to your token configuration
    ```
        val requestHeaders = req.newBuilder()
            .addHeader("Your Key", "Your Token")
            .build()
    ```
+
+## DataFlow
+<img src = "https://github.com/w0n0g1ren/Nyenyak/assets/98150123/37e2beb8-d250-4db3-b184-f645efa9c8eb" width = 80% height = 80%>
+
+## Several Link
+1. Design Figma
+```
+https://www.figma.com/file/JLuPwrG9gv1n779KvHV0xm/Nyenyak?type=design&t=0zL5ijWMhX2v8MMH-6
+```
+
+2. Demo for Application
+```
+https://drive.google.com/drive/folders/1ZME_A5c-VCF1XBA-7c7fsFJNEHQtMH0M?usp=drive_link
+```

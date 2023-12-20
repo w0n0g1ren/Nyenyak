@@ -60,5 +60,5 @@ https://www.figma.com/file/JLuPwrG9gv1n779KvHV0xm/Nyenyak?type=design&t=0zL5ijWM
 
 2. APK
 ```
-https://drive.google.com/drive/folders/1ZME_A5c-VCF1XBA-7c7fsFJNEHQtMH0M?usp=drive_link
+https://drive.google.com/drive/folders/1ZME_A5c-VCF1XBA-7c7fsFJNEHQtMH0M?usp=sharing
 ```

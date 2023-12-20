@@ -58,7 +58,7 @@ Nyenyak is a mobile-based application for diagnosing sleeping sickness that runs
 https://www.figma.com/file/JLuPwrG9gv1n779KvHV0xm/Nyenyak?type=design&t=0zL5ijWMhX2v8MMH-6
 ```
 
-2. Demo for Application
+2. APK
 ```
 https://drive.google.com/drive/folders/1ZME_A5c-VCF1XBA-7c7fsFJNEHQtMH0M?usp=drive_link
 ```

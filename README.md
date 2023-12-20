@@ -49,9 +49,9 @@ The model’s structure is deployed to the backend service. Following deployment
 * joblib: For saving and loading scikit-learn models.
 
 ### Requirements
-* Python version 3.6 or above.
-* Latest TensorFlow version.
-* Jupyter Notebook.
+* [Python](https://www.python.org/downloads/) version 3.6 or above.
+* Latest [TensorFlow](https://www.tensorflow.org/) version.
+* [Jupyter Notebook](https://jupyter.org/)/[Google Colab](https://colab.research.google.com/)
 
 ### Model Evaluation
 The model is evaluated based on metrics such as accuracy, precision, recall, and F1-score. This evaluation is crucial to ensure that the model can accurately predict sleep disorders.

@@ -104,18 +104,12 @@ class InputActivity : AppCompatActivity() {
     }
 
     private fun showInfoDialog(titleId:Int, messageId: Int) {
-        val dialog: AlertDialog = MaterialAlertDialogBuilder(
-            this,
-            R.style.RoundedMaterialDialog
-        )
+        AlertDialog.Builder(this, R.style.RoundedMaterialDialog)
             .setTitle(getString(titleId))
             .setMessage(getString(messageId))
-            .setView(R.layout.item_info_dialog)
-            .show()
-
-        dialog.findViewById<View>(R.id.iv_close_dialog)?.setOnClickListener {
-            dialog.dismiss()
-        }
+            .setPositiveButton("Okey") { _, _ ->
+                // do nothing
+            }.create().show()
     }
 
     private fun showToast(message: String) {

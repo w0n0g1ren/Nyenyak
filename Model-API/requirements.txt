@@ -1,0 +1,6 @@
+Flask
+numpy
+pandas
+joblib
+scikit-learn==1.2.2
+tensorflow

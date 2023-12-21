@@ -1,7 +1,4 @@
 # Nyenyak Cloud Computing Documentation
-[![Status: Active](https://img.shields.io/badge/Status-Active-green.svg)](https://github.com/w0n0g1ren/Nyenyak/tree/BackEnd)
-[![Version: 1.0.0](https://img.shields.io/badge/Version-1.0.0-blue.svg)](https://github.com/w0n0g1ren/Nyenyak/tree/BackEnd)
-[![Contributors: 2](https://img.shields.io/badge/Contributors-2-orange.svg)](https://github.com/w0n0g1ren/Nyenyak/graphs/contributors)
 
 ## Project Summary
 Nyenyak uses Google Cloud Platform (GCP) and Firebase to develop a system capable of classifying sleep disorders, such as insomnia and sleep apnea, based on user data. Additionally, the system will provide actionable suggestions to enhance the sleep quality of users experiencing sleep disturbances. The project involves a collaboration between machine learning, mobile development, and cloud computing teams.
@@ -20,7 +17,7 @@ Nyenyak uses Google Cloud Platform (GCP) and Firebase to develop a system capabl
   - [Conclusion](#conclusion)
 
 ## Cloud Architecture
-![Architecture Illustration](https://github.com/canggihwr/cc-doc/blob/main/infrastructure.jpg)
+![Architecture Illustration](https://github.com/w0n0g1ren/Nyenyak/assets/57065088/abb800d2-d0e9-4319-a00a-94b01deb198a)
 
 ## 1. Setup Google Cloud Platform
 

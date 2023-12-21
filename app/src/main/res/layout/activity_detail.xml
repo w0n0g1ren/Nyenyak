@@ -1,0 +1,241 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.detail.DetailActivity">
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:scaleType="centerCrop"
+        android:src="@drawable/background_2"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="60dp"
+        android:fontFamily="@font/poppins_medium"
+        android:text="@string/detail_ndiagnosa"
+        android:textColor="@color/white"
+        android:textSize="30dp"
+        app:layout_constraintBottom_toTopOf="@+id/scrollView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tv_tanggal_detail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="20dp"
+        android:fontFamily="@font/poppins_semibold"
+        android:text="@string/tanggal_tes"
+        android:textColor="@color/white"
+        android:textSize="12dp"
+        app:layout_constraintBottom_toBottomOf="@+id/textView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toEndOf="@+id/textView"
+        app:layout_constraintTop_toTopOf="@+id/textView" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/btn_delete_detail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="40dp"
+        android:layout_marginBottom="40dp"
+        android:backgroundTint="@color/dark_purple"
+        android:src="@drawable/delete"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0" />
+    <ScrollView
+        android:id="@+id/scrollView"
+        android:background="@drawable/background"
+        android:layout_width="match_parent"
+        android:layout_height="550dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0">
+
+      <LinearLayout
+          android:orientation="vertical"
+          android:paddingLeft="20dp"
+          android:paddingRight="20dp"
+          android:paddingTop="20dp"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content">
+
+          <TextView
+              android:text="@string/indeks_masa_tubuh"
+              style="@style/tvdetailresult"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"/>
+
+          <TextView
+              android:id="@+id/tv_bmi_detail"
+              android:text="@string/lorem_ipsum"
+              style="@style/tvdetailresult2"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:layout_marginBottom="20dp"/>
+
+
+          <TextView
+              android:text="@string/umur"
+              style="@style/tvdetailresult"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"/>
+
+          <TextView
+              android:id="@+id/tv_umur_detail"
+              android:text="@string/lorem_ipsum"
+              style="@style/tvdetailresult2"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:layout_marginBottom="20dp"/>
+
+
+          <TextView
+              android:text="@string/tekanan_darah"
+              style="@style/tvdetailresult"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"/>
+
+          <TextView
+              android:id="@+id/tv_tekdarah_detail"
+              android:text="@string/lorem_ipsum"
+              style="@style/tvdetailresult2"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:layout_marginBottom="20dp"/>
+
+
+          <TextView
+              android:text="@string/langkah_per_hari"
+              style="@style/tvdetailresult"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"/>
+
+          <TextView
+              android:id="@+id/tv_langkah_detail"
+              android:text="@string/lorem_ipsum"
+              style="@style/tvdetailresult2"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:layout_marginBottom="20dp"/>
+
+
+          <TextView
+              android:text="@string/detak_jantung"
+              style="@style/tvdetailresult"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"/>
+
+          <TextView
+              android:id="@+id/tv_jantung_detail"
+              android:text="@string/lorem_ipsum"
+              style="@style/tvdetailresult2"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:layout_marginBottom="20dp"/>
+
+
+          <TextView
+              android:text="@string/level_aktivitas_fisik"
+              style="@style/tvdetailresult"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"/>
+
+          <TextView
+              android:id="@+id/tv_physics_detail"
+              android:text="@string/lorem_ipsum"
+              style="@style/tvdetailresult2"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:layout_marginBottom="20dp"/>
+
+
+          <TextView
+              android:text="@string/durasi_tidur"
+              style="@style/tvdetailresult"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"/>
+
+          <TextView
+              android:id="@+id/tv_durasi_detail"
+              android:text="@string/lorem_ipsum"
+              style="@style/tvdetailresult2"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:layout_marginBottom="20dp"/>
+
+
+          <TextView
+              android:text="@string/rating_stres"
+              style="@style/tvdetailresult"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"/>
+
+          <TextView
+              android:id="@+id/tv_stress_detail"
+              android:text="@string/lorem_ipsum"
+              style="@style/tvdetailresult2"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:layout_marginBottom="20dp"/>
+
+
+          <TextView
+              android:text="@string/penyakit_tidur"
+              style="@style/tvdetailresult"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"/>
+
+          <TextView
+              android:id="@+id/tv_penyakit_detail"
+              android:text="@string/lorem_ipsum"
+              style="@style/tvdetailresult2"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:layout_marginBottom="20dp"/>
+
+
+          <TextView
+              android:text="@string/solusi"
+              style="@style/tvdetailresult"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"/>
+
+          <TextView
+              android:id="@+id/tv_solusi_detail"
+              android:text="@string/lorem_ipsum"
+              style="@style/tvdetailresult2"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:layout_marginBottom="20dp"/>
+
+
+      </LinearLayout>
+
+
+    </ScrollView>
+</androidx.constraintlayout.widget.ConstraintLayout>

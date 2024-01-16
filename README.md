@@ -23,7 +23,9 @@ Nyenyak is a mobile-based application for diagnosing sleeping sickness that runs
 <img src = "https://github.com/w0n0g1ren/Nyenyak/assets/98150123/cdf01033-1874-4f79-9090-930f60571da6" width = 20% height = 20%>
 <img src = "https://github.com/w0n0g1ren/Nyenyak/assets/98150123/c9ec0716-7fcb-478c-80a7-0ee96e3a807b" width = 20% height = 20%>
 <img src = "https://github.com/w0n0g1ren/Nyenyak/assets/98150123/170d89de-6132-4c4d-acf2-f7de59e4962b" width = 20% height = 20%>
-<img src = "" width = 20% height = 20%>
+<img src = "https://github.com/w0n0g1ren/Nyenyak/assets/98150123/8ea1ed7c-2109-4b40-9e36-be7e13f856b5" width = 20% height = 20%>
+<img src = "https://github.com/w0n0g1ren/Nyenyak/assets/98150123/ef21a75f-60d4-41a7-9d54-537dd0ce9579" width = 20% height = 20%>
+
 
 ## Usage
 1. Use Android Studio Application version 2022.3.1 Patch 1 (Giraffe) or later

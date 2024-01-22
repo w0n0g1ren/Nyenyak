@@ -1,5 +1,6 @@
 package com.dicoding.nyenyak.ui.fragment.dashboard
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -9,6 +10,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.dicoding.nyenyak.adapter.ArticleAdapter
 import com.dicoding.nyenyak.adapter.adapter
+import com.dicoding.nyenyak.adapter.adapter2
 import com.dicoding.nyenyak.data.response.ArticleResponseItem
 import com.dicoding.nyenyak.data.response.GetDiagnosisResponseItem
 import com.dicoding.nyenyak.data.api.ApiConfig
@@ -16,6 +18,7 @@ import com.dicoding.nyenyak.databinding.FragmentDashboardBinding
 import com.dicoding.nyenyak.session.SessionPreference
 import com.dicoding.nyenyak.session.datastore
 import com.dicoding.nyenyak.ui.fragment.FragmentViewModelFactory
+import com.dicoding.nyenyak.ui.login.LoginActivity
 import com.dicoding.nyenyak.ui.main.MainActivity
 import retrofit2.Call
 import retrofit2.Callback
@@ -27,7 +30,7 @@ class DashboardFragment : Fragment() {
     private var _binding: FragmentDashboardBinding? = null
 
     private val binding get() = _binding!!
-
+    private lateinit var intent : Intent
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -59,11 +62,18 @@ class DashboardFragment : Fragment() {
                             call: Call<List<GetDiagnosisResponseItem>>,
                             response: Response<List<GetDiagnosisResponseItem>>
                         ) {
-                            if (response != null){
+                            if (response.isSuccessful){
                                 val responseBody = response.body()
                                 if(responseBody != null){
                                     setLatestDiagnose(responseBody)
                                 }
+                            }
+                            else{
+                                val errorcode : String = response.code().toString()
+                                when(errorcode){
+                                    "401" -> intent = Intent(context as MainActivity,LoginActivity::class.java)
+                                }
+                                context?.startActivity(intent)
                             }
                         }
 
@@ -83,7 +93,8 @@ class DashboardFragment : Fragment() {
         binding.rvList.setHasFixedSize(true)
         val adapter = adapter(context as MainActivity)
         binding.rvList.adapter = adapter
-        adapter.submitList(subList)
+        val limitedList = subList.take(4)
+        adapter.submitList(limitedList)
     }
 
     private fun showarticle() {
@@ -98,6 +109,13 @@ class DashboardFragment : Fragment() {
                     if(responseBody != null){
                         setArticle(responseBody.subList(0,responseBody.lastIndex+1))
                     }
+                    else{
+                        val errorcode : String = response.code().toString()
+                        when(errorcode){
+                            "401" -> intent = Intent(context as MainActivity,LoginActivity::class.java)
+                        }
+                        context?.startActivity(intent)
+                    }
                 }
             }
 
@@ -107,7 +125,6 @@ class DashboardFragment : Fragment() {
 
         })
     }
-
     private fun setArticle(subList: List<ArticleResponseItem>) {
         val layoutManager = LinearLayoutManager(context as MainActivity,LinearLayoutManager.HORIZONTAL,false)
         binding?.rvTips?.setLayoutManager(layoutManager)
@@ -115,10 +132,5 @@ class DashboardFragment : Fragment() {
         val adapter = ArticleAdapter(context as MainActivity)
         binding.rvTips.adapter = adapter
         adapter.submitList(subList)
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
     }
 }

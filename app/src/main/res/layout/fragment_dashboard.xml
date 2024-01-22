@@ -80,5 +80,4 @@
                 tools:listitem="@layout/tips_item" />
         </LinearLayout>
     </ScrollView>
-
 </androidx.constraintlayout.widget.ConstraintLayout>

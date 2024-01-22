@@ -3,6 +3,7 @@ package com.dicoding.nyenyak.ui.update
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
 import android.widget.TextView
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
@@ -31,6 +32,7 @@ class UpdateUserActivity : AppCompatActivity(),DatePickerFragment.DialogDateList
         binding = ActivityUpdateUserBinding.inflate(layoutInflater)
         setContentView(binding.root)
         supportActionBar?.hide()
+        showLoading(false)
 
         val pref = SessionPreference.getInstance(application.datastore)
         val viewModel = ViewModelProvider(this, FragmentViewModelFactory(pref)).get(
@@ -59,6 +61,7 @@ class UpdateUserActivity : AppCompatActivity(),DatePickerFragment.DialogDateList
 
             viewModel.getToken().observe(this){
                 if (it.token != null){
+                    showLoading(true)
                     lifecycleScope.launch {
                         try {
                             val config = ApiConfig.getApiService(it.token)
@@ -66,11 +69,13 @@ class UpdateUserActivity : AppCompatActivity(),DatePickerFragment.DialogDateList
                             showToast(response.message.toString())
                             val intent = Intent(this@UpdateUserActivity,MainActivity::class.java)
                             intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
+                            showLoading(false)
                             startActivity(intent)
                         }catch (e : HttpException){
                             val errorBody = e.response()?.errorBody()?.string()
                             val errorResponse = Gson().fromJson(errorBody, InputResponse::class.java)
                             showToast(errorResponse.message.toString())
+                            showLoading(false)
                         }
                     }
                 }
@@ -93,5 +98,10 @@ class UpdateUserActivity : AppCompatActivity(),DatePickerFragment.DialogDateList
     }
     private fun showToast(message: String) {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+    }
+
+    private fun showLoading(isLoading: Boolean) {
+        binding.progressUpdateUser.visibility = if (isLoading) View.VISIBLE else View.GONE
+        binding.progressUpdateUser.isEnabled = !isLoading
     }
 }

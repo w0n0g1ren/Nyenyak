@@ -32,6 +32,7 @@ class InputActivity : AppCompatActivity() {
         binding = ActivityInputBinding.inflate(layoutInflater)
         setContentView(binding.root)
         supportActionBar?.hide()
+        showLoading(false)
 
         setOnClickListenerDialogInfoItem()
 
@@ -60,6 +61,7 @@ class InputActivity : AppCompatActivity() {
             if(it.token != null){
                 lifecycleScope.launch {
                     try {
+                        showLoading(true)
                         val apiService = ApiConfig.getApiService(it.token)
                         val inputResponse = apiService.inputDiagnosis(
                             weight,height,sleepDuration,sldsleep,physicalActivityLevel,bloodPressure,sldstress,heartRate,dailySteps
@@ -71,12 +73,15 @@ class InputActivity : AppCompatActivity() {
                         intent.putExtra("diagnosis", inputResponse.newDiagnosis?.sleepDisorder.toString())
                         intent.putExtra("solusi", inputResponse.newDiagnosis?.solution.toString())
                         intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
+                        showLoading(false)
                         startActivity(intent)
 
                     }catch (e: HttpException){
+                        showLoading(true)
                         val errorBody = e.response()?.errorBody()?.string()
                         val errorResponse = Gson().fromJson(errorBody, InputResponse::class.java)
                         showToast(errorResponse.message.toString())
+                        showLoading(false)
                         startActivity(Intent(this@InputActivity,LoginActivity::class.java))
                     }
                 }
@@ -114,5 +119,10 @@ class InputActivity : AppCompatActivity() {
 
     private fun showToast(message: String) {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+    }
+
+    private fun showLoading(isLoading: Boolean) {
+        binding.progressInput.visibility = if (isLoading) View.VISIBLE else View.GONE
+        binding.progressInput.isEnabled = !isLoading
     }
 }

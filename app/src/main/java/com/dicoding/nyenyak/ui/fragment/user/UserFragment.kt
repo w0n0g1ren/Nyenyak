@@ -25,6 +25,7 @@ class UserFragment : Fragment() {
 
     private var _binding: FragmentUserBinding? = null
     private val binding get() = _binding!!
+    private lateinit var intent : Intent
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -73,7 +74,7 @@ class UserFragment : Fragment() {
                             call: Call<GetDetailUserResponse>,
                             response: Response<GetDetailUserResponse>
                         ) {
-                            if (response != null){
+                            if (response.isSuccessful){
                                 val responseBody = response.body()
                                 if (responseBody != null){
                                     binding.namaInfoUser.text = responseBody.user?.name
@@ -84,6 +85,13 @@ class UserFragment : Fragment() {
                                 }else{
                                     Log.e(TAG, "onFailure: ${response.message()}")
                                 }
+                            }
+                            else{
+                                val errorcode : String = response.code().toString()
+                                when(errorcode){
+                                    "401" -> intent = Intent(context as MainActivity,LoginActivity::class.java)
+                                }
+                                context?.startActivity(intent)
                             }
                         }
 

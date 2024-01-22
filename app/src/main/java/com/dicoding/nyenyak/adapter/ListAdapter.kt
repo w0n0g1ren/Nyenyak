@@ -20,18 +20,7 @@ class adapter(private val context: Context): ListAdapter<GetDiagnosisResponseIte
 
         binding.cekItem.setOnClickListener {
             val intent = Intent(context,DetailActivity::class.java)
-            intent.putExtra("indeksmassa",item.bMIcategory)
-            intent.putExtra("umur",item.age)
-            intent.putExtra("tekdarah",item.bloodPressure)
-            intent.putExtra("langkah",item.dailySteps)
-            intent.putExtra("jantung",item.heartRate)
-            intent.putExtra("fisik",item.physicalActivityLevel)
-            intent.putExtra("tidur",item.sleepDuration)
-            intent.putExtra("stres",item.stressLevel)
-            intent.putExtra("sleepdisorder",item.sleepDisorder)
-            intent.putExtra("solusi",item.solution)
             intent.putExtra("uid",item.id)
-            intent.putExtra("tanggal",item.date)
             context.startActivity(intent)
         }
     }

@@ -11,6 +11,7 @@ import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
+import com.dicoding.nyenyak.R
 import com.dicoding.nyenyak.data.response.LoginResponse
 import com.dicoding.nyenyak.databinding.ActivityLoginBinding
 import com.dicoding.nyenyak.session.DataModel
@@ -73,8 +74,8 @@ class LoginActivity : AppCompatActivity() {
                 val password = binding.layoutSignForm.editTextPassword.text.toString()
 
                 when {
-                    email.isEmpty() -> binding.layoutSignForm.editTextEmail.error = "Kolom Email harus diisi!!"
-                    password.isEmpty() -> binding.layoutSignForm.editTextPassword.error = "Kolom Password harus diisi!!"
+                    email.isEmpty() -> binding.layoutSignForm.editTextEmail.error = getString(R.string.alert_email_login)
+                    password.isEmpty() -> binding.layoutSignForm.editTextPassword.error = getString(R.string.alert_password_login)
                 }
 
                 viewModel.login(email, password)

@@ -112,7 +112,7 @@ class InputActivity : AppCompatActivity() {
         AlertDialog.Builder(this, R.style.RoundedMaterialDialog)
             .setTitle(getString(titleId))
             .setMessage(getString(messageId))
-            .setPositiveButton("Okey") { _, _ ->
+            .setPositiveButton(getString(R.string.okey)) { _, _ ->
                 // do nothing
             }.create().show()
     }

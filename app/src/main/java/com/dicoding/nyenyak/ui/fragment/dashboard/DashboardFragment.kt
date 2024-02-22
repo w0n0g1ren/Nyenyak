@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.dicoding.nyenyak.adapter.ArticleAdapter
 import com.dicoding.nyenyak.adapter.adapter
@@ -20,6 +21,7 @@ import com.dicoding.nyenyak.session.datastore
 import com.dicoding.nyenyak.ui.fragment.FragmentViewModelFactory
 import com.dicoding.nyenyak.ui.login.LoginActivity
 import com.dicoding.nyenyak.ui.main.MainActivity
+import kotlinx.coroutines.launch
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -56,32 +58,32 @@ class DashboardFragment : Fragment() {
         (context as? MainActivity)?.let {
             viewmodel?.getToken()?.observe(it){
                 if (it.token != null){
-                    val client = ApiConfig.getApiService(it.token).getalldiagnosis()
-                    client.enqueue(object: Callback<List<GetDiagnosisResponseItem>>{
-                        override fun onResponse(
-                            call: Call<List<GetDiagnosisResponseItem>>,
-                            response: Response<List<GetDiagnosisResponseItem>>
-                        ) {
-                            if (response.isSuccessful){
-                                val responseBody = response.body()
-                                if(responseBody != null){
-                                    setLatestDiagnose(responseBody)
+                        val client = ApiConfig.getApiService(it.token).getalldiagnosis()
+                        client.enqueue(object: Callback<List<GetDiagnosisResponseItem>>{
+                            override fun onResponse(
+                                call: Call<List<GetDiagnosisResponseItem>>,
+                                response: Response<List<GetDiagnosisResponseItem>>
+                            ) {
+                                if (response.isSuccessful){
+                                    val responseBody = response.body()
+                                    if(responseBody != null){
+                                        var listData = responseBody.sortedByDescending { it.date }
+                                        setLatestDiagnose(listData)
+                                    }
+                                }
+                                else{
+                                    val errorcode : String = response.code().toString()
+                                    when(errorcode){
+                                        "401" -> intent = Intent(context as MainActivity,LoginActivity::class.java)
+                                    }
+                                    context?.startActivity(intent)
                                 }
                             }
-                            else{
-                                val errorcode : String = response.code().toString()
-                                when(errorcode){
-                                    "401" -> intent = Intent(context as MainActivity,LoginActivity::class.java)
-                                }
-                                context?.startActivity(intent)
+
+                            override fun onFailure(call: Call<List<GetDiagnosisResponseItem>>, t: Throwable) {
+                                TODO("Not yet implemented")
                             }
-                        }
-
-                        override fun onFailure(call: Call<List<GetDiagnosisResponseItem>>, t: Throwable) {
-                            TODO("Not yet implemented")
-                        }
-
-                    })
+                        })
                 }
             }
         }

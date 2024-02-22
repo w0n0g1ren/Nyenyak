@@ -96,10 +96,10 @@ class RegisterActivity : AppCompatActivity(), DatePickerFragment.DialogDateListe
             val birthdate = binding.layoutSignForm.addTvDueDate.text.toString()
 
             when {
-                name.isEmpty() -> binding.layoutSignForm.editTextName.error = "Nama harus diisi!"
-                email.isEmpty() -> binding.layoutSignForm.editTextEmail.error = "Email harus diisi!"
-                password.isEmpty() -> binding.layoutSignForm.editTextPassword.error = "Password harus diisi!"
-                gender.isEmpty() -> binding.layoutSignForm.acGender.error = "Jenis Kelamin harus diisi!"
+                name.isEmpty() -> binding.layoutSignForm.editTextName.error = getString(R.string.alert_nama)
+                email.isEmpty() -> binding.layoutSignForm.editTextEmail.error = getString(R.string.alert_email)
+                password.isEmpty() -> binding.layoutSignForm.editTextPassword.error = getString(R.string.alert_password)
+                gender.isEmpty() -> binding.layoutSignForm.acGender.error = getString(R.string.alert_gender)
                 birthdate == getString(R.string.due_date) -> false
             }
 
@@ -109,9 +109,9 @@ class RegisterActivity : AppCompatActivity(), DatePickerFragment.DialogDateListe
                     showLoading(false)
                     showToast(response.message)
                     AlertDialog.Builder(this@RegisterActivity).apply {
-                        setTitle("Selamat!")
-                        setMessage("Registrasi berhasil. Lanjut untuk masuk?")
-                        setPositiveButton("Ya") { _, _ ->
+                        setTitle(getString(R.string.selamat))
+                        setMessage(getString(R.string.registrasi_berhasil))
+                        setPositiveButton(getString(R.string.ya)) { _, _ ->
                             val intent = Intent(context, LoginActivity::class.java).apply {
                                 flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
                             }

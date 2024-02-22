@@ -32,4 +32,11 @@
     <string name="update_informasi_user">Update \nInformasi User</string>
     <string name="user">User</string>
     <string name="logout">Logout</string>
+    <string name="alert_password">Password harus diisi!</string>
+    <string name="alert_gender">Jenis Kelamin harus diisi!</string>
+    <string name="selamat">Selamat!</string>
+    <string name="ya">Ya</string>
+    <string name="alert_email_login">Kolom Email harus diisi!!</string>
+    <string name="alert_password_login">Kolom Password harus diisi!!</string>
+    <string name="okey">Okey</string>
 </resources>

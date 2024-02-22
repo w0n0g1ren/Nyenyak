@@ -2,14 +2,19 @@ package com.dicoding.nyenyak.ui.fragment.list
 
 import android.content.Intent
 import android.os.Bundle
+import android.provider.ContactsContract
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.dicoding.nyenyak.adapter.adapter
+import com.dicoding.nyenyak.adapter.adapter2
 import com.dicoding.nyenyak.data.api.ApiConfig
 import com.dicoding.nyenyak.data.response.GetDiagnosisResponseItem
 import com.dicoding.nyenyak.databinding.FragmentListBinding
@@ -19,9 +24,13 @@ import com.dicoding.nyenyak.ui.fragment.FragmentViewModelFactory
 import com.dicoding.nyenyak.ui.input.InputActivity
 import com.dicoding.nyenyak.ui.login.LoginActivity
 import com.dicoding.nyenyak.ui.main.MainActivity
+import com.google.gson.Gson
+import kotlinx.coroutines.launch
 import retrofit2.Callback
 import retrofit2.Call
 import retrofit2.Response
+import java.text.SimpleDateFormat
+
 class ListFragment : Fragment() {
 
     private var _binding: FragmentListBinding? = null
@@ -56,38 +65,38 @@ class ListFragment : Fragment() {
         (context as? MainActivity)?.let {
             viewmodel?.getToken()?.observe(it){
                 if (it.token != null){
-                }
-                val client = ApiConfig.getApiService(it.token).getalldiagnosis()
-                client.enqueue(object : Callback<List<GetDiagnosisResponseItem>>{
-                    override fun onResponse(
-                        call: Call<List<GetDiagnosisResponseItem>>,
-                        response: Response<List<GetDiagnosisResponseItem>>
-                    ) {
-                        if(response.isSuccessful){
-                            val responseBody = response.body()
-                            if(responseBody != null){
-                                setUserDiagnosis(responseBody.subList(0,responseBody.lastIndex+1))
-                            }else{
-                                Log.e(TAG, "onFailure: ${response.message()}")
+                        val client = ApiConfig.getApiService(it.token).getalldiagnosis()
+                        client.enqueue(object : Callback<List<GetDiagnosisResponseItem>>{
+                            override fun onResponse(
+                                call: Call<List<GetDiagnosisResponseItem>>,
+                                response: Response<List<GetDiagnosisResponseItem>>
+                            ) {
+                                if(response.isSuccessful){
+                                    val responseBody = response.body()
+                                    if(responseBody != null){
+                                        var listData = responseBody.sortedByDescending { it.date }
+                                        setUserDiagnosis(listData)
+                                    }else{
+                                        Log.e(TAG, "onFailure: ${response.message()}")
+                                    }
+                                }
+                                else{
+                                    val errorcode : String = response.code().toString()
+                                    when(errorcode){
+                                        "401" -> intent = Intent(context as MainActivity, LoginActivity::class.java)
+                                    }
+                                    context?.startActivity(intent)
+                                }
                             }
-                        }
-                        else{
-                            val errorcode : String = response.code().toString()
-                            when(errorcode){
-                                "401" -> intent = Intent(context as MainActivity, LoginActivity::class.java)
+
+                            override fun onFailure(call: Call<List<GetDiagnosisResponseItem>>, t: Throwable) {
+                                Log.e(TAG, "onFailure: ${t.message}")
                             }
-                            context?.startActivity(intent)
-                        }
-                    }
 
-                    override fun onFailure(call: Call<List<GetDiagnosisResponseItem>>, t: Throwable) {
-                        Log.e(TAG, "onFailure: ${t.message}")
+                        })
                     }
-
-                })
             }
         }
-
     }
 
     private fun setUserDiagnosis(diagnosisResponse: List<GetDiagnosisResponseItem?>?) {

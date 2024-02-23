@@ -2,34 +2,26 @@ package com.dicoding.nyenyak.ui.fragment.list
 
 import android.content.Intent
 import android.os.Bundle
-import android.provider.ContactsContract
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.lifecycleScope
-import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.dicoding.nyenyak.adapter.adapter
-import com.dicoding.nyenyak.adapter.adapter2
 import com.dicoding.nyenyak.data.api.ApiConfig
 import com.dicoding.nyenyak.data.response.GetDiagnosisResponseItem
 import com.dicoding.nyenyak.databinding.FragmentListBinding
 import com.dicoding.nyenyak.session.SessionPreference
 import com.dicoding.nyenyak.session.datastore
-import com.dicoding.nyenyak.ui.fragment.FragmentViewModelFactory
+import com.dicoding.nyenyak.ui.fragment.SecondViewModelFactory
 import com.dicoding.nyenyak.ui.input.InputActivity
 import com.dicoding.nyenyak.ui.login.LoginActivity
 import com.dicoding.nyenyak.ui.main.MainActivity
-import com.google.gson.Gson
-import kotlinx.coroutines.launch
 import retrofit2.Callback
 import retrofit2.Call
 import retrofit2.Response
-import java.text.SimpleDateFormat
 
 class ListFragment : Fragment() {
 
@@ -57,7 +49,7 @@ class ListFragment : Fragment() {
         val pref = SessionPreference.getInstance(requireContext().datastore)
         val viewmodel =
             (context as? MainActivity)?.let {
-                ViewModelProvider(it, FragmentViewModelFactory(pref)).get(
+                ViewModelProvider(it, SecondViewModelFactory(pref)).get(
                     ListFragmentViewModel::class.java
                 )
             }

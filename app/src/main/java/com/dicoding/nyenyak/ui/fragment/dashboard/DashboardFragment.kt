@@ -7,21 +7,18 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.dicoding.nyenyak.adapter.ArticleAdapter
 import com.dicoding.nyenyak.adapter.adapter
-import com.dicoding.nyenyak.adapter.adapter2
 import com.dicoding.nyenyak.data.response.ArticleResponseItem
 import com.dicoding.nyenyak.data.response.GetDiagnosisResponseItem
 import com.dicoding.nyenyak.data.api.ApiConfig
 import com.dicoding.nyenyak.databinding.FragmentDashboardBinding
 import com.dicoding.nyenyak.session.SessionPreference
 import com.dicoding.nyenyak.session.datastore
-import com.dicoding.nyenyak.ui.fragment.FragmentViewModelFactory
+import com.dicoding.nyenyak.ui.fragment.SecondViewModelFactory
 import com.dicoding.nyenyak.ui.login.LoginActivity
 import com.dicoding.nyenyak.ui.main.MainActivity
-import kotlinx.coroutines.launch
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -50,7 +47,7 @@ class DashboardFragment : Fragment() {
         val pref = SessionPreference.getInstance(requireContext().datastore)
         val viewmodel =
             (context as? MainActivity)?.let {
-                ViewModelProvider(it, FragmentViewModelFactory(pref)).get(
+                ViewModelProvider(it, SecondViewModelFactory(pref)).get(
                     DashboardFragmentViewModel::class.java
                 )
             }

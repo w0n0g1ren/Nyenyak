@@ -28,6 +28,8 @@ class WelcomeActivity : AppCompatActivity() {
         setupView()
         setupAction()
         handleLogout()
+
+
     }
 
     private fun setupView() {

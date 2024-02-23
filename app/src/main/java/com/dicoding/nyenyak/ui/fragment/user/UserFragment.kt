@@ -13,7 +13,7 @@ import com.dicoding.nyenyak.data.response.GetDetailUserResponse
 import com.dicoding.nyenyak.databinding.FragmentUserBinding
 import com.dicoding.nyenyak.session.SessionPreference
 import com.dicoding.nyenyak.session.datastore
-import com.dicoding.nyenyak.ui.fragment.FragmentViewModelFactory
+import com.dicoding.nyenyak.ui.fragment.SecondViewModelFactory
 import com.dicoding.nyenyak.ui.login.LoginActivity
 import com.dicoding.nyenyak.ui.main.MainActivity
 import com.dicoding.nyenyak.ui.update.UpdateUserActivity
@@ -44,7 +44,7 @@ class UserFragment : Fragment() {
             val pref = SessionPreference.getInstance(requireContext().datastore)
             val viewModel =
                 (context as? MainActivity)?.let {
-                    ViewModelProvider(it, FragmentViewModelFactory(pref)).get(
+                    ViewModelProvider(it, SecondViewModelFactory(pref)).get(
                         UserFragmentViewModel::class.java
                     )
                 }
@@ -60,7 +60,7 @@ class UserFragment : Fragment() {
         val pref = SessionPreference.getInstance(requireContext().datastore)
         val viewModel =
             (context as? MainActivity)?.let {
-                ViewModelProvider(it, FragmentViewModelFactory(pref)).get(
+                ViewModelProvider(it, SecondViewModelFactory(pref)).get(
                     UserFragmentViewModel::class.java
                 )
             }
@@ -107,6 +107,5 @@ class UserFragment : Fragment() {
 
     companion object{
         private const val TAG = "UserFragment"
-
     }
 }

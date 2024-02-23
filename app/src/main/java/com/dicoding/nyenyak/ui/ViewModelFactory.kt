@@ -17,9 +17,9 @@ class ViewModelFactory(
     @Suppress("UNCHECKED_CAST")
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         return when {
-            modelClass.isAssignableFrom(SplashViewModel::class.java) -> {
-                SplashViewModel(repository) as T
-            }
+//            modelClass.isAssignableFrom(SplashViewModel::class.java) -> {
+//                SplashViewModel(repository) as T
+//            }
             modelClass.isAssignableFrom(MainViewModel::class.java) -> {
                 MainViewModel(repository) as T
             }

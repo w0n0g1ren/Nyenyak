@@ -14,7 +14,7 @@ import com.dicoding.nyenyak.data.response.InputResponse
 import com.dicoding.nyenyak.databinding.ActivityUpdateUserBinding
 import com.dicoding.nyenyak.session.SessionPreference
 import com.dicoding.nyenyak.session.datastore
-import com.dicoding.nyenyak.ui.fragment.FragmentViewModelFactory
+import com.dicoding.nyenyak.ui.fragment.SecondViewModelFactory
 import com.dicoding.nyenyak.ui.main.MainActivity
 import com.dicoding.nyenyak.utils.DatePickerFragment
 import com.google.gson.Gson
@@ -35,7 +35,7 @@ class UpdateUserActivity : AppCompatActivity(),DatePickerFragment.DialogDateList
         showLoading(false)
 
         val pref = SessionPreference.getInstance(application.datastore)
-        val viewModel = ViewModelProvider(this, FragmentViewModelFactory(pref)).get(
+        val viewModel = ViewModelProvider(this, SecondViewModelFactory(pref)).get(
             UpdateUserViewModel::class.java
         )
 

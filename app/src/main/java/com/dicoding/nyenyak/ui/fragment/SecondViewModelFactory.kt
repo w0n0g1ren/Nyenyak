@@ -8,9 +8,11 @@ import com.dicoding.nyenyak.ui.fragment.dashboard.DashboardFragmentViewModel
 import com.dicoding.nyenyak.ui.fragment.list.ListFragmentViewModel
 import com.dicoding.nyenyak.ui.fragment.user.UserFragmentViewModel
 import com.dicoding.nyenyak.ui.input.InputViewModel
+import com.dicoding.nyenyak.ui.splash.SplashViewModel
 import com.dicoding.nyenyak.ui.update.UpdateUserViewModel
+import com.dicoding.nyenyak.ui.welcome.WelcomeViewModel
 
-class FragmentViewModelFactory(private val pref: SessionPreference) : ViewModelProvider.NewInstanceFactory() {
+class SecondViewModelFactory(private val pref: SessionPreference) : ViewModelProvider.NewInstanceFactory() {
     @Suppress("UNCHECKED_CAST")
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         return when {
@@ -36,6 +38,14 @@ class FragmentViewModelFactory(private val pref: SessionPreference) : ViewModelP
 
             modelClass.isAssignableFrom(UpdateUserViewModel::class.java) ->{
                 UpdateUserViewModel(pref) as T
+            }
+
+            modelClass.isAssignableFrom(WelcomeViewModel::class.java) ->{
+                WelcomeViewModel(pref) as T
+            }
+
+            modelClass.isAssignableFrom(SplashViewModel::class.java) ->{
+                SplashViewModel(pref) as T
             }
             else -> throw IllegalArgumentException("Unknown ViewModel class: " + modelClass.name)
         }

@@ -14,10 +14,9 @@ import com.dicoding.nyenyak.data.response.InputResponse
 import com.dicoding.nyenyak.databinding.ActivityInputBinding
 import com.dicoding.nyenyak.session.SessionPreference
 import com.dicoding.nyenyak.session.datastore
-import com.dicoding.nyenyak.ui.fragment.FragmentViewModelFactory
+import com.dicoding.nyenyak.ui.fragment.SecondViewModelFactory
 import com.dicoding.nyenyak.ui.login.LoginActivity
 import com.dicoding.nyenyak.ui.result.ResultActivity
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.gson.Gson
 import kotlinx.coroutines.launch
 import retrofit2.HttpException
@@ -54,7 +53,7 @@ class InputActivity : AppCompatActivity() {
             var physicalActivityLevel = binding.etFisikInput.text.toString().toInt()
 
             val pref = SessionPreference.getInstance(application.datastore)
-            val viewmodel = ViewModelProvider(this, FragmentViewModelFactory(pref)).get(
+            val viewmodel = ViewModelProvider(this, SecondViewModelFactory(pref)).get(
                 InputViewModel::class.java
             )
             viewmodel.gettoken().observe(this){

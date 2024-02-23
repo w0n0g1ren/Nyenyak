@@ -12,7 +12,7 @@ import com.dicoding.nyenyak.data.response.GetDiagnosisResponseItem
 import com.dicoding.nyenyak.databinding.ActivityDetailBinding
 import com.dicoding.nyenyak.session.SessionPreference
 import com.dicoding.nyenyak.session.datastore
-import com.dicoding.nyenyak.ui.fragment.FragmentViewModelFactory
+import com.dicoding.nyenyak.ui.fragment.SecondViewModelFactory
 import com.dicoding.nyenyak.ui.login.LoginActivity
 import com.dicoding.nyenyak.ui.main.MainActivity
 import kotlinx.coroutines.launch
@@ -33,7 +33,7 @@ class DetailActivity : AppCompatActivity() {
         showLoading(false)
 
         val pref = SessionPreference.getInstance(application.datastore)
-        val viewModel = ViewModelProvider(this, FragmentViewModelFactory(pref)).get(
+        val viewModel = ViewModelProvider(this, SecondViewModelFactory(pref)).get(
             DetailViewModel::class.java)
 
         var id = intent.getStringExtra("uid")

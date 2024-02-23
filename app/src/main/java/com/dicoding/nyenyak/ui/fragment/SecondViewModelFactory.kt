@@ -10,7 +10,6 @@ import com.dicoding.nyenyak.ui.fragment.user.UserFragmentViewModel
 import com.dicoding.nyenyak.ui.input.InputViewModel
 import com.dicoding.nyenyak.ui.splash.SplashViewModel
 import com.dicoding.nyenyak.ui.update.UpdateUserViewModel
-import com.dicoding.nyenyak.ui.welcome.WelcomeViewModel
 
 class SecondViewModelFactory(private val pref: SessionPreference) : ViewModelProvider.NewInstanceFactory() {
     @Suppress("UNCHECKED_CAST")
@@ -38,10 +37,6 @@ class SecondViewModelFactory(private val pref: SessionPreference) : ViewModelPro
 
             modelClass.isAssignableFrom(UpdateUserViewModel::class.java) ->{
                 UpdateUserViewModel(pref) as T
-            }
-
-            modelClass.isAssignableFrom(WelcomeViewModel::class.java) ->{
-                WelcomeViewModel(pref) as T
             }
 
             modelClass.isAssignableFrom(SplashViewModel::class.java) ->{

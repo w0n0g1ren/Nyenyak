@@ -39,46 +39,45 @@ class DetailActivity : AppCompatActivity() {
         var id = intent.getStringExtra("uid")
 
         viewModel.getToken().observe(this){
-            if (it.token != null){
-                showLoading(true)
-                val client = ApiConfig.getApiService(it.token).getdetaildiagnosis(id.toString())
-                client.enqueue(object : Callback<GetDiagnosisResponseItem>{
-                    override fun onResponse(
-                        call: Call<GetDiagnosisResponseItem>,
-                        response: Response<GetDiagnosisResponseItem>
-                    ) {
-                        if (response.isSuccessful){
-                            val responseBody = response.body()
-                            if (responseBody != null){
-                                binding.tvBmiDetail.text = responseBody.bMIcategory
-                                binding.tvUmurDetail.text = responseBody.age.toString()
-                                binding.tvTekdarahDetail.text = responseBody.bloodPressure
-                                binding.tvLangkahDetail.text = responseBody.dailySteps.toString()
-                                binding.tvJantungDetail.text = responseBody.heartRate.toString()
-                                binding.tvPhysicsDetail.text = responseBody.physicalActivityLevel.toString()
-                                binding.tvDurasiDetail.text = responseBody.sleepDuration.toString()
-                                binding.tvStressDetail.text = responseBody.stressLevel.toString()
-                                binding.tvPenyakitDetail.text = responseBody.sleepDisorder
-                                binding.tvSolusiDetail.text = responseBody.solution.toString()
-                                binding.tvTanggalDetail.text = responseBody.date
+                if (it.token != null){
+                    showLoading(true)
+                    val client = ApiConfig.getApiService(it.token).getdetaildiagnosis(id.toString())
+                    client.enqueue(object : Callback<GetDiagnosisResponseItem>{
+                        override fun onResponse(
+                            call: Call<GetDiagnosisResponseItem>,
+                            response: Response<GetDiagnosisResponseItem>
+                        ) {
+                            if (response.isSuccessful){
+                                val responseBody = response.body()
+                                if (responseBody != null){
+                                    binding.tvBmiDetail.text = responseBody.bMIcategory
+                                    binding.tvUmurDetail.text = responseBody.age.toString()
+                                    binding.tvTekdarahDetail.text = responseBody.bloodPressure
+                                    binding.tvLangkahDetail.text = responseBody.dailySteps.toString()
+                                    binding.tvJantungDetail.text = responseBody.heartRate.toString()
+                                    binding.tvPhysicsDetail.text = responseBody.physicalActivityLevel.toString()
+                                    binding.tvDurasiDetail.text = responseBody.sleepDuration.toString()
+                                    binding.tvStressDetail.text = responseBody.stressLevel.toString()
+                                    binding.tvPenyakitDetail.text = responseBody.sleepDisorder
+                                    binding.tvSolusiDetail.text = responseBody.solution.toString()
+                                    binding.tvTanggalDetail.text = responseBody.date
+                                    showLoading(false)
+                                }
+                            }
+                            else{
+                                val errorcode : String = response.code().toString()
+                                when(errorcode){
+                                    "401" -> intent2 = Intent(this@DetailActivity,LoginActivity::class.java)
+                                }
                                 showLoading(false)
+                                startActivity(intent2)
                             }
                         }
-                        else{
-                            val errorcode : String = response.code().toString()
-                            when(errorcode){
-                                "401" -> intent2 = Intent(this@DetailActivity,LoginActivity::class.java)
-                            }
-                            showLoading(false)
-                            startActivity(intent2)
+
+                        override fun onFailure(call: Call<GetDiagnosisResponseItem>, t: Throwable) {
+                            TODO("Not yet implemented")
                         }
-                    }
-
-                    override fun onFailure(call: Call<GetDiagnosisResponseItem>, t: Throwable) {
-                        TODO("Not yet implemented")
-                    }
-
-                })
+                    })
             }
         }
         binding.btnDeleteDetail.setOnClickListener {

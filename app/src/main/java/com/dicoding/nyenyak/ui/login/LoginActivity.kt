@@ -91,6 +91,9 @@ class LoginActivity : AppCompatActivity() {
                             )
                         )
                     }
+                    else {
+
+                    }
                 }
             } catch (e: HttpException) {
                 showLoading(false)

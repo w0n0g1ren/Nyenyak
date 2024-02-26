@@ -32,12 +32,6 @@ class SessionPreference private constructor(private val dataStore: DataStore<Pre
         }
     }
 
-    fun getSessionSetting(): Flow<Boolean> {
-        return dataStore.data.map { preferences ->
-            preferences[SESSION_KEY] ?: false
-        }
-    }
-
     fun getToken(): Flow<DataModel>{
         return dataStore.data.map { preferences ->
             DataModel(

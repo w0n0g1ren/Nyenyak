@@ -7,7 +7,9 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
+import com.dicoding.nyenyak.R
 import com.dicoding.nyenyak.data.api.ApiConfig
 import com.dicoding.nyenyak.data.response.GetDetailUserResponse
 import com.dicoding.nyenyak.databinding.FragmentUserBinding
@@ -17,6 +19,7 @@ import com.dicoding.nyenyak.ui.fragment.SecondViewModelFactory
 import com.dicoding.nyenyak.ui.login.LoginActivity
 import com.dicoding.nyenyak.ui.main.MainActivity
 import com.dicoding.nyenyak.ui.update.UpdateUserActivity
+import com.dicoding.nyenyak.ui.welcome.WelcomeActivity
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -49,7 +52,7 @@ class UserFragment : Fragment() {
                     )
                 }
             viewModel?.destroySession()
-            val intent = Intent(context as MainActivity,LoginActivity::class.java)
+            val intent = Intent(context as MainActivity,WelcomeActivity::class.java)
             intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
             startActivity(intent)
         }
@@ -78,7 +81,7 @@ class UserFragment : Fragment() {
                                 val responseBody = response.body()
                                 if (responseBody != null){
                                     binding.namaInfoUser.text = responseBody.user?.name
-                                    binding.umurInfoUser.text = responseBody.user?.age.toString()
+                                    binding.umurInfoUser.text = responseBody.user?.age?.toInt().toString().trim()
                                     binding.emailInfoUser.text = responseBody.user?.email
                                     binding.genderInfoUser.text = responseBody.user?.gender
                                     binding.lahirInfoUser.text = responseBody.user?.birthDate
@@ -89,7 +92,11 @@ class UserFragment : Fragment() {
                             else{
                                 val errorcode : String = response.code().toString()
                                 when(errorcode){
-                                    "401" -> intent = Intent(context as MainActivity,LoginActivity::class.java)
+                                    "401" -> {
+                                        Toast.makeText(context as MainActivity,getString(R.string.sesi_berakhir),
+                                            Toast.LENGTH_SHORT)
+                                        intent = Intent(context as MainActivity, WelcomeActivity::class.java)
+                                    }
                                 }
                                 context?.startActivity(intent)
                             }

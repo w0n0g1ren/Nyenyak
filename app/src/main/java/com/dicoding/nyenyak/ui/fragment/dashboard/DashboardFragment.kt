@@ -5,9 +5,11 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.dicoding.nyenyak.R
 import com.dicoding.nyenyak.adapter.ArticleAdapter
 import com.dicoding.nyenyak.adapter.adapter
 import com.dicoding.nyenyak.data.response.ArticleResponseItem
@@ -19,6 +21,7 @@ import com.dicoding.nyenyak.session.datastore
 import com.dicoding.nyenyak.ui.fragment.SecondViewModelFactory
 import com.dicoding.nyenyak.ui.login.LoginActivity
 import com.dicoding.nyenyak.ui.main.MainActivity
+import com.dicoding.nyenyak.ui.welcome.WelcomeActivity
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -64,14 +67,15 @@ class DashboardFragment : Fragment() {
                                 if (response.isSuccessful){
                                     val responseBody = response.body()
                                     if(responseBody != null){
-                                        var listData = responseBody.sortedByDescending { it.date }
-                                        setLatestDiagnose(listData)
+                                        setLatestDiagnose(responseBody)
                                     }
                                 }
                                 else{
                                     val errorcode : String = response.code().toString()
                                     when(errorcode){
-                                        "401" -> intent = Intent(context as MainActivity,LoginActivity::class.java)
+                                        "401" -> {
+                                            intent = Intent(context as MainActivity,WelcomeActivity::class.java)
+                                        }
                                     }
                                     context?.startActivity(intent)
                                 }

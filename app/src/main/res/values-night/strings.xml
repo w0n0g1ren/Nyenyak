@@ -39,4 +39,5 @@
     <string name="alert_email_login">Kolom Email harus diisi!!</string>
     <string name="alert_password_login">Kolom Password harus diisi!!</string>
     <string name="okey">Okey</string>
+    <string name="sesi_berakhir">sesi login anda telah berakhir</string>
 </resources>

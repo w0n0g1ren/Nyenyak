@@ -51,7 +51,7 @@ class DetailActivity : AppCompatActivity() {
                                 val responseBody = response.body()
                                 if (responseBody != null){
                                     binding.tvBmiDetail.text = responseBody.bMIcategory
-                                    binding.tvUmurDetail.text = responseBody.age.toString()
+                                    binding.tvUmurDetail.text = responseBody.age.toString().trim()
                                     binding.tvTekdarahDetail.text = responseBody.bloodPressure
                                     binding.tvLangkahDetail.text = responseBody.dailySteps.toString()
                                     binding.tvJantungDetail.text = responseBody.heartRate.toString()

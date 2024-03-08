@@ -7,8 +7,10 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.dicoding.nyenyak.R
 import com.dicoding.nyenyak.adapter.adapter
 import com.dicoding.nyenyak.data.api.ApiConfig
 import com.dicoding.nyenyak.data.response.GetDiagnosisResponseItem
@@ -19,6 +21,7 @@ import com.dicoding.nyenyak.ui.fragment.SecondViewModelFactory
 import com.dicoding.nyenyak.ui.input.InputActivity
 import com.dicoding.nyenyak.ui.login.LoginActivity
 import com.dicoding.nyenyak.ui.main.MainActivity
+import com.dicoding.nyenyak.ui.welcome.WelcomeActivity
 import retrofit2.Callback
 import retrofit2.Call
 import retrofit2.Response
@@ -66,8 +69,7 @@ class ListFragment : Fragment() {
                                 if(response.isSuccessful){
                                     val responseBody = response.body()
                                     if(responseBody != null){
-                                        var listData = responseBody.sortedByDescending { it.date }
-                                        setUserDiagnosis(listData)
+                                        setUserDiagnosis(responseBody)
                                     }else{
                                         Log.e(TAG, "onFailure: ${response.message()}")
                                     }
@@ -75,7 +77,12 @@ class ListFragment : Fragment() {
                                 else{
                                     val errorcode : String = response.code().toString()
                                     when(errorcode){
-                                        "401" -> intent = Intent(context as MainActivity, LoginActivity::class.java)
+                                        "401" -> {
+                                            Toast.makeText(context as MainActivity,getString(R.string.sesi_berakhir),
+                                                Toast.LENGTH_LONG)
+                                            intent = Intent(context as MainActivity,
+                                                WelcomeActivity::class.java)
+                                        }
                                     }
                                     context?.startActivity(intent)
                                 }

@@ -62,4 +62,6 @@
     <string name="peringatan_nama">mohon kolom nama diisi</string>
     <string name="peringatan_tanggal">mohon tanggal diisi</string>
     <string name="peringatan_gender">mohon pilih gender</string>
+    <string name="petunjuk">Petunjuk</string>
+    <string name="jika_data_tidak_diisi_akan_diisikan_dengan_data_lama">Jika data tidak diisi akan diisikan dengan data lama</string>
 </resources>

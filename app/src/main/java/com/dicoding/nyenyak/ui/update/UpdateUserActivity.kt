@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.View
 import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import com.dicoding.nyenyak.R
@@ -34,10 +35,12 @@ class UpdateUserActivity : AppCompatActivity(),DatePickerFragment.DialogDateList
         supportActionBar?.hide()
         showLoading(false)
 
-
-
         binding.ivUpdateUser.setOnClickListener {
             showDatePickerUser()
+        }
+        binding.hintUpdateUser.setOnClickListener{
+            setOnClickListener(R.id.hint_update_user, R.string.petunjuk,
+                R.string.jika_data_tidak_diisi_akan_diisikan_dengan_data_lama)
         }
 
         binding.btnUpdateUser.setOnClickListener {
@@ -82,6 +85,21 @@ class UpdateUserActivity : AppCompatActivity(),DatePickerFragment.DialogDateList
                 }
             }
         }
+    }
+
+    private fun setOnClickListener(viewId: Int, titleId:Int, messageId: Int) {
+        findViewById<View>(viewId).setOnClickListener {
+            showInfoDialog(titleId, messageId)
+        }
+    }
+
+    private fun showInfoDialog(titleId:Int, messageId: Int) {
+        AlertDialog.Builder(this, R.style.RoundedMaterialDialog)
+            .setTitle(getString(titleId))
+            .setMessage(getString(messageId))
+            .setPositiveButton(getString(R.string.okey)) { _, _ ->
+                // do nothing
+            }.create().show()
     }
 
     fun showDatePickerUser() {

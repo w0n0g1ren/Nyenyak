@@ -4,6 +4,7 @@ package com.dicoding.nyenyak.data.repository
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.distinctUntilChanged
 import com.dicoding.nyenyak.data.api.ApiService
 import com.dicoding.nyenyak.data.response.ForgotResponse
 import com.dicoding.nyenyak.data.response.LoginResponse
@@ -21,13 +22,11 @@ class AppRepository private constructor(
     private val sessionPreference: SessionPreference
 ) {
     private var _loginResponse = MutableLiveData<LoginResponse>()
-    var loginResponse: MutableLiveData<LoginResponse> = _loginResponse
+    var loginResponse: LiveData<LoginResponse> = _loginResponse.distinctUntilChanged()
 
     var _isLoading = MutableLiveData<Boolean>()
     var isLoading: LiveData<Boolean> = _isLoading
 
-    private var _message = MutableLiveData<String>()
-    var message: LiveData<String> = _message
     suspend fun register(email: String, password: String, name: String, gender: String, birthdate: String): RegisterResponse {
         return apiService.register(email, password, name, gender, birthdate)
     }
@@ -46,7 +45,6 @@ class AppRepository private constructor(
 
     fun login(email: String, password: String) {
         _isLoading.value = true
-        var dataMessage = ModelProto()
         val client = apiService.login(email, password)
         client.enqueue(object : Callback<LoginResponse> {
             override fun onResponse(
@@ -55,25 +53,15 @@ class AppRepository private constructor(
             ) { if (response.isSuccessful) {
                 val responseBody = response.body()
                 if(responseBody != null){
-                    if (responseBody?.status == "failed"){
                         _isLoading.value = false
                         _loginResponse.value = response.body()
-                        _message.value = responseBody.message.toString()
-                        dataMessage.message = responseBody.message.toString()
-                    }else{
-                        _isLoading.value = false
-                        _loginResponse.value = response.body()
-                        _message.value = responseBody.message.toString()
-                        dataMessage.message = responseBody.message.toString()
-                    }
                 }
             }
-                else{
+            else{
                 val errorResponse = Gson().fromJson(response.errorBody()?.string(), LoginResponse::class.java)
                 _loginResponse.value = errorResponse
-                _message.value = errorResponse.message.toString()
-                Log.e("disini", _message.toString())
             }
+
             }
             override fun onFailure(call: Call<LoginResponse>, t: Throwable) {
                 _isLoading.value = false

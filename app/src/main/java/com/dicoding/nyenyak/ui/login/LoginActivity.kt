@@ -78,7 +78,6 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun setupAction() {
-        var modelProto = ModelProto()
         binding.btnLogin.setOnClickListener {
             showLoading(true)
             try {
@@ -90,14 +89,10 @@ class LoginActivity : AppCompatActivity() {
                     password.isEmpty() -> binding.layoutSignForm.editTextPassword.error = getString(R.string.alert_password_login)
                 }
                 viewModel.login(email, password)
-                viewModel.message.observe(this){
-                    message = it
-                }
 
                 viewModel.loginResponse.observe(this) {
                     when{
                         (it.status == "success") -> {
-                            Log.e("sukses",it.message.toString())
                             save(
                                 DataModel(
                                     it.token.toString(),
@@ -110,7 +105,6 @@ class LoginActivity : AppCompatActivity() {
                             showToast(it.message)
                         }
                         (it.status != "success") ->{
-                            Log.e("LoginCek", "it: $it")
                             showLoading(false)
                             showToast(it.message)
                         }
@@ -118,12 +112,9 @@ class LoginActivity : AppCompatActivity() {
                 }
             } catch (e: HttpException) {
                 showLoading(false)
-                val errorBody = e.response()?.errorBody()?.string()
-                val errorResponse = Gson().fromJson(errorBody, LoginResponse::class.java)
-                showToast(errorResponse.message)
+
             }
             showLoading(false)
-
         }
     }
 

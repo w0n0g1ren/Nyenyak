@@ -34,10 +34,7 @@ class UpdateUserActivity : AppCompatActivity(),DatePickerFragment.DialogDateList
         supportActionBar?.hide()
         showLoading(false)
 
-        val pref = SessionPreference.getInstance(application.datastore)
-        val viewModel = ViewModelProvider(this, SecondViewModelFactory(pref)).get(
-            UpdateUserViewModel::class.java
-        )
+
 
         binding.ivUpdateUser.setOnClickListener {
             showDatePickerUser()
@@ -59,12 +56,10 @@ class UpdateUserActivity : AppCompatActivity(),DatePickerFragment.DialogDateList
                 gender = ""
             }
 
-            when{
-                nama.isEmpty() -> showToast(getString(R.string.peringatan_nama))
-                tanggal == getString(R.string.tanggal_tes) -> showToast(getString(R.string.peringatan_tanggal))
-                gender.isEmpty() -> showToast(getString(R.string.peringatan_gender))
-            }
-
+            val pref = SessionPreference.getInstance(application.datastore)
+            val viewModel = ViewModelProvider(this, SecondViewModelFactory(pref)).get(
+                UpdateUserViewModel::class.java
+            )
             viewModel.getToken().observe(this){
                 if (it.token != null){
                     showLoading(true)

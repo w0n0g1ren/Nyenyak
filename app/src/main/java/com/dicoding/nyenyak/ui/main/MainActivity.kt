@@ -67,7 +67,7 @@ class MainActivity : AppCompatActivity() {
 
                         }
                         else{
-                            val errorcode : String = response.code().toString()
+                            val errorcode: String = response.code().toString()
                                 when(errorcode){
                                     "401" -> {intent = Intent(this@MainActivity,WelcomeActivity::class.java)
                                     }

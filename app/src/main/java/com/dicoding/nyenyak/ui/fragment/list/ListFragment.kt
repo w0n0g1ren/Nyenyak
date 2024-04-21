@@ -70,20 +70,6 @@ class ListFragment : Fragment() {
                                         Log.e(TAG, "onFailure: ${response.message()}")
                                     }
                                 }
-                                else{
-                                    val errorcode : String = response.code().toString()
-//                                    when(errorcode){
-//                                        "401" -> {
-//                                            Toast.makeText(
-//                                                this@ListFragment.context as MainActivity,getString(R.string.sesi_berakhir),
-//                                                Toast.LENGTH_LONG)
-//                                            intent = Intent(
-//                                                this@ListFragment.context as MainActivity,
-//                                                WelcomeActivity::class.java)
-//                                        }
-//                                    }
-//                                    context?.startActivity(intent)
-                                }
                             }
 
                             override fun onFailure(call: Call<List<GetDiagnosisResponseItem>>, t: Throwable) {

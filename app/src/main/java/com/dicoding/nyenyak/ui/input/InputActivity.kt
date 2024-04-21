@@ -55,43 +55,40 @@ class InputActivity : AppCompatActivity() {
 
             if (weight == null || height == null || sleepDuration == null || heartRate == null || dailySteps == null || physicalActivityLevel == null){
                 showToast(getString(R.string.peringatan))
-            }
-            if (physicalActivityLevel >= 24){
-                showToast("Jam yang dimasukkan melebihi 24 jam")
-            }
-            val pref = SessionPreference.getInstance(application.datastore)
-            val viewmodel = ViewModelProvider(this, SecondViewModelFactory(pref)).get(
-                InputViewModel::class.java
-            )
-            viewmodel.gettoken().observe(this){
-            if(it.token != null){
-                lifecycleScope.launch {
-                    try {
-                        showLoading(true)
-                        val apiService = ApiConfig.getApiService(it.token)
-                        val inputResponse = apiService.inputDiagnosis(
-                            weight,height,sleepDuration,sldsleep,physicalActivityLevel,bloodpressure,sldstress,heartRate,dailySteps
-                        )
+            }else{
+                val pref = SessionPreference.getInstance(application.datastore)
+                val viewmodel = ViewModelProvider(this, SecondViewModelFactory(pref)).get(
+                    InputViewModel::class.java
+                )
+                viewmodel.gettoken().observe(this){
+                    if(it.token != null){
+                        lifecycleScope.launch {
+                            try {
+                                showLoading(true)
+                                val apiService = ApiConfig.getApiService(it.token)
+                                val inputResponse = apiService.inputDiagnosis(
+                                    weight,height,sleepDuration,sldsleep,physicalActivityLevel,bloodpressure,sldstress,heartRate,dailySteps
+                                )
 
-                        showToast(inputResponse.message.toString())
-                        val intent = Intent(this@InputActivity,ResultActivity::class.java)
-                        intent.putExtra("tanggal", inputResponse.newDiagnosis?.date.toString())
-                        intent.putExtra("diagnosis", inputResponse.newDiagnosis?.sleepDisorder.toString())
-                        intent.putExtra("solusi", inputResponse.newDiagnosis?.solution.toString())
-                        intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
-                        showLoading(false)
-                        startActivity(intent)
+                                showToast(inputResponse.message.toString())
+                                val intent = Intent(this@InputActivity,ResultActivity::class.java)
+                                intent.putExtra("tanggal", inputResponse.newDiagnosis?.date.toString())
+                                intent.putExtra("diagnosis", inputResponse.newDiagnosis?.sleepDisorder.toString())
+                                intent.putExtra("solusi", inputResponse.newDiagnosis?.solution.toString())
+                                intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
+                                showLoading(false)
+                                startActivity(intent)
 
-                    }catch (e: HttpException){
-                        showLoading(true)
-                        val errorBody = e.response()?.errorBody()?.string()
-                        val errorResponse = Gson().fromJson(errorBody, InputResponse::class.java)
-                        showToast(errorResponse.message.toString())
-                        showLoading(false)
-                        startActivity(Intent(this@InputActivity,LoginActivity::class.java))
+                            }catch (e: HttpException){
+                                showLoading(true)
+                                val errorBody = e.response()?.errorBody()?.string()
+                                val errorResponse = Gson().fromJson(errorBody, InputResponse::class.java)
+                                showToast(errorResponse.message.toString())
+                                showLoading(false)
+                            }
+                        }
                     }
                 }
-            }
             }
         }
     }

@@ -26,8 +26,8 @@ class AppRepository private constructor(
     var _isLoading = MutableLiveData<Boolean>()
     var isLoading: LiveData<Boolean> = _isLoading
 
-    var _message = MutableLiveData<String>()
-    var message: MutableLiveData<String> = _message
+    private var _message = MutableLiveData<String>()
+    var message: LiveData<String> = _message
     suspend fun register(email: String, password: String, name: String, gender: String, birthdate: String): RegisterResponse {
         return apiService.register(email, password, name, gender, birthdate)
     }
@@ -70,8 +70,9 @@ class AppRepository private constructor(
             }
                 else{
                 val errorResponse = Gson().fromJson(response.errorBody()?.string(), LoginResponse::class.java)
+                _loginResponse.value = errorResponse
                 _message.value = errorResponse.message.toString()
-                Log.e("disini",errorResponse.message.toString())
+                Log.e("disini", _message.toString())
             }
             }
             override fun onFailure(call: Call<LoginResponse>, t: Throwable) {

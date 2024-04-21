@@ -9,7 +9,7 @@
     <string name="kurang_tidur">Kurang Tidur</string>
     <string name="tanggal">12/12/2012</string>
     <string name="tips_uji">beliau bukan sembarang beliau</string>
-    <string name="list_pengecekan">List Pengecekan</string>
+    <string name="list_pengecekan">Riwayat Diagnosis</string>
     <string name="gender">Gender</string>
     <string name="umur">Umur</string>
     <string name="tahun">Tahun</string>
@@ -32,7 +32,7 @@
     <string name="lorem_ipsum">Lorem Ipsum</string>
     <string name="solusi">Solusi</string>
     <string name="lanjut">Lanjut</string>
-    <string name="list">List</string>
+    <string name="list">Riwayat</string>
     <string name="welcome_text">Selamat Datang di Nyenyak!</string>
     <string name="register">Daftar</string>
     <string name="login">Masuk</string>

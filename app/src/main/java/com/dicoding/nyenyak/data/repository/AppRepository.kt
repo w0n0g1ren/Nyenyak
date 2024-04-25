@@ -27,7 +27,11 @@ class AppRepository private constructor(
     var _isLoading = MutableLiveData<Boolean>()
     var isLoading: LiveData<Boolean> = _isLoading
 
-    suspend fun register(email: String, password: String, name: String, gender: String, birthdate: String): RegisterResponse {
+    suspend fun register(email: String,
+                         password: String,
+                         name: String,
+                         gender: String,
+                         birthdate: String): RegisterResponse {
         return apiService.register(email, password, name, gender, birthdate)
     }
 
@@ -58,7 +62,8 @@ class AppRepository private constructor(
                 }
             }
             else{
-                val errorResponse = Gson().fromJson(response.errorBody()?.string(), LoginResponse::class.java)
+                val errorResponse = Gson().fromJson(response.errorBody()?.string(),
+                    LoginResponse::class.java)
                 _loginResponse.value = errorResponse
             }
 

@@ -142,6 +142,7 @@
             android:orientation="horizontal">
 
             <ImageButton
+                android:id="@+id/select_date"
                 style="@style/Base.Widget.AppCompat.ImageButton"
                 android:layout_width="50dp"
                 android:layout_height="wrap_content"

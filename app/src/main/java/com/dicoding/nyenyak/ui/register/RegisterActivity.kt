@@ -9,9 +9,11 @@ import android.view.WindowManager
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
+import android.widget.DatePicker
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.viewModels
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
@@ -22,6 +24,7 @@ import com.dicoding.nyenyak.ui.ViewModelFactory
 import com.dicoding.nyenyak.ui.login.LoginActivity
 import com.dicoding.nyenyak.ui.welcome.WelcomeActivity
 import com.dicoding.nyenyak.utils.DatePickerFragment
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.gson.Gson
 import kotlinx.coroutines.launch
 import retrofit2.HttpException
@@ -37,7 +40,8 @@ class RegisterActivity : AppCompatActivity(), DatePickerFragment.DialogDateListe
     }
     private var dueDateMillis: Long = System.currentTimeMillis()
     private var selectedGender: String? = null
-
+    private lateinit var tanggalInput: String
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         _binding = ActivityRegisterBinding.inflate(layoutInflater)
@@ -86,20 +90,47 @@ class RegisterActivity : AppCompatActivity(), DatePickerFragment.DialogDateListe
         supportActionBar?.hide()
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     private fun setupAction() {
+        binding.layoutSignForm.selectDate.setOnClickListener {
+            val dialogView = layoutInflater.inflate(R.layout.date_picker_alt,null)
+            val dialog = BottomSheetDialog(this,R.style.BottomSheetDialogTheme)
+            dialog.setContentView(dialogView)
+            val window = dialog.window ?: return@setOnClickListener
+            val params = window.attributes // Dapatkan parameter jendela
+            params.dimAmount = 0.7f
+            window.attributes = params
+            val datePickerSpinner = dialog.findViewById<DatePicker>(R.id.date_alt)
+            datePickerSpinner?.setOnDateChangedListener { view, year, monthOfYear, dayOfMonth ->
+                val selectedDate = Calendar.getInstance()
+                selectedDate.set(Calendar.YEAR, year)
+                selectedDate.set(Calendar.MONTH, monthOfYear)
+                selectedDate.set(Calendar.DAY_OF_MONTH, dayOfMonth)
+
+                val formattedDate1 = SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).format(selectedDate.time)
+                val formattedDate2 = SimpleDateFormat("dd MMMM yyyy", Locale.getDefault()).format(selectedDate.time)
+                tanggalInput = formattedDate1
+                binding.layoutSignForm.addTvDueDate.text = formattedDate2
+            }
+            dialog.show()
+        }
         binding.btnRegister.setOnClickListener {
             showLoading(true)
             val name = binding.layoutSignForm.editTextName.text.toString()
             val email = binding.layoutSignForm.editTextEmail.text.toString()
             val password = binding.layoutSignForm.editTextPassword.text.toString()
             val gender = selectedGender ?: ""
-            val birthdate = binding.layoutSignForm.addTvDueDate.text.toString()
+            val birthdate = tanggalInput
 
             when {
-                name.isEmpty() -> binding.layoutSignForm.editTextName.error = getString(R.string.alert_nama)
-                email.isEmpty() -> binding.layoutSignForm.editTextEmail.error = getString(R.string.alert_email)
-                password.isEmpty() -> binding.layoutSignForm.editTextPassword.error = getString(R.string.alert_password)
-                gender.isEmpty() -> binding.layoutSignForm.acGender.error = getString(R.string.alert_gender)
+                name.isEmpty() -> binding.layoutSignForm.
+                editTextName.error = getString(R.string.alert_nama)
+                email.isEmpty() -> binding.layoutSignForm.
+                editTextEmail.error = getString(R.string.alert_email)
+                password.isEmpty() -> binding.layoutSignForm.
+                editTextPassword.error = getString(R.string.alert_password)
+                gender.isEmpty() -> binding.layoutSignForm.
+                acGender.error = getString(R.string.alert_gender)
                 birthdate == getString(R.string.due_date) -> false
             }
 
@@ -113,7 +144,8 @@ class RegisterActivity : AppCompatActivity(), DatePickerFragment.DialogDateListe
                         setMessage(getString(R.string.registrasi_berhasil))
                         setPositiveButton(getString(R.string.ya)) { _, _ ->
                             val intent = Intent(context, LoginActivity::class.java).apply {
-                                flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
+                                flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.
+                                FLAG_ACTIVITY_NEW_TASK
                             }
                             context.startActivity(intent)
                             finish()
@@ -150,7 +182,6 @@ class RegisterActivity : AppCompatActivity(), DatePickerFragment.DialogDateListe
         calendar.set(year, month, dayOfMonth)
         val dateFormat = SimpleDateFormat("dd-MM-yyyy", Locale.getDefault())
         findViewById<TextView>(R.id.add_tv_due_date).text = dateFormat.format(calendar.time)
-
         dueDateMillis = calendar.timeInMillis
     }
 }

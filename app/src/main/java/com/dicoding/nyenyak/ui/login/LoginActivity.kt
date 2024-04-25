@@ -85,8 +85,10 @@ class LoginActivity : AppCompatActivity() {
                 val password = binding.layoutSignForm.editTextPassword.text.toString()
 
                 when {
-                    email.isEmpty() -> binding.layoutSignForm.editTextEmail.error = getString(R.string.alert_email_login)
-                    password.isEmpty() -> binding.layoutSignForm.editTextPassword.error = getString(R.string.alert_password_login)
+                    email.isEmpty() -> binding.layoutSignForm.editTextEmail.error =
+                        getString(R.string.alert_email_login)
+                    password.isEmpty() -> binding.layoutSignForm.editTextPassword.error =
+                        getString(R.string.alert_password_login)
                 }
                 viewModel.login(email, password)
 
@@ -96,7 +98,6 @@ class LoginActivity : AppCompatActivity() {
                             save(
                                 DataModel(
                                     it.token.toString(),
-                                    it.message.toString(),
                                     it.expirateTime.toString(),
                                     true
                                 )

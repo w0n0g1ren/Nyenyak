@@ -20,8 +20,7 @@ class SessionPreference private constructor(private val dataStore: DataStore<Pre
 
         private val SESSION_KEY = booleanPreferencesKey("session")
         private val TOKEN_KEY = stringPreferencesKey("token")
-        private val NAME_KEY = stringPreferencesKey("name")
-        private val USER_ID = stringPreferencesKey("userId")
+        private val EXPIRED_KEY = stringPreferencesKey("expire")
 
         fun getInstance(dataStore: DataStore<Preferences>): SessionPreference {
             return INSTANCE ?: synchronized(this) {
@@ -36,8 +35,7 @@ class SessionPreference private constructor(private val dataStore: DataStore<Pre
         return dataStore.data.map { preferences ->
             DataModel(
                 preferences[TOKEN_KEY].toString(),
-                preferences[NAME_KEY].toString(),
-                preferences[USER_ID].toString(),
+                preferences[EXPIRED_KEY].toString(),
                 preferences[SESSION_KEY] ?: false
             )
         }
@@ -46,8 +44,7 @@ class SessionPreference private constructor(private val dataStore: DataStore<Pre
     suspend fun saveSessionSetting(user : DataModel) {
         dataStore.edit { preferences ->
             preferences[TOKEN_KEY] = user.token
-            preferences[NAME_KEY] = user.name
-            preferences[USER_ID] = user.userId
+            preferences[EXPIRED_KEY] = user.expireTime
             preferences[SESSION_KEY] = true
         }
     }
@@ -55,8 +52,7 @@ class SessionPreference private constructor(private val dataStore: DataStore<Pre
     suspend fun sessiondestroy(){
         dataStore.edit { preference ->
             preference[TOKEN_KEY] = ""
-            preference[NAME_KEY] = ""
-            preference[USER_ID] = ""
+            preference[EXPIRED_KEY] = ""
             preference[SESSION_KEY] = false
         }
     }

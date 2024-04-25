@@ -1,12 +1,16 @@
 package com.dicoding.nyenyak.ui.update
 
 import android.content.Intent
+import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import android.widget.DatePicker
 import android.widget.TextView
 import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
+import androidx.compose.animation.core.animate
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import com.dicoding.nyenyak.R
@@ -18,6 +22,7 @@ import com.dicoding.nyenyak.session.datastore
 import com.dicoding.nyenyak.ui.SecondViewModelFactory
 import com.dicoding.nyenyak.ui.main.MainActivity
 import com.dicoding.nyenyak.utils.DatePickerFragment
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.gson.Gson
 import kotlinx.coroutines.launch
 import retrofit2.HttpException
@@ -28,6 +33,8 @@ import java.util.Locale
 class UpdateUserActivity : AppCompatActivity(),DatePickerFragment.DialogDateListener {
     private var dueDateMillis: Long = System.currentTimeMillis()
     private lateinit var binding: ActivityUpdateUserBinding
+    private lateinit var tanggalInput: String
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityUpdateUserBinding.inflate(layoutInflater)
@@ -36,7 +43,8 @@ class UpdateUserActivity : AppCompatActivity(),DatePickerFragment.DialogDateList
         showLoading(false)
 
         binding.ivUpdateUser.setOnClickListener {
-            showDatePickerUser()
+            showDatePickerUserAlt()
+//            showDatePickerUser()
         }
         binding.hintUpdateUser.setOnClickListener{
             setOnClickListener(R.id.hint_update_user, R.string.petunjuk,
@@ -49,7 +57,7 @@ class UpdateUserActivity : AppCompatActivity(),DatePickerFragment.DialogDateList
             var gender : String
 
             nama = binding.namaUpdateUser.text.toString()
-            tanggal = binding.tanggalUpdateUser.text.toString()
+            tanggal = tanggalInput
 
             if (binding.radiobutton1.isChecked){
                 gender = "male"
@@ -85,6 +93,30 @@ class UpdateUserActivity : AppCompatActivity(),DatePickerFragment.DialogDateList
                 }
             }
         }
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    private fun showDatePickerUserAlt() {
+        val dialogView = layoutInflater.inflate(R.layout.date_picker_alt,null)
+        val dialog = BottomSheetDialog(this,R.style.BottomSheetDialogTheme)
+        dialog.setContentView(dialogView)
+        val window = dialog.window ?:return
+        val params = window.attributes // Dapatkan parameter jendela
+        params.dimAmount = 0.7f
+        window.attributes = params
+        val datePickerSpinner = dialog.findViewById<DatePicker>(R.id.date_alt)
+        datePickerSpinner?.setOnDateChangedListener { view, year, monthOfYear, dayOfMonth ->
+            val selectedDate = Calendar.getInstance()
+            selectedDate.set(Calendar.YEAR, year)
+            selectedDate.set(Calendar.MONTH, monthOfYear)
+            selectedDate.set(Calendar.DAY_OF_MONTH, dayOfMonth)
+
+            val formattedDate1 = SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).format(selectedDate.time)
+            val formattedDate2 = SimpleDateFormat("dd MMMM yyyy", Locale.getDefault()).format(selectedDate.time)
+            tanggalInput = formattedDate1
+            findViewById<TextView>(R.id.tanggal_update_user).text = formattedDate2
+        }
+        dialog.show()
     }
 
     private fun setOnClickListener(viewId: Int, titleId:Int, messageId: Int) {

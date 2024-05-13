@@ -90,16 +90,6 @@ class UserFragment : Fragment() {
                                     Log.e(TAG, "onFailure: ${response.message()}")
                                 }
                             }
-                            else{
-                                val errorcode : String = response.code().toString()
-//                                when(errorcode){
-//                                    "401" -> {intent = Intent(
-//                                        this@UserFragment.context as MainActivity,
-//                                        LoginActivity::class.java)
-//                                    }
-//                                }
-//                                context?.startActivity(intent)
-                            }
                         }
 
                         override fun onFailure(call: Call<GetDetailUserResponse>, t: Throwable) {

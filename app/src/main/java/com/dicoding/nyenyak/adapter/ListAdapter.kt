@@ -11,9 +11,11 @@ import com.dicoding.nyenyak.data.response.GetDiagnosisResponseItem
 import com.dicoding.nyenyak.databinding.CekItemBinding
 import com.dicoding.nyenyak.ui.detail.DetailActivity
 
-class adapter(private val context: Context): ListAdapter<GetDiagnosisResponseItem, adapter.ViewHolder>(DIFF_CALLBACK) {
+class adapter(private val context: Context): ListAdapter<GetDiagnosisResponseItem,
+        adapter.ViewHolder>(DIFF_CALLBACK) {
 
-    class ViewHolder(private val binding: CekItemBinding, private val context: Context) : RecyclerView.ViewHolder(binding.root) {
+    class ViewHolder(private val binding: CekItemBinding, private val context: Context) :
+        RecyclerView.ViewHolder(binding.root) {
     fun bind(item: GetDiagnosisResponseItem){
         binding.tvKondisiItem.text = item.sleepDisorder
         binding.tvTanggalItem.text = item.date
@@ -28,17 +30,20 @@ class adapter(private val context: Context): ListAdapter<GetDiagnosisResponseIte
 
     companion object {
         val DIFF_CALLBACK = object : DiffUtil.ItemCallback<GetDiagnosisResponseItem>() {
-            override fun areItemsTheSame(oldItem: GetDiagnosisResponseItem, newItem: GetDiagnosisResponseItem): Boolean {
+            override fun areItemsTheSame(oldItem: GetDiagnosisResponseItem,
+                                         newItem: GetDiagnosisResponseItem): Boolean {
                 return oldItem == newItem
             }
-            override fun areContentsTheSame(oldItem: GetDiagnosisResponseItem, newItem: GetDiagnosisResponseItem): Boolean {
+            override fun areContentsTheSame(oldItem: GetDiagnosisResponseItem, newItem:
+            GetDiagnosisResponseItem): Boolean {
                 return oldItem == newItem
             }
         }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val binding = CekItemBinding.inflate(LayoutInflater.from(parent.context),parent,false)
+        val binding = CekItemBinding.inflate(LayoutInflater.from(parent.context),
+            parent,false)
         val context = context
         return ViewHolder(binding,context)
     }

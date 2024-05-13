@@ -79,13 +79,16 @@ class UpdateUserActivity : AppCompatActivity(),DatePickerFragment.DialogDateList
                             val config = ApiConfig.getApiService(it.token)
                             val response = config.updateUser(nama,tanggal,gender)
                             showToast(response.message.toString())
-                            val intent = Intent(this@UpdateUserActivity,MainActivity::class.java)
-                            intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
+                            val intent = Intent(this@UpdateUserActivity,
+                                MainActivity::class.java)
+                            intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or
+                                    Intent.FLAG_ACTIVITY_NEW_TASK
                             showLoading(false)
                             startActivity(intent)
                         }catch (e : HttpException){
                             val errorBody = e.response()?.errorBody()?.string()
-                            val errorResponse = Gson().fromJson(errorBody, InputResponse::class.java)
+                            val errorResponse = Gson().fromJson(errorBody,
+                                InputResponse::class.java)
                             showToast(errorResponse.message.toString())
                             showLoading(false)
                         }

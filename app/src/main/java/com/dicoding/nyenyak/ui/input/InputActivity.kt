@@ -41,9 +41,11 @@ class InputActivity : AppCompatActivity() {
         binding.sliderratingtidur.addOnChangeListener { slider, value, fromUser ->
             sldsleep = value.toInt()
         }
-        binding.spinnerbpinput.setOnSpinnerItemSelectedListener<String> { oldIndex, oldItem, newIndex, newText ->
+        binding.spinnerbpinput.setOnSpinnerItemSelectedListener<String> { oldIndex, oldItem,
+                                                                          newIndex, newText ->
             bloodpressure = newText
         }
+
         binding.btnInput.setOnClickListener {
             var weight = binding.etBbInput.text.toString().toInt()
             var height = binding.etTinggiInput.text.toString().toInt()
@@ -53,7 +55,8 @@ class InputActivity : AppCompatActivity() {
             var dailySteps = binding.etLangkahInput.text.toString().toInt()
             var physicalActivityLevel = binding.etFisikInput.text.toString().toInt()
 
-            if (weight == null || height == null || sleepDuration == null || heartRate == null || dailySteps == null || physicalActivityLevel == null){
+            if (weight == null || height == null || sleepDuration == null ||
+                heartRate == null || dailySteps == null || physicalActivityLevel == null){
                 showToast(getString(R.string.peringatan))
             }else{
                 val pref = SessionPreference.getInstance(application.datastore)
@@ -67,22 +70,28 @@ class InputActivity : AppCompatActivity() {
                                 showLoading(true)
                                 val apiService = ApiConfig.getApiService(it.token)
                                 val inputResponse = apiService.inputDiagnosis(
-                                    weight,height,sleepDuration,sldsleep,physicalActivityLevel,bloodpressure,sldstress,heartRate,dailySteps
+                                    weight,height,sleepDuration,sldsleep,physicalActivityLevel,
+                                    bloodpressure,sldstress,heartRate,dailySteps
                                 )
-
                                 showToast(inputResponse.message.toString())
-                                val intent = Intent(this@InputActivity,ResultActivity::class.java)
-                                intent.putExtra("tanggal", inputResponse.newDiagnosis?.date.toString())
-                                intent.putExtra("diagnosis", inputResponse.newDiagnosis?.sleepDisorder.toString())
-                                intent.putExtra("solusi", inputResponse.newDiagnosis?.solution.toString())
-                                intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
+                                val intent = Intent(this@InputActivity,
+                                    ResultActivity::class.java)
+                                intent.putExtra("tanggal", inputResponse.newDiagnosis?.
+                                date.toString())
+                                intent.putExtra("diagnosis", inputResponse.newDiagnosis?.
+                                sleepDisorder.toString())
+                                intent.putExtra("solusi", inputResponse.newDiagnosis?.
+                                solution.toString())
+                                intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.
+                                FLAG_ACTIVITY_NEW_TASK
                                 showLoading(false)
                                 startActivity(intent)
 
                             }catch (e: HttpException){
                                 showLoading(true)
                                 val errorBody = e.response()?.errorBody()?.string()
-                                val errorResponse = Gson().fromJson(errorBody, InputResponse::class.java)
+                                val errorResponse = Gson().fromJson(errorBody,
+                                    InputResponse::class.java)
                                 showToast(errorResponse.message.toString())
                                 showLoading(false)
                             }

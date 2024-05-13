@@ -53,7 +53,8 @@ class UpdatePasswordActivity : AppCompatActivity() {
 
     private fun doAction(pwdBaru: String) {
         val pref = SessionPreference.getInstance(application.datastore)
-        val viewModel = ViewModelProvider(this@UpdatePasswordActivity, SecondViewModelFactory(pref)).get(
+        val viewModel = ViewModelProvider(this@UpdatePasswordActivity,
+            SecondViewModelFactory(pref)).get(
             UpdatePasswordViewModel::class.java
         )
 
@@ -64,7 +65,8 @@ class UpdatePasswordActivity : AppCompatActivity() {
                     val config = ApiConfig.getApiService(it.token)
                     val response = config.updatePassword(pwdBaru)
                     showToast(response.message.toString()) //nanti diganti
-                    val intent = Intent(this@UpdatePasswordActivity, MainActivity::class.java)
+                    val intent = Intent(this@UpdatePasswordActivity,
+                        MainActivity::class.java)
                     intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
                     showLoading(false)
                     startActivity(intent)

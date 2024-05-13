@@ -33,7 +33,7 @@ object SleepTimeCalculator {
                 durasiMin = 8
                 durasiMax = 10
             }
-            (umur >18) -> {
+            (umur > 18) -> {
                 durasiMin = 7
                 durasiMax = 8
             }
@@ -43,7 +43,7 @@ object SleepTimeCalculator {
 
     @RequiresApi(Build.VERSION_CODES.O)
     fun Calculate (aktifitas: String, jam: Int, umur: Int): Pair<Int, Int>{
-
+        Log.e("umur","$umur")
         var (min, max) = DurasiIdeal(umur)
         var waktuMin: Int = 0
         var waktuMax: Int = 0

@@ -49,7 +49,7 @@ class SessionPreference private constructor(private val dataStore: DataStore<Pre
         }
     }
 
-    suspend fun sessiondestroy(){
+    suspend fun sessionDestroy(){
         dataStore.edit { preference ->
             preference[TOKEN_KEY] = ""
             preference[EXPIRED_KEY] = ""

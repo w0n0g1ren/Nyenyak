@@ -16,7 +16,8 @@ class UserFragmentViewModel(private val pref: SessionPreference): ViewModel() {
 
     fun destroySession(){
         viewModelScope.launch {
-            pref?.sessiondestroy()
+            pref?.sessionDestroy()
         }
     }
 }
+

@@ -47,7 +47,8 @@ class ForgotPasswordActivity : AppCompatActivity() {
 
             when{
                 email.isEmpty() -> binding.editTextEmail.error = getString(R.string.alert_email)
-                Patterns.EMAIL_ADDRESS.matcher(email).matches().not() -> binding.editTextEmail.error = getString(R.string.alert_email_pattern)
+                Patterns.EMAIL_ADDRESS.matcher(email).
+                matches().not() -> binding.editTextEmail.error = getString(R.string.alert_email_pattern)
             }
 
             lifecycleScope.launch {
@@ -55,7 +56,8 @@ class ForgotPasswordActivity : AppCompatActivity() {
                     val response = viewModel.forgot(email)
                     showLoading(false)
                     showToast(response.message)
-                    val intent = Intent(this@ForgotPasswordActivity,WelcomeActivity::class.java)
+                    val intent = Intent(this@ForgotPasswordActivity,
+                        WelcomeActivity::class.java)
                     intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
                     startActivity(intent)
                 } catch (e: HttpException){

@@ -3,6 +3,7 @@ package com.dicoding.nyenyak.ui.detail
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
@@ -53,13 +54,19 @@ class DetailActivity : AppCompatActivity() {
                                     binding.tvBmiDetail.text = responseBody.bMIcategory
                                     binding.tvUmurDetail.text = responseBody.age.toString().trim()
                                     binding.tvTekdarahDetail.text = responseBody.bloodPressure
-                                    binding.tvLangkahDetail.text = responseBody.dailySteps.toString()
-                                    binding.tvJantungDetail.text = responseBody.heartRate.toString()
-                                    binding.tvPhysicsDetail.text = responseBody.physicalActivityLevel.toString()
-                                    binding.tvDurasiDetail.text = responseBody.sleepDuration.toString()
-                                    binding.tvStressDetail.text = responseBody.stressLevel.toString()
+                                    binding.tvLangkahDetail.text = responseBody.
+                                    dailySteps.toString()
+                                    binding.tvJantungDetail.text = responseBody.
+                                    heartRate.toString()
+                                    binding.tvPhysicsDetail.text = responseBody.
+                                    physicalActivityLevel.toString()
+                                    binding.tvDurasiDetail.text = responseBody.
+                                    sleepDuration.toString()
+                                    binding.tvStressDetail.text = responseBody.
+                                    stressLevel.toString()
                                     binding.tvPenyakitDetail.text = responseBody.sleepDisorder
-                                    binding.tvSolusiDetail.text = responseBody.solution.toString()
+                                    binding.tvSolusiDetail.text = responseBody.
+                                    solution.toString()
                                     binding.tvTanggalDetail.text = responseBody.date
                                     showLoading(false)
                                 }
@@ -67,7 +74,8 @@ class DetailActivity : AppCompatActivity() {
                             else{
                                 val errorcode : String = response.code().toString()
                                 when(errorcode){
-                                    "401" -> intent2 = Intent(this@DetailActivity,LoginActivity::class.java)
+                                    "401" -> intent2 = Intent(this@DetailActivity,
+                                        LoginActivity::class.java)
                                 }
                                 showLoading(false)
                                 startActivity(intent2)
@@ -75,7 +83,7 @@ class DetailActivity : AppCompatActivity() {
                         }
 
                         override fun onFailure(call: Call<GetDiagnosisResponseItem>, t: Throwable) {
-                            TODO("Not yet implemented")
+                            Log.e(TAG,"gagal")
                         }
                     })
             }
@@ -86,17 +94,22 @@ class DetailActivity : AppCompatActivity() {
                 if(it.token != null){
                     lifecycleScope.launch {
                         try {
-                            val apiService = ApiConfig.getApiService(it.token).deletediagnosis(id.toString())
+                            val apiService = ApiConfig.getApiService(it.token).
+                            deletediagnosis(id.toString())
                             val message = apiService.message
-                            Toast.makeText(this@DetailActivity,message.toString(),Toast.LENGTH_LONG).show()
-                            val intent = Intent(this@DetailActivity,MainActivity::class.java)
-                            intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
+                            Toast.makeText(this@DetailActivity,message.toString(),
+                                Toast.LENGTH_LONG).show()
+                            val intent = Intent(this@DetailActivity,
+                                MainActivity::class.java)
+                            intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or
+                                    Intent.FLAG_ACTIVITY_NEW_TASK
                             showLoading(false)
                             startActivity(intent)
                         }catch (e:HttpException){
                             val message = e.message().toString()
                             showLoading(false)
-                            startActivity(Intent(this@DetailActivity,LoginActivity::class.java))
+                            startActivity(Intent(this@DetailActivity,
+                                LoginActivity::class.java))
                         }
                     }
                 }
@@ -106,5 +119,9 @@ class DetailActivity : AppCompatActivity() {
     private fun showLoading(isLoading: Boolean) {
         binding.progressDetail.visibility = if (isLoading) View.VISIBLE else View.GONE
         binding.progressDetail.isEnabled = !isLoading
+    }
+
+    companion object{
+        private const val TAG = "DetailActivity"
     }
 }

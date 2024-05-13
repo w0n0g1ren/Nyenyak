@@ -11,3 +11,4 @@ class DetailViewModel(private val pref : SessionPreference): ViewModel() {
         return pref.getToken().asLiveData()
     }
 }
+

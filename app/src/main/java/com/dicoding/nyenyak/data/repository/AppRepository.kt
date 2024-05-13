@@ -77,7 +77,7 @@ class AppRepository private constructor(
     }
 
     suspend fun logout() {
-        sessionPreference.sessiondestroy()
+        sessionPreference.sessionDestroy()
     }
 
     companion object {

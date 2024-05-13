@@ -16,9 +16,9 @@ class ResultActivity : AppCompatActivity() {
         setContentView(binding.root)
         supportActionBar?.hide()
 
-        binding.tvTanggalResult.text = intent.getStringExtra("tanggal").toString()
-        binding.tvDiagnosisResult.text = intent.getStringExtra("diagnosis").toString()
-        binding.tvSolusiResult.text = intent.getStringExtra("solusi").toString()
+        binding.tvTanggalResult.text = intent.getStringExtra("tanggal")
+        binding.tvDiagnosisResult.text = intent.getStringExtra("diagnosis")
+        binding.tvSolusiResult.text = intent.getStringExtra("solusi")
 
         binding.btnLanjutResult.setOnClickListener {
             val intent = Intent(this,MainActivity::class.java)

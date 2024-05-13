@@ -54,12 +54,12 @@ class CalculatorFragment : Fragment() {
     ): View? {
         _binding = FragmentCalculatorBinding.inflate(inflater, container, false)
         val root: View = binding.root
-        umur = getUmur()
-        setupAction(umur)
+        getUmur()
+        setupAction()
         return root
     }
 
-    private fun getUmur(): Int {
+    private fun getUmur() {
         var dapatUmur: String = ""
         val pref = SessionPreference.getInstance(requireContext().datastore)
         val viewModel =
@@ -80,7 +80,8 @@ class CalculatorFragment : Fragment() {
                             if (response.isSuccessful){
                                 val responseBody = response.body()
                                 if (responseBody != null){
-                                    dapatUmur = responseBody.user?.age?.toInt().toString().trim()
+                                    umur = responseBody.user!!.age!!.toInt()
+                                    Log.e(TAG,"$umur")
                                 }else{
                                     Log.e(TAG, "onFailure: ${response.message()}")
                                 }
@@ -102,11 +103,10 @@ class CalculatorFragment : Fragment() {
                 }
             }
         }
-        return umur.toInt()
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
-    private fun setupAction(umur: Int) {
+    private fun setupAction() {
         binding.materialButtonToggleGroup.addOnButtonCheckedListener{toggleButton, checkedId, isChecked->
             if(isChecked){
                 when (checkedId){
@@ -149,8 +149,10 @@ class CalculatorFragment : Fragment() {
         binding.btnKalkulasi.setOnClickListener {
             var cekJam = binding.tvJamKal.text
             when{
-                aktifitas.isEmpty() -> Toast.makeText(context as MainActivity,"tolong pilih aktifitas yang diinginkan",Toast.LENGTH_SHORT).show()
-                cekJam == getString(R.string._00_00) -> Toast.makeText(context as MainActivity,"tolong pilih waktu yang diinginkan",Toast.LENGTH_SHORT).show()
+                aktifitas.isEmpty() -> Toast.makeText(context as MainActivity,
+                    "tolong pilih aktifitas yang diinginkan",Toast.LENGTH_SHORT).show()
+                cekJam == getString(R.string._00_00) -> Toast.makeText(context as MainActivity,
+                    "tolong pilih waktu yang diinginkan",Toast.LENGTH_SHORT).show()
             }
 
             val dialog = Dialog(context as MainActivity)

@@ -81,10 +81,16 @@ class UserFragment : Fragment() {
                             if (response.isSuccessful){
                                 val responseBody = response.body()
                                 if (responseBody != null){
+                                    var genderTampil: String
+                                    if (responseBody.user?.gender == "male"){
+                                        genderTampil = "Laki Laki"
+                                    } else{
+                                        genderTampil = "Perempuan"
+                                    }
                                     binding.namaInfoUser.text = responseBody.user?.name
                                     binding.umurInfoUser.text = responseBody.user?.age.toString()
                                     binding.emailInfoUser.text = responseBody.user?.email
-                                    binding.genderInfoUser.text = responseBody.user?.gender
+                                    binding.genderInfoUser.text = genderTampil
                                     binding.lahirInfoUser.text = responseBody.user?.birthDate
                                 }else{
                                     Log.e(TAG, "onFailure: ${response.message()}")

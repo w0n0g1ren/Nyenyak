@@ -40,7 +40,7 @@ class RegisterActivity : AppCompatActivity(), DatePickerFragment.DialogDateListe
     }
     private var dueDateMillis: Long = System.currentTimeMillis()
     private var selectedGender: String? = null
-    private lateinit var tanggalInput: String
+    private var tanggalInput: String = ""
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

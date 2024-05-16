@@ -2,6 +2,7 @@ package com.dicoding.nyenyak.ui.input
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
@@ -18,8 +19,15 @@ import com.dicoding.nyenyak.ui.SecondViewModelFactory
 import com.dicoding.nyenyak.ui.login.LoginActivity
 import com.dicoding.nyenyak.ui.result.ResultActivity
 import com.google.gson.Gson
+import kotlinx.coroutines.CoroutineExceptionHandler
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.TimeoutCancellationException
 import kotlinx.coroutines.launch
 import retrofit2.HttpException
+import java.util.concurrent.TimeUnit
+import java.util.concurrent.TimeoutException
 
 class InputActivity : AppCompatActivity() {
     private lateinit var binding: ActivityInputBinding
@@ -47,15 +55,15 @@ class InputActivity : AppCompatActivity() {
         }
 
         binding.btnInput.setOnClickListener {
-            var weight = binding.etBbInput.text.toString().toInt()
-            var height = binding.etTinggiInput.text.toString().toInt()
-            var sleepDuration = binding.etTidurInput.text.toString().toFloat()
+            var weight = binding.etBbInput.text.toString().toIntOrNull()
+            var height = binding.etTinggiInput.text.toString().toIntOrNull()
+            var sleepDuration = binding.etTidurInput.text.toString().toFloatOrNull()
 
-            var heartRate = binding.etJantungInput.text.toString().toInt()
-            var dailySteps = binding.etLangkahInput.text.toString().toInt()
-            var physicalActivityLevel = binding.etFisikInput.text.toString().toInt()
+            var heartRate = binding.etJantungInput.text.toString().toIntOrNull()
+            var dailySteps = binding.etLangkahInput.text.toString().toIntOrNull()
+            var physicalActivityLevel = binding.etFisikInput.text.toString().toIntOrNull()
 
-            if (weight == null || height == null || sleepDuration == null ||
+            if (weight==null || height == null || sleepDuration == null ||
                 heartRate == null || dailySteps == null || physicalActivityLevel == null){
                 showToast(getString(R.string.peringatan))
             }else{
@@ -93,6 +101,10 @@ class InputActivity : AppCompatActivity() {
                                 val errorResponse = Gson().fromJson(errorBody,
                                     InputResponse::class.java)
                                 showToast(errorResponse.message.toString())
+                                showLoading(false)
+                            }catch (e: TimeoutException){
+                                showLoading(true)
+                                showToast("Server tidak menanggapi mohon coba lagi")
                                 showLoading(false)
                             }
                         }

@@ -33,7 +33,7 @@ import java.util.Locale
 class UpdateUserActivity : AppCompatActivity(),DatePickerFragment.DialogDateListener {
     private var dueDateMillis: Long = System.currentTimeMillis()
     private lateinit var binding: ActivityUpdateUserBinding
-    private lateinit var tanggalInput: String
+    private  var tanggalInput: String = "12-12-1212"
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

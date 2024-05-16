@@ -49,24 +49,26 @@ class ForgotPasswordActivity : AppCompatActivity() {
                 email.isEmpty() -> binding.editTextEmail.error = getString(R.string.alert_email)
                 Patterns.EMAIL_ADDRESS.matcher(email).
                 matches().not() -> binding.editTextEmail.error = getString(R.string.alert_email_pattern)
-            }
-
-            lifecycleScope.launch {
-                try {
-                    val response = viewModel.forgot(email)
-                    showLoading(false)
-                    showToast(response.message)
-                    val intent = Intent(this@ForgotPasswordActivity,
-                        WelcomeActivity::class.java)
-                    intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
-                    startActivity(intent)
-                } catch (e: HttpException){
-                    showLoading(false)
-                    val errorBody = e.response()?.errorBody()?.string()
-                    val errorResponse = Gson().fromJson(errorBody, RegisterResponse::class.java)
-                    showToast(errorResponse.message)
+                else ->
+                    lifecycleScope.launch {
+                    try {
+                        val response = viewModel.forgot(email)
+                        showLoading(false)
+                        showToast(response.message)
+                        val intent = Intent(this@ForgotPasswordActivity,
+                            WelcomeActivity::class.java)
+                        intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
+                        startActivity(intent)
+                    } catch (e: HttpException){
+                        showLoading(false)
+                        val errorBody = e.response()?.errorBody()?.string()
+                        val errorResponse = Gson().fromJson(errorBody, RegisterResponse::class.java)
+                        showToast(errorResponse.message)
+                    }
                 }
             }
+
+
         }
     }
 

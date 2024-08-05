@@ -53,14 +53,18 @@ class RegisterActivity : AppCompatActivity(), DatePickerFragment.DialogDateListe
     }
 
     private fun setupDropdownGender() {
-        val itemsGender = listOf("Male", "Female")
+        val itemsGender = listOf("Laki - Laki", "Perempuan")
         val autoComplete: AutoCompleteTextView = findViewById(R.id.ac_gender)
         val adapterGender = ArrayAdapter(this, R.layout.list_item, itemsGender)
 
         autoComplete.setAdapter(adapterGender)
         autoComplete.onItemClickListener = AdapterView.OnItemClickListener{
             adapterView, view, i, l ->
-            selectedGender = adapterView.getItemAtPosition(i).toString()
+            if (adapterView.getItemAtPosition(i).toString() == "Laki - Laki") {
+                selectedGender = "male"
+            }else{
+                selectedGender = "female"
+            }
         }
     }
 

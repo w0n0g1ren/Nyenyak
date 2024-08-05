@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -7,461 +7,500 @@
     android:background="@color/dark_purple"
     tools:context=".ui.input.InputActivity">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <TextView
-            android:id="@+id/textView4"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="40dp"
-            android:fontFamily="@font/poppins_medium"
-            android:text="@string/input_ndata"
-            android:textColor="@color/white"
-            android:textSize="30sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <LinearLayout
-            android:layout_marginRight="20dp"
-            android:layout_marginLeft="20dp"
+        android:layout_height="match_parent">
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginTop="20dp"
-            android:orientation="vertical"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView4">
+            android:layout_height="wrap_content">
 
-            <LinearLayout
-                android:id="@+id/ll_tinggi_title"
+            <TextView
+                android:id="@+id/textView4"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:text="@string/tinggi"
-                    android:gravity="center"
-                    android:fontFamily="@font/poppins_medium"
-                    android:textSize="16sp"
-                    android:textColor="@color/white"
-                    android:layout_width="wrap_content"
-                    android:layout_height="40dp"/>
-
-                <ImageView
-                    android:id="@+id/iv_tinggi_dialog"
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:src="@drawable/ic_info_dialog"
-                    android:layout_gravity="center"
-                    android:layout_marginStart="10dp"/>
-            </LinearLayout>
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="40dp"
+                android:fontFamily="@font/poppins_medium"
+                android:text="@string/input_ndata"
+                android:textColor="@color/white"
+                android:textSize="30sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <LinearLayout
-                android:orientation="horizontal"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
-
-                <EditText
-                    android:id="@+id/et_tinggi_input"
-                    android:inputType="number"
-                    android:paddingStart="15dp"
-                    android:background="@drawable/isian"
-                    android:layout_width="120dp"
-                    android:layout_marginBottom="20dp"
-                    android:layout_height="55dp"
-                    tools:ignore="RtlSymmetry" />
-
-                <TextView
-                    android:layout_marginStart="20dp"
-                    android:text="@string/cm"
-                    android:fontFamily="@font/poppins_medium"
-                    android:textSize="16sp"
-                    android:textColor="@color/white"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/ll_berat_title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:text="@string/berat_badan"
-                    android:gravity="center"
-                    android:fontFamily="@font/poppins_medium"
-                    android:textSize="16sp"
-                    android:textColor="@color/white"
-                    android:layout_width="wrap_content"
-                    android:layout_height="40dp"/>
-
-                <ImageView
-                    android:id="@+id/iv_berat_dialog"
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:src="@drawable/ic_info_dialog"
-                    android:layout_gravity="center"
-                    android:layout_marginStart="10dp"/>
-            </LinearLayout>
-
-            <LinearLayout
-                android:orientation="horizontal"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
-
-                <EditText
-                    android:id="@+id/et_bb_input"
-                    android:inputType="number"
-                    android:paddingStart="15dp"
-                    android:background="@drawable/isian"
-                    android:layout_width="120dp"
-                    android:layout_marginBottom="20dp"
-                    android:layout_height="55dp"
-                    tools:ignore="RtlSymmetry" />
-
-                <TextView
-                    android:layout_marginStart="20dp"
-                    android:text="@string/kg"
-                    android:fontFamily="@font/poppins_medium"
-                    android:textSize="16sp"
-                    android:textColor="@color/white"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/ll_durasi_title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:text="@string/durasi_tidur"
-                    android:gravity="center"
-                    android:fontFamily="@font/poppins_medium"
-                    android:textSize="16sp"
-                    android:textColor="@color/white"
-                    android:layout_width="wrap_content"
-                    android:layout_height="40dp"/>
-
-                <ImageView
-                    android:id="@+id/iv_durasi_dialog"
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:src="@drawable/ic_info_dialog"
-                    android:layout_gravity="center"
-                    android:layout_marginStart="10dp"/>
-            </LinearLayout>
-
-            <LinearLayout
-                android:orientation="horizontal"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
-
-                <EditText
-                    android:id="@+id/et_tidur_input"
-                    android:inputType="number"
-                    android:paddingStart="15dp"
-                    android:background="@drawable/isian"
-                    android:layout_width="120dp"
-                    android:layout_marginBottom="20dp"
-                    android:layout_height="55dp"
-                    tools:ignore="RtlSymmetry" />
-
-                <TextView
-                    android:layout_marginStart="20dp"
-                    android:text="@string/jam_hari"
-                    android:fontFamily="@font/poppins_medium"
-                    android:textSize="16sp"
-                    android:textColor="@color/white"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/ll_rating_tidur_title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:text="@string/rating_tidur"
-                    android:gravity="center"
-                    android:fontFamily="@font/poppins_medium"
-                    android:textSize="16sp"
-                    android:textColor="@color/white"
-                    android:layout_width="wrap_content"
-                    android:layout_height="40dp"/>
-
-                <ImageView
-                    android:id="@+id/iv_rating_tidur_dialog"
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:src="@drawable/ic_info_dialog"
-                    android:layout_gravity="center"
-                    android:layout_marginStart="10dp"/>
-            </LinearLayout>
-
-            <com.google.android.material.slider.Slider
-                android:id="@+id/sliderratingtidur"
+                android:layout_marginRight="20dp"
+                android:layout_marginLeft="20dp"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:value="1.0"
-                android:stepSize="1.0"
-                android:valueFrom="0.0"
-                android:valueTo="10.0"
-                android:layout_marginBottom="20dp"/>
+                android:layout_height="match_parent"
+                android:layout_marginTop="20dp"
+                android:orientation="vertical"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView4">
 
-            <LinearLayout
-                android:id="@+id/ll_rating_stres_title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:text="@string/rating_stres"
-                    android:gravity="center"
-                    android:fontFamily="@font/poppins_medium"
-                    android:textSize="16sp"
-                    android:textColor="@color/white"
+                <LinearLayout
+                    android:id="@+id/ll_tinggi_title"
                     android:layout_width="wrap_content"
-                    android:layout_height="40dp"/>
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
 
-                <ImageView
-                    android:id="@+id/iv_rating_stres_dialog"
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:src="@drawable/ic_info_dialog"
-                    android:layout_gravity="center"
-                    android:layout_marginStart="10dp"/>
-            </LinearLayout>
+                    <TextView
+                        android:text="@string/tinggi"
+                        android:gravity="center"
+                        android:fontFamily="@font/poppins_medium"
+                        android:textSize="16sp"
+                        android:textColor="@color/white"
+                        android:layout_width="wrap_content"
+                        android:layout_height="40dp"/>
 
-            <com.google.android.material.slider.Slider
-                android:id="@+id/sliderratingstres"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:value="1.0"
-                android:stepSize="1.0"
-                android:valueFrom="0.0"
-                android:valueTo="10.0"
-                android:layout_marginBottom="20dp"/>
+                    <ImageView
+                        android:id="@+id/iv_tinggi_dialog"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:src="@drawable/ic_info_dialog"
+                        android:layout_gravity="center"
+                        android:layout_marginStart="10dp"/>
+                </LinearLayout>
 
-            <LinearLayout
-                android:id="@+id/ll_rating_aktivitas_title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:text="@string/rating_aktivitas_fisik"
-                    android:gravity="center"
-                    android:fontFamily="@font/poppins_medium"
-                    android:textSize="16sp"
-                    android:textColor="@color/white"
+                <LinearLayout
+                    android:orientation="horizontal"
                     android:layout_width="wrap_content"
-                    android:layout_height="40dp"/>
+                    android:layout_height="wrap_content">
 
-                <ImageView
-                    android:id="@+id/iv_rating_aktivitas_dialog"
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:src="@drawable/ic_info_dialog"
-                    android:layout_gravity="center"
-                    android:layout_marginStart="10dp"/>
-            </LinearLayout>
+                    <EditText
+                        android:id="@+id/et_tinggi_input"
+                        android:inputType="number"
+                        android:paddingStart="15dp"
+                        android:background="@drawable/isian"
+                        android:layout_width="120dp"
+                        android:layout_marginBottom="20dp"
+                        android:layout_height="55dp"
+                        tools:ignore="RtlSymmetry" />
 
-            <LinearLayout
-                android:orientation="horizontal"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
+                    <TextView
+                        android:layout_marginStart="20dp"
+                        android:text="@string/cm"
+                        android:fontFamily="@font/poppins_medium"
+                        android:textSize="16sp"
+                        android:textColor="@color/white"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+                </LinearLayout>
 
-                <EditText
-                    android:id="@+id/et_fisik_input"
-                    android:inputType="number"
-                    android:paddingStart="15dp"
-                    android:background="@drawable/isian"
-                    android:layout_width="120dp"
+                <LinearLayout
+                    android:id="@+id/ll_berat_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:text="@string/berat_badan"
+                        android:gravity="center"
+                        android:fontFamily="@font/poppins_medium"
+                        android:textSize="16sp"
+                        android:textColor="@color/white"
+                        android:layout_width="wrap_content"
+                        android:layout_height="40dp"/>
+
+                    <ImageView
+                        android:id="@+id/iv_berat_dialog"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:src="@drawable/ic_info_dialog"
+                        android:layout_gravity="center"
+                        android:layout_marginStart="10dp"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <EditText
+                        android:id="@+id/et_bb_input"
+                        android:inputType="number"
+                        android:paddingStart="15dp"
+                        android:background="@drawable/isian"
+                        android:layout_width="120dp"
+                        android:layout_marginBottom="20dp"
+                        android:layout_height="55dp"
+                        tools:ignore="RtlSymmetry" />
+
+                    <TextView
+                        android:layout_marginStart="20dp"
+                        android:text="@string/kg"
+                        android:fontFamily="@font/poppins_medium"
+                        android:textSize="16sp"
+                        android:textColor="@color/white"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/ll_durasi_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:text="@string/durasi_tidur"
+                        android:gravity="center"
+                        android:fontFamily="@font/poppins_medium"
+                        android:textSize="16sp"
+                        android:textColor="@color/white"
+                        android:layout_width="wrap_content"
+                        android:layout_height="40dp"/>
+
+                    <ImageView
+                        android:id="@+id/iv_durasi_dialog"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:src="@drawable/ic_info_dialog"
+                        android:layout_gravity="center"
+                        android:layout_marginStart="10dp"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <EditText
+                        android:id="@+id/et_tidur_input"
+                        android:inputType="number"
+                        android:paddingStart="15dp"
+                        android:background="@drawable/isian"
+                        android:layout_width="120dp"
+                        android:layout_marginBottom="20dp"
+                        android:layout_height="55dp"
+                        tools:ignore="RtlSymmetry" />
+
+                    <TextView
+                        android:layout_marginStart="20dp"
+                        android:text="@string/jam_hari"
+                        android:fontFamily="@font/poppins_medium"
+                        android:textSize="16sp"
+                        android:textColor="@color/white"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/ll_rating_tidur_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:text="@string/rating_tidur"
+                        android:gravity="center"
+                        android:fontFamily="@font/poppins_medium"
+                        android:textSize="16sp"
+                        android:textColor="@color/white"
+                        android:layout_width="wrap_content"
+                        android:layout_height="40dp"/>
+
+                    <ImageView
+                        android:id="@+id/iv_rating_tidur_dialog"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:src="@drawable/ic_info_dialog"
+                        android:layout_gravity="center"
+                        android:layout_marginStart="10dp"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:gravity="center"
+                    android:orientation="horizontal"
                     android:layout_marginBottom="20dp"
-                    android:layout_height="55dp"
-                    tools:ignore="RtlSymmetry" />
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
 
-                <TextView
-                    android:layout_marginStart="20dp"
-                    android:text="@string/jam_hari"
-                    android:fontFamily="@font/poppins_medium"
-                    android:textSize="16sp"
-                    android:textColor="@color/white"
+                    <TextView
+                        android:text="1"
+                        style="@style/tvdetailresult4"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+                    <com.google.android.material.slider.Slider
+                        android:id="@+id/sliderratingtidur"
+                        android:layout_width="320dp"
+                        android:layout_height="wrap_content"
+                        android:value="1.0"
+                        android:stepSize="1.0"
+                        android:valueFrom="1.0"
+                        android:valueTo="10.0" />
+                    <TextView
+                        android:text="10"
+                        style="@style/tvdetailresult4"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:id="@+id/ll_rating_stres_title"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
-            </LinearLayout>
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
 
-            <LinearLayout
-                android:id="@+id/ll_tekanan_darah_title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                    <TextView
+                        android:text="@string/rating_stres"
+                        android:gravity="center"
+                        android:fontFamily="@font/poppins_medium"
+                        android:textSize="16sp"
+                        android:textColor="@color/white"
+                        android:layout_width="wrap_content"
+                        android:layout_height="40dp"/>
 
-                <TextView
-                    android:text="@string/tekanan_darah"
+                    <ImageView
+                        android:id="@+id/iv_rating_stres_dialog"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:src="@drawable/ic_info_dialog"
+                        android:layout_gravity="center"
+                        android:layout_marginStart="10dp"/>
+                </LinearLayout>
+
+                <LinearLayout
                     android:gravity="center"
-                    android:fontFamily="@font/poppins_medium"
-                    android:textSize="16sp"
-                    android:textColor="@color/white"
-                    android:layout_width="wrap_content"
-                    android:layout_height="40dp"/>
-
-                <ImageView
-                    android:id="@+id/iv_tekanan_darah_dialog"
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:src="@drawable/ic_info_dialog"
-                    android:layout_gravity="center"
-                    android:layout_marginStart="10dp"/>
-            </LinearLayout>
-
-            <com.skydoves.powerspinner.PowerSpinnerView
-                android:background="@color/white"
-                android:hint="Tekanan Darah"
-                android:padding="10dp"
-                android:textColorHint="@color/dark_purple"
-                android:textColor="@color/dark_purple"
-                android:id="@+id/spinnerbpinput"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:spinner_item_array="@array/bloodpressure"
-                app:spinner_arrow_gravity="end"
-                app:spinner_arrow_padding="8dp"
-                app:spinner_divider_color="@color/white"
-                app:spinner_divider_show="true"
-                app:spinner_divider_size="0.4dp"
-                app:spinner_item_height="46dp"
-                app:spinner_popup_animation="dropdown"
-                app:spinner_popup_background="@color/white"
-                app:spinner_popup_elevation="14dp"/>
-
-            <LinearLayout
-                android:id="@+id/ll_detak_jantung_title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:text="@string/detak_jantung"
-                    android:gravity="center"
-                    android:fontFamily="@font/poppins_medium"
-                    android:textSize="16sp"
-                    android:textColor="@color/white"
-                    android:layout_width="wrap_content"
-                    android:layout_height="40dp"/>
-
-                <ImageView
-                    android:id="@+id/iv_detak_jantung_dialog"
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:src="@drawable/ic_info_dialog"
-                    android:layout_gravity="center"
-                    android:layout_marginStart="10dp"/>
-            </LinearLayout>
-
-            <LinearLayout
-                android:orientation="horizontal"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
-
-                <EditText
-                    android:id="@+id/et_jantung_input"
-                    android:inputType="number"
-                    android:paddingStart="15dp"
-                    android:background="@drawable/isian"
-                    android:layout_width="120dp"
+                    android:orientation="horizontal"
                     android:layout_marginBottom="20dp"
-                    android:layout_height="55dp"
-                    tools:ignore="RtlSymmetry" />
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:text="1"
+                        style="@style/tvdetailresult4"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+                    <com.google.android.material.slider.Slider
+                        android:id="@+id/sliderratingstres"
+                        android:layout_width="320dp"
+                        android:layout_height="wrap_content"
+                        android:value="1.0"
+                        android:stepSize="1.0"
+                        android:valueFrom="1.0"
+                        android:valueTo="10.0" />
+                    <TextView
+                        android:text="10"
+                        style="@style/tvdetailresult4"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                </LinearLayout>
 
-                <TextView
-                    android:layout_marginStart="20dp"
-                    android:text="@string/bpm"
-                    android:fontFamily="@font/poppins_medium"
-                    android:textSize="16sp"
-                    android:textColor="@color/white"
+                <LinearLayout
+                    android:id="@+id/ll_rating_aktivitas_title"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:text="@string/rating_aktivitas_fisik"
+                        android:gravity="center"
+                        android:fontFamily="@font/poppins_medium"
+                        android:textSize="16sp"
+                        android:textColor="@color/white"
+                        android:layout_width="wrap_content"
+                        android:layout_height="40dp"/>
+
+                    <ImageView
+                        android:id="@+id/iv_rating_aktivitas_dialog"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:src="@drawable/ic_info_dialog"
+                        android:layout_gravity="center"
+                        android:layout_marginStart="10dp"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <EditText
+                        android:id="@+id/et_fisik_input"
+                        android:inputType="number"
+                        android:paddingStart="15dp"
+                        android:background="@drawable/isian"
+                        android:layout_width="120dp"
+                        android:layout_marginBottom="20dp"
+                        android:layout_height="55dp"
+                        tools:ignore="RtlSymmetry" />
+
+                    <TextView
+                        android:layout_marginStart="20dp"
+                        android:text="@string/jam_hari"
+                        android:fontFamily="@font/poppins_medium"
+                        android:textSize="16sp"
+                        android:textColor="@color/white"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/ll_tekanan_darah_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:text="@string/tekanan_darah"
+                        android:gravity="center"
+                        android:fontFamily="@font/poppins_medium"
+                        android:textSize="16sp"
+                        android:textColor="@color/white"
+                        android:layout_width="wrap_content"
+                        android:layout_height="40dp"/>
+
+                    <ImageView
+                        android:id="@+id/iv_tekanan_darah_dialog"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:src="@drawable/ic_info_dialog"
+                        android:layout_gravity="center"
+                        android:layout_marginStart="10dp"/>
+                </LinearLayout>
+
+                <com.skydoves.powerspinner.PowerSpinnerView
+                    android:background="@color/white"
+                    android:hint="Tekanan Darah"
+                    android:padding="10dp"
+                    android:textColorHint="@color/dark_purple"
+                    android:textColor="@color/dark_purple"
+                    android:id="@+id/spinnerbpinput"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:spinner_item_array="@array/bloodpressure"
+                    app:spinner_arrow_gravity="end"
+                    app:spinner_arrow_padding="8dp"
+                    app:spinner_divider_color="@color/white"
+                    app:spinner_divider_show="true"
+                    app:spinner_divider_size="0.4dp"
+                    app:spinner_item_height="46dp"
+                    app:spinner_popup_animation="dropdown"
+                    app:spinner_popup_background="@color/white"
+                    app:spinner_popup_elevation="14dp"
+                    android:layout_marginBottom="20dp"/>
+
+                <LinearLayout
+                    android:id="@+id/ll_detak_jantung_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:text="@string/detak_jantung"
+                        android:gravity="center"
+                        android:fontFamily="@font/poppins_medium"
+                        android:textSize="16sp"
+                        android:textColor="@color/white"
+                        android:layout_width="wrap_content"
+                        android:layout_height="40dp"/>
+
+                    <ImageView
+                        android:id="@+id/iv_detak_jantung_dialog"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:src="@drawable/ic_info_dialog"
+                        android:layout_gravity="center"
+                        android:layout_marginStart="10dp"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <EditText
+                        android:id="@+id/et_jantung_input"
+                        android:inputType="number"
+                        android:paddingStart="15dp"
+                        android:background="@drawable/isian"
+                        android:layout_width="120dp"
+                        android:layout_marginBottom="20dp"
+                        android:layout_height="55dp"
+                        tools:ignore="RtlSymmetry" />
+
+                    <TextView
+                        android:layout_marginStart="20dp"
+                        android:text="@string/bpm"
+                        android:fontFamily="@font/poppins_medium"
+                        android:textSize="16sp"
+                        android:textColor="@color/white"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/ll_langkah_harian_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:text="@string/langkah_harian"
+                        android:gravity="center"
+                        android:fontFamily="@font/poppins_medium"
+                        android:textSize="16sp"
+                        android:textColor="@color/white"
+                        android:layout_width="wrap_content"
+                        android:layout_height="40dp"/>
+
+                    <ImageView
+                        android:id="@+id/iv_langkah_harian_dialog"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:src="@drawable/ic_info_dialog"
+                        android:layout_gravity="center"
+                        android:layout_marginStart="10dp"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <EditText
+                        android:id="@+id/et_langkah_input"
+                        android:inputType="number"
+                        android:paddingStart="15dp"
+                        android:background="@drawable/isian"
+                        android:layout_width="120dp"
+                        android:layout_marginBottom="20dp"
+                        android:layout_height="55dp"
+                        tools:ignore="RtlSymmetry" />
+
+                    <TextView
+                        android:layout_marginStart="20dp"
+                        android:text="@string/langkah_per_hari"
+                        android:fontFamily="@font/poppins_medium"
+                        android:textSize="16sp"
+                        android:textColor="@color/white"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+                </LinearLayout>
+
+                <Button
+                    style="@style/Button"
+                    android:text="@string/input"
+                    android:id="@+id/btn_input"
+                    android:layout_marginTop="50dp"
+                    android:layout_marginBottom="40dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"/>
             </LinearLayout>
 
-            <LinearLayout
-                android:id="@+id/ll_langkah_harian_title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
 
-                <TextView
-                    android:text="@string/langkah_harian"
-                    android:gravity="center"
-                    android:fontFamily="@font/poppins_medium"
-                    android:textSize="16sp"
-                    android:textColor="@color/white"
-                    android:layout_width="wrap_content"
-                    android:layout_height="40dp"/>
-
-                <ImageView
-                    android:id="@+id/iv_langkah_harian_dialog"
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:src="@drawable/ic_info_dialog"
-                    android:layout_gravity="center"
-                    android:layout_marginStart="10dp"/>
-            </LinearLayout>
-
-            <LinearLayout
-                android:orientation="horizontal"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
-
-                <EditText
-                    android:id="@+id/et_langkah_input"
-                    android:inputType="number"
-                    android:paddingStart="15dp"
-                    android:background="@drawable/isian"
-                    android:layout_width="120dp"
-                    android:layout_marginBottom="20dp"
-                    android:layout_height="55dp"
-                    tools:ignore="RtlSymmetry" />
-
-                <TextView
-                    android:layout_marginStart="20dp"
-                    android:text="@string/langkah_per_hari"
-                    android:fontFamily="@font/poppins_medium"
-                    android:textSize="16sp"
-                    android:textColor="@color/white"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
-            </LinearLayout>
-
-            <Button
-                style="@style/Button"
-                android:text="@string/input"
-                android:id="@+id/btn_input"
-                android:layout_marginTop="50dp"
-                android:layout_marginBottom="40dp"
-                android:layout_width="match_parent"
-                android:layout_height="60dp"/>
-        </LinearLayout>
-
-        <ProgressBar
-            android:id="@+id/progress_input"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.26999998" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
-</ScrollView>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+    <ProgressBar
+        android:id="@+id/progress_input"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>

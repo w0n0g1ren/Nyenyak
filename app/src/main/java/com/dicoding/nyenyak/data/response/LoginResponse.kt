@@ -7,7 +7,7 @@ data class LoginResponse(
 	val expirateTime: String? = null,
 
 	@field:SerializedName("message")
-	val message: String? = null,
+    var message: String? = null,
 
 	@field:SerializedName("status")
 	val status: String? = null,

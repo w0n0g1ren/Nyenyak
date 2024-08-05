@@ -53,5 +53,11 @@ data class GetDiagnosisResponseItem(
 	val id: String? = null,
 
 	@field:SerializedName("age")
-	val age: Int? = null
+	val age: Int? = null,
+
+	@field:SerializedName("message")
+	val message: String? = null,
+
+	@field:SerializedName("status")
+	val status: String? = null
 )

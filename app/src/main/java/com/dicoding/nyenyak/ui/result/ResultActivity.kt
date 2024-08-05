@@ -3,7 +3,6 @@ package com.dicoding.nyenyak.ui.result
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import com.dicoding.nyenyak.R
 import com.dicoding.nyenyak.databinding.ActivityResultBinding
 import com.dicoding.nyenyak.ui.main.MainActivity
 

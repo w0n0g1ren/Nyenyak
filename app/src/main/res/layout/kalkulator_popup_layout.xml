@@ -45,7 +45,7 @@
                     style="@style/tvdetailresult4"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Waktu Tidur"
+                    android:text="Jam Tidur"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.0"
@@ -92,7 +92,7 @@
                     style="@style/tvdetailresult"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Waktu Bangun"
+                    android:text="Jam Bangun"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.0"
@@ -156,22 +156,32 @@
             app:layout_constraintVertical_bias="0.46">
 
             <LinearLayout
-                android:layout_width="200dp"
-                android:layout_height="40dp"
                 android:gravity="center"
-                android:orientation="horizontal"
-                android:padding="10dp">
-
-
-                <TextView
-                    android:id="@+id/tv_durasi"
-                    android:textSize="12sp"
+                android:layout_width="200dp"
+                android:layout_height="match_parent">
+                <LinearLayout
                     android:gravity="center"
-                    android:layout_width="70dp"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/poppins_medium"
-                    android:text="6 - 8 Jam" />
+                    android:orientation="vertical"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent">
+                    <TextView
+                        android:text="Durasi Tidur Ideal"
+                        android:textSize="12sp"
+                        android:textAlignment="center"
+                        android:gravity="center"
+                        android:fontFamily="@font/poppins_medium"
+                        android:layout_width="160dp"
+                        android:layout_height="wrap_content"/>
 
+                    <TextView
+                        android:id="@+id/tv_durasi"
+                        android:textSize="12sp"
+                        android:gravity="center"
+                        android:layout_width="160dp"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/poppins_medium"
+                        android:text="6 - 8 Jam" />
+                </LinearLayout>
                 <ImageView
                     android:layout_width="20dp"
                     android:layout_height="match_parent"
@@ -179,5 +189,4 @@
             </LinearLayout>
         </androidx.cardview.widget.CardView>
     </androidx.constraintlayout.widget.ConstraintLayout>
-
 </androidx.cardview.widget.CardView>

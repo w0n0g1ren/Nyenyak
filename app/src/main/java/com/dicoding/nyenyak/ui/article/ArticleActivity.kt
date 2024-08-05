@@ -3,11 +3,7 @@ package com.dicoding.nyenyak.ui.article
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
-import androidx.core.view.isGone
-import androidx.core.view.isVisible
-import androidx.navigation.ui.AppBarConfiguration
 import com.bumptech.glide.Glide
-import com.dicoding.nyenyak.R
 import com.dicoding.nyenyak.databinding.ActivityArticleBinding
 
 class ArticleActivity : AppCompatActivity() {

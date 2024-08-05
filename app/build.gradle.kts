@@ -24,6 +24,10 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
+            buildConfigField("String","BASE_URL","\"https://nyenyak.lm.r.appspot.com/\"")
+        }
+        debug {
+            buildConfigField("String","BASE_URL","\"https://nyenyak.lm.r.appspot.com/\"")
         }
     }
     compileOptions {
@@ -39,6 +43,7 @@ android {
     buildFeatures {
         viewBinding = true
         compose = true
+        buildConfig = true
     }
 }
 
@@ -87,4 +92,5 @@ dependencies {
     implementation ("com.github.skydoves:powerspinner:1.2.7")
     implementation ("com.github.naz013:analogueclock-android:1.0.3")
 
+    implementation("androidx.paging:paging-runtime-ktx:3.1.0")
 }

@@ -4,21 +4,13 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
-import androidx.activity.enableEdgeToEdge
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import com.dicoding.nyenyak.R
-import com.dicoding.nyenyak.data.api.ApiConfig
 import com.dicoding.nyenyak.data.response.ForgotResponse
-import com.dicoding.nyenyak.data.response.InputResponse
-import com.dicoding.nyenyak.databinding.ActivityForgotPasswordBinding
 import com.dicoding.nyenyak.databinding.ActivityUpdatePasswordBinding
-import com.dicoding.nyenyak.session.SessionPreference
-import com.dicoding.nyenyak.session.datastore
-import com.dicoding.nyenyak.ui.SecondViewModelFactory
+import com.dicoding.nyenyak.ui.ViewModelFactory
 import com.dicoding.nyenyak.ui.main.MainActivity
 import com.google.gson.Gson
 import kotlinx.coroutines.launch
@@ -27,6 +19,9 @@ import retrofit2.HttpException
 class UpdatePasswordActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityUpdatePasswordBinding
+    private val viewModel by viewModels<UpdatePasswordViewModel> {
+        ViewModelFactory.getInstance(this)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -52,19 +47,11 @@ class UpdatePasswordActivity : AppCompatActivity() {
     }
 
     private fun doAction(pwdBaru: String) {
-        val pref = SessionPreference.getInstance(application.datastore)
-        val viewModel = ViewModelProvider(this@UpdatePasswordActivity,
-            SecondViewModelFactory(pref)).get(
-            UpdatePasswordViewModel::class.java
-        )
-
-        viewModel.getToken().observe(this){
             showLoading(true)
             lifecycleScope.launch {
                 try {
-                    val config = ApiConfig.getApiService(it.token)
-                    val response = config.updatePassword(pwdBaru)
-                    showToast(response.message.toString()) //nanti diganti
+                    val response = viewModel.updatePassword(pwdBaru)
+                    showToast(response.message.toString())
                     val intent = Intent(this@UpdatePasswordActivity,
                         MainActivity::class.java)
                     intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
@@ -72,13 +59,13 @@ class UpdatePasswordActivity : AppCompatActivity() {
                     startActivity(intent)
                 }catch (e : HttpException){
                     val errorBody = e.response()?.errorBody()?.string()
-                    val errorResponse = Gson().fromJson(errorBody, ForgotResponse::class.java) //nanti diganti
+                    val errorResponse = Gson().fromJson(errorBody, ForgotResponse::class.java)
                     showToast(errorResponse.message.toString())
                     showLoading(false)
                 }
             }
         }
-    }
+
 
     private fun showToast(message: String){
         Toast.makeText(this,message,Toast.LENGTH_LONG).show()

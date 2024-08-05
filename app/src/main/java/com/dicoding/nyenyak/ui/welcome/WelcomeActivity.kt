@@ -5,15 +5,10 @@ import android.os.Build
 import android.os.Bundle
 import android.view.WindowInsets
 import android.view.WindowManager
-import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.lifecycleScope
 import com.dicoding.nyenyak.databinding.ActivityWelcomeBinding
-import com.dicoding.nyenyak.ui.ViewModelFactory
 import com.dicoding.nyenyak.ui.login.LoginActivity
-import com.dicoding.nyenyak.ui.main.MainViewModel
 import com.dicoding.nyenyak.ui.register.RegisterActivity
-import kotlinx.coroutines.launch
 
 class WelcomeActivity : AppCompatActivity() {
     private var _binding : ActivityWelcomeBinding? = null

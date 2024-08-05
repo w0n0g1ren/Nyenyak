@@ -1,31 +1,24 @@
 package com.dicoding.nyenyak.ui.fragment.dashboard
 
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.dicoding.nyenyak.adapter.ArticleAdapter
 import com.dicoding.nyenyak.adapter.adapter
 import com.dicoding.nyenyak.data.response.ArticleResponseItem
 import com.dicoding.nyenyak.data.response.GetDiagnosisResponseItem
-import com.dicoding.nyenyak.data.api.ApiConfig
 import com.dicoding.nyenyak.databinding.FragmentDashboardBinding
-import com.dicoding.nyenyak.session.SessionPreference
-import com.dicoding.nyenyak.session.datastore
-import com.dicoding.nyenyak.ui.SecondViewModelFactory
-import com.dicoding.nyenyak.ui.fragment.list.ListFragment
-import com.dicoding.nyenyak.ui.login.LoginActivity
+import com.dicoding.nyenyak.ui.ViewModelFactory
 import com.dicoding.nyenyak.ui.main.MainActivity
-import com.dicoding.nyenyak.ui.welcome.WelcomeActivity
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 
 
 class DashboardFragment : Fragment() {
@@ -34,6 +27,11 @@ class DashboardFragment : Fragment() {
 
     private val binding get() = _binding!!
     private lateinit var intent : Intent
+
+    private val viewModel by viewModels<DashboardFragmentViewModel> {
+        ViewModelFactory.getInstance(requireContext())
+    }
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -46,80 +44,40 @@ class DashboardFragment : Fragment() {
         return root
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     private fun showlatestdiagnosis() {
-        val pref = SessionPreference.getInstance(requireContext().datastore)
-        val viewmodel =
-            (context as? MainActivity)?.let {
-                ViewModelProvider(it, SecondViewModelFactory(pref)).get(
-                    DashboardFragmentViewModel::class.java
-                )
+        viewModel.getDiagnosis()
+        viewModel.getDiagnosisResponseItem.observe(context as MainActivity){
+            if (it == null){
+                binding.tvNull.visibility = View.VISIBLE
+            }else{
+                setLatestDiagnose(it)
+                binding.tvNull.visibility = View.INVISIBLE
             }
 
-        (context as? MainActivity)?.let {
-            viewmodel?.getToken()?.observe(it){
-                if (it.token != null){
-                        val client = ApiConfig.getApiService(it.token).getalldiagnosis()
-                        client.enqueue(object: Callback<List<GetDiagnosisResponseItem>>{
-                            override fun onResponse(
-                                call: Call<List<GetDiagnosisResponseItem>>,
-                                response: Response<List<GetDiagnosisResponseItem>>
-                            ) {
-                                if (response.isSuccessful){
-                                    val responseBody = response.body()
-                                    if(responseBody != null){
-                                        setLatestDiagnose(responseBody)
-                                    }
-                                }
-                            }
-
-                            override fun onFailure(call: Call<List<GetDiagnosisResponseItem>>,
-                                                   t: Throwable) {
-                                Log.e(TAG, "onFailure: ${t.message}")
-                            }
-                        })
-                }
-            }
         }
     }
 
+    private fun showarticle() {
+        viewModel.getArticle()
+        viewModel.getArticleResponseItem.observe(context as MainActivity){
+            setArticle(it)
+        }
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
     private fun setLatestDiagnose(subList: List<GetDiagnosisResponseItem>) {
+        val dateTimeFormatter: DateTimeFormatter = DateTimeFormatter.ofPattern("dd-MM-yyyy")
+        val data = subList.sortedByDescending { LocalDate.parse(it.date,dateTimeFormatter) }
         val layoutManager = LinearLayoutManager(context as? MainActivity)
         binding.rvList.setLayoutManager(layoutManager)
         binding.rvList.setHasFixedSize(true)
         val adapter = adapter(context as MainActivity)
         binding.rvList.adapter = adapter
-        val limitedList = subList.take(4)
+        val limitedList = data.take(4)
         adapter.submitList(limitedList)
     }
 
-    private fun showarticle() {
-        val client = ApiConfig.getApiService().getarticle()
-        client.enqueue(object : Callback<List<ArticleResponseItem>>{
-            override fun onResponse(
-                call: Call<List<ArticleResponseItem>>,
-                response: Response<List<ArticleResponseItem>>
-            ) {
-                if(response.isSuccessful){
-                    val responseBody = response.body()
-                    if(responseBody != null){
-                        setArticle(responseBody.subList(0,responseBody.lastIndex+1))
-                    }
-                    else{
-                        val errorcode : String = response.code().toString()
-//                        when(errorcode){
-//                            "401" -> intent = Intent(context as MainActivity,LoginActivity::class.java)
-//                        }
-//                        context?.startActivity(intent)
-                    }
-                }
-            }
-
-            override fun onFailure(call: Call<List<ArticleResponseItem>>, t: Throwable) {
-                Log.e(TAG, "onFailure: ${t.message}")
-            }
-
-        })
-    }
     private fun setArticle(subList: List<ArticleResponseItem>) {
         val layoutManager = LinearLayoutManager(context as MainActivity,LinearLayoutManager.HORIZONTAL,false)
         binding?.rvTips?.setLayoutManager(layoutManager)

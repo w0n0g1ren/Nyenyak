@@ -6,34 +6,23 @@ import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.Window
-import android.widget.AnalogClock
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.annotation.RequiresApi
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.viewModels
 import com.dicoding.nyenyak.R
-import com.dicoding.nyenyak.data.api.ApiConfig
-import com.dicoding.nyenyak.data.response.GetDetailUserResponse
 import com.dicoding.nyenyak.databinding.FragmentCalculatorBinding
-import com.dicoding.nyenyak.session.SessionPreference
-import com.dicoding.nyenyak.session.datastore
-import com.dicoding.nyenyak.ui.SecondViewModelFactory
-import com.dicoding.nyenyak.ui.fragment.user.UserFragment
-import com.dicoding.nyenyak.ui.fragment.user.UserFragmentViewModel
+import com.dicoding.nyenyak.ui.ViewModelFactory
 import com.dicoding.nyenyak.ui.main.MainActivity
 import com.dicoding.nyenyak.utils.SleepTimeCalculator
 import com.github.naz013.analoguewatch.AnalogueClockView
 import com.github.naz013.analoguewatch.TimeData
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 import java.text.SimpleDateFormat
 import java.util.Date
 
@@ -47,6 +36,9 @@ class CalculatorFragment : Fragment() {
     private var selectedMinute: Int = 0
     private var umur: Int = 0
 
+    private val viewModel by viewModels<CalculatorViewModel> {
+        ViewModelFactory.getInstance(requireContext())
+    }
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -60,48 +52,9 @@ class CalculatorFragment : Fragment() {
     }
 
     private fun getUmur() {
-        var dapatUmur: String = ""
-        val pref = SessionPreference.getInstance(requireContext().datastore)
-        val viewModel =
-            (context as? MainActivity)?.let {
-                ViewModelProvider(it, SecondViewModelFactory(pref)).get(
-                    UserFragmentViewModel::class.java
-                )
-            }
-        (context as? MainActivity)?.let {
-            viewModel?.getToken()?.observe(it){
-                if (it.token != null){
-                    val apiService = ApiConfig.getApiService(it.token).getUser()
-                    apiService.enqueue(object : Callback<GetDetailUserResponse> {
-                        override fun onResponse(
-                            call: Call<GetDetailUserResponse>,
-                            response: Response<GetDetailUserResponse>
-                        ) {
-                            if (response.isSuccessful){
-                                val responseBody = response.body()
-                                if (responseBody != null){
-                                    umur = responseBody.user!!.age!!.toInt()
-                                    Log.e(TAG,"$umur")
-                                }else{
-                                    Log.e(TAG, "onFailure: ${response.message()}")
-                                }
-                            }
-                            else{
-                                val errorcode : String = response.code().toString()
-                                when(errorcode){
-                                    "401" -> {
-                                    }
-                                }
-
-                            }
-                        }
-
-                        override fun onFailure(call: Call<GetDetailUserResponse>, t: Throwable) {
-                            Log.e(TAG, "onFailure: ${t.message}")
-                        }
-                    })
-                }
-            }
+        viewModel.getDetailUser()
+        viewModel.getDetailUserResponse.observe(context as MainActivity){
+            umur = it.user?.age ?: 0
         }
     }
 

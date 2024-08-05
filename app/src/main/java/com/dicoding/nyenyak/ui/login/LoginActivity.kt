@@ -12,18 +12,12 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.dicoding.nyenyak.R
-import com.dicoding.nyenyak.data.api.ApiService
-import com.dicoding.nyenyak.data.repository.AppRepository
-import com.dicoding.nyenyak.data.repository.ModelProto
-import com.dicoding.nyenyak.data.response.LoginResponse
 import com.dicoding.nyenyak.databinding.ActivityLoginBinding
 import com.dicoding.nyenyak.session.DataModel
-import com.dicoding.nyenyak.session.SessionPreference
 import com.dicoding.nyenyak.ui.ViewModelFactory
 import com.dicoding.nyenyak.ui.forgot.ForgotPasswordActivity
 import com.dicoding.nyenyak.ui.main.MainActivity
 import com.dicoding.nyenyak.ui.welcome.WelcomeActivity
-import com.google.gson.Gson
 import kotlinx.coroutines.launch
 import retrofit2.HttpException
 
@@ -41,7 +35,6 @@ class LoginActivity : AppCompatActivity() {
         setupView()
         setupAction()
         setClickListener()
-
     }
 
     private fun setClickListener() {
@@ -92,22 +85,22 @@ class LoginActivity : AppCompatActivity() {
                 }
                 viewModel.login(email, password)
 
-                viewModel.loginResponse.observe(this) {
+                viewModel.loginResponse?.observe(this) {
                     when{
-                        (it.status == "success") -> {
+                        (it?.status == "success") -> {
                             save(
                                 DataModel(
-                                    it.token.toString(),
-                                    it.expirateTime.toString(),
+                                    it?.token.toString(),
+                                    it?.expirateTime.toString(),
                                     true
                                 )
                             )
                             showLoading(false)
-                            showToast(it.message)
+                            showToast(it?.message)
                         }
-                        (it.status != "success") ->{
+                        (it?.status != "success") ->{
                             showLoading(false)
-                            showToast(it.message)
+                            showToast(it?.message)
                         }
                     }
                 }

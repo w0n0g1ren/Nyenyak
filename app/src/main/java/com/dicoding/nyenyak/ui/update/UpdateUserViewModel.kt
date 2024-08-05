@@ -1,13 +1,12 @@
 package com.dicoding.nyenyak.ui.update
 
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.asLiveData
-import com.dicoding.nyenyak.session.DataModel
-import com.dicoding.nyenyak.session.SessionPreference
+import com.dicoding.nyenyak.data.repository.AppRepository
+import com.dicoding.nyenyak.data.response.UpdateUserResponse
 
-class UpdateUserViewModel(private val pref: SessionPreference): ViewModel() {
-    fun getToken() : LiveData<DataModel>{
-        return pref.getToken().asLiveData()
+class UpdateUserViewModel(private val repository: AppRepository): ViewModel() {
+
+    suspend fun updateUser(name : String, birthDate: String, gender: String): UpdateUserResponse{
+        return repository.updateUser(name, birthDate, gender)
     }
 }

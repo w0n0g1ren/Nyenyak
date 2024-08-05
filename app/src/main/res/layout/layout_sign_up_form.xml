@@ -137,6 +137,8 @@
             android:layout_marginTop="20dp"/>
 
         <LinearLayout
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_vertical"
@@ -149,7 +151,8 @@
                 android:layout_height="wrap_content"
                 android:contentDescription="@string/due_date"
                 android:onClick="showDatePicker"
-                android:src="@drawable/ic_date" />
+                android:background="@null"
+                android:src="@drawable/baseline_edit_calendar_24" />
 
             <TextView
                 android:id="@+id/add_tv_due_date"
@@ -158,7 +161,7 @@
                 android:text="@string/due_date"
                 android:textSize="14sp"
                 android:textColor="@color/white"
-                android:layout_marginStart="4dp"/>
+                android:layout_marginStart="4dp" />
         </LinearLayout>
     </LinearLayout>
 

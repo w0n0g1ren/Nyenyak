@@ -104,6 +104,8 @@
     <string name="peringatan_gender">mohon pilih gender</string>
     <string name="petunjuk">Petunjuk</string>
     <string name="jika_data_tidak_diisi_akan_diisikan_dengan_data_lama">Jika data tidak diisi akan diisikan dengan data lama</string>
+    <string name="data_null">Anda belum \nmelakukan diagnosa</string>
+    <string name="error_input">Data Harus Diisi</string>
 
     <string-array name="gender">
         <item>Laki Laki</item>

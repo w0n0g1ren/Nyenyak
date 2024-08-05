@@ -51,15 +51,38 @@
                 android:textColor="@color/white"
                 android:textSize="16dp" />
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rv_list"
-                android:layout_width="match_parent"
-                android:layout_height="360dp"
+
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_marginLeft="20dp"
                 android:layout_marginTop="19dp"
                 android:layout_marginRight="20dp"
-                tools:itemCount="4"
-                tools:listitem="@layout/cek_item" />
+                android:layout_width="match_parent"
+                android:layout_height="360dp">
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rv_list"
+                    android:layout_width="match_parent"
+                    android:layout_height="360dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:itemCount="4"
+                    tools:listitem="@layout/cek_item" />
+
+                <TextView
+                    android:id="@+id/tv_null"
+                    style="@style/tvdetailresult3"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/data_null"
+                    android:textAlignment="center"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="@+id/rv_list"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
 
             <TextView
                 android:layout_width="wrap_content"

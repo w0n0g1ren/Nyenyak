@@ -2,22 +2,19 @@ package com.dicoding.nyenyak.ui.fragment.user
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.asLiveData
-import androidx.lifecycle.viewModelScope
-import com.dicoding.nyenyak.session.DataModel
-import com.dicoding.nyenyak.session.SessionPreference
-import kotlinx.coroutines.launch
+import com.dicoding.nyenyak.data.repository.AppRepository
+import com.dicoding.nyenyak.data.response.GetDetailUserResponse
 
-class UserFragmentViewModel(private val pref: SessionPreference): ViewModel() {
+class UserFragmentViewModel(private val repository: AppRepository): ViewModel() {
 
-    fun getToken(): LiveData<DataModel>{
-        return pref.getToken().asLiveData()
+    var getDetailUserResponse: LiveData<GetDetailUserResponse> = repository.getDetailUserResponse
+
+    fun getDetailUser(){
+        return repository.getDetailUser()
     }
 
-    fun destroySession(){
-        viewModelScope.launch {
-            pref?.sessionDestroy()
-        }
+    suspend fun logout(){
+        return repository.logout()
     }
 }
 

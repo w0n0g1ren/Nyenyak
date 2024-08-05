@@ -2,29 +2,25 @@ package com.dicoding.nyenyak.ui.input
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.Toast
+import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import com.dicoding.nyenyak.R
-import com.dicoding.nyenyak.data.api.ApiConfig
 import com.dicoding.nyenyak.data.response.InputResponse
 import com.dicoding.nyenyak.databinding.ActivityInputBinding
-import com.dicoding.nyenyak.session.SessionPreference
-import com.dicoding.nyenyak.session.datastore
-import com.dicoding.nyenyak.ui.SecondViewModelFactory
-import com.dicoding.nyenyak.ui.login.LoginActivity
+import com.dicoding.nyenyak.ui.ViewModelFactory
 import com.dicoding.nyenyak.ui.result.ResultActivity
 import com.google.gson.Gson
-import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.SupervisorJob
-import kotlinx.coroutines.TimeoutCancellationException
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.time.withTimeout
+import kotlinx.coroutines.withTimeout
+import kotlinx.coroutines.withTimeoutOrNull
 import retrofit2.HttpException
 import java.util.concurrent.TimeUnit
 import java.util.concurrent.TimeoutException
@@ -34,6 +30,9 @@ class InputActivity : AppCompatActivity() {
     private var sldsleep: Int = 3
     private var sldstress: Int = 3
     private var bloodpressure: String = ""
+    private val viewModel by viewModels<InputViewModel> {
+        ViewModelFactory.getInstance(this)
+    }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityInputBinding.inflate(layoutInflater)
@@ -55,59 +54,62 @@ class InputActivity : AppCompatActivity() {
         }
 
         binding.btnInput.setOnClickListener {
+            showLoading(true)
             var weight = binding.etBbInput.text.toString().toIntOrNull()
             var height = binding.etTinggiInput.text.toString().toIntOrNull()
             var sleepDuration = binding.etTidurInput.text.toString().toFloatOrNull()
-
             var heartRate = binding.etJantungInput.text.toString().toIntOrNull()
             var dailySteps = binding.etLangkahInput.text.toString().toIntOrNull()
             var physicalActivityLevel = binding.etFisikInput.text.toString().toIntOrNull()
 
+            when {
+                weight == null -> {binding.etBbInput.error = getString(R.string.error_input)}
+                height == null -> {binding.etTinggiInput.error = getString(R.string.error_input)}
+                sleepDuration == null -> {binding.etTidurInput.error = getString(R.string.error_input)}
+                heartRate == null -> {binding.etJantungInput.error = getString(R.string.error_input)}
+                dailySteps == null -> {binding.etLangkahInput.error = getString(R.string.error_input)}
+                physicalActivityLevel == null -> {binding.etFisikInput.error = getString(R.string.error_input)}
+                bloodpressure == null -> {binding.spinnerbpinput.error = getString(R.string.error_input)}
+            }
             if (weight==null || height == null || sleepDuration == null ||
                 heartRate == null || dailySteps == null || physicalActivityLevel == null){
                 showToast(getString(R.string.peringatan))
             }else{
-                val pref = SessionPreference.getInstance(application.datastore)
-                val viewmodel = ViewModelProvider(this, SecondViewModelFactory(pref)).get(
-                    InputViewModel::class.java
-                )
-                viewmodel.gettoken().observe(this){
-                    if(it.token != null){
-                        lifecycleScope.launch {
-                            try {
-                                showLoading(true)
-                                val apiService = ApiConfig.getApiService(it.token)
-                                val inputResponse = apiService.inputDiagnosis(
-                                    weight,height,sleepDuration,sldsleep,physicalActivityLevel,
-                                    bloodpressure,sldstress,heartRate,dailySteps
-                                )
-                                showToast(inputResponse.message.toString())
-                                val intent = Intent(this@InputActivity,
-                                    ResultActivity::class.java)
-                                intent.putExtra("tanggal", inputResponse.newDiagnosis?.
-                                date.toString())
-                                intent.putExtra("diagnosis", inputResponse.newDiagnosis?.
-                                sleepDisorder.toString())
-                                intent.putExtra("solusi", inputResponse.newDiagnosis?.
-                                solution.toString())
-                                intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.
-                                FLAG_ACTIVITY_NEW_TASK
-                                showLoading(false)
-                                startActivity(intent)
+                val scope = CoroutineScope(SupervisorJob() + IO)
+                lifecycleScope.launch() {
+                    try {
+                        showLoading(true)
+                        val response = viewModel.inputDiagnosis(
+                            weight,height,sleepDuration,
+                            sldsleep,physicalActivityLevel,
+                            bloodpressure,sldstress,
+                            heartRate,dailySteps)
 
-                            }catch (e: HttpException){
-                                showLoading(true)
-                                val errorBody = e.response()?.errorBody()?.string()
-                                val errorResponse = Gson().fromJson(errorBody,
-                                    InputResponse::class.java)
-                                showToast(errorResponse.message.toString())
-                                showLoading(false)
-                            }catch (e: TimeoutException){
-                                showLoading(true)
-                                showToast("Server tidak menanggapi mohon coba lagi")
-                                showLoading(false)
-                            }
-                        }
+                        showToast(response.message.toString())
+                        val intent = Intent(this@InputActivity,
+                            ResultActivity::class.java)
+                        intent.putExtra("tanggal", response.newDiagnosis?.
+                        date.toString())
+                        intent.putExtra("diagnosis", response.newDiagnosis?.
+                        sleepDisorder.toString())
+                        intent.putExtra("solusi", response.newDiagnosis?.
+                        solution.toString())
+                        intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.
+                        FLAG_ACTIVITY_NEW_TASK
+                        showLoading(false)
+                        startActivity(intent)
+
+                    }catch (e: HttpException){
+                        showLoading(true)
+                        val errorBody = e.response()?.errorBody()?.string()
+                        val errorResponse = Gson().fromJson(errorBody,
+                            InputResponse::class.java)
+                        showToast(errorResponse.message.toString())
+                        showLoading(false)
+                    }catch (e: TimeoutException){
+                        showLoading(true)
+                        showToast("Server tidak menanggapi mohon coba lagi")
+                        showLoading(false)
                     }
                 }
             }

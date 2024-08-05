@@ -8,18 +8,14 @@ import android.view.View
 import android.widget.DatePicker
 import android.widget.TextView
 import android.widget.Toast
+import androidx.activity.viewModels
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
-import androidx.compose.animation.core.animate
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import com.dicoding.nyenyak.R
-import com.dicoding.nyenyak.data.api.ApiConfig
 import com.dicoding.nyenyak.data.response.InputResponse
 import com.dicoding.nyenyak.databinding.ActivityUpdateUserBinding
-import com.dicoding.nyenyak.session.SessionPreference
-import com.dicoding.nyenyak.session.datastore
-import com.dicoding.nyenyak.ui.SecondViewModelFactory
+import com.dicoding.nyenyak.ui.ViewModelFactory
 import com.dicoding.nyenyak.ui.main.MainActivity
 import com.dicoding.nyenyak.utils.DatePickerFragment
 import com.google.android.material.bottomsheet.BottomSheetDialog
@@ -34,6 +30,9 @@ class UpdateUserActivity : AppCompatActivity(),DatePickerFragment.DialogDateList
     private var dueDateMillis: Long = System.currentTimeMillis()
     private lateinit var binding: ActivityUpdateUserBinding
     private  var tanggalInput: String = "12-12-1212"
+    private val viewModel by viewModels<UpdateUserViewModel> {
+        ViewModelFactory.getInstance(this)
+    }
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -52,47 +51,38 @@ class UpdateUserActivity : AppCompatActivity(),DatePickerFragment.DialogDateList
         }
 
         binding.btnUpdateUser.setOnClickListener {
-            var nama : String
-            var tanggal : String
-            var gender : String
+            lifecycleScope.launch {
+                showLoading(true)
+                var nama : String
+                var tanggal : String
+                var gender : String
 
-            nama = binding.namaUpdateUser.text.toString()
-            tanggal = tanggalInput
+                nama = binding.namaUpdateUser.text.toString()
+                tanggal = tanggalInput
 
-            if (binding.radiobutton1.isChecked){
-                gender = "male"
-            }else if (binding.radiobutton2.isChecked){
-                gender = "female"
-            }else{
-                gender = ""
-            }
+                if (binding.radiobutton1.isChecked){
+                    gender = "male"
+                }else if (binding.radiobutton2.isChecked){
+                    gender = "female"
+                }else{
+                    gender = ""
+                }
 
-            val pref = SessionPreference.getInstance(application.datastore)
-            val viewModel = ViewModelProvider(this, SecondViewModelFactory(pref)).get(
-                UpdateUserViewModel::class.java
-            )
-            viewModel.getToken().observe(this){
-                if (it.token != null){
-                    showLoading(true)
-                    lifecycleScope.launch {
-                        try {
-                            val config = ApiConfig.getApiService(it.token)
-                            val response = config.updateUser(nama,tanggal,gender)
-                            showToast(response.message.toString())
-                            val intent = Intent(this@UpdateUserActivity,
-                                MainActivity::class.java)
-                            intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or
-                                    Intent.FLAG_ACTIVITY_NEW_TASK
-                            showLoading(false)
-                            startActivity(intent)
-                        }catch (e : HttpException){
-                            val errorBody = e.response()?.errorBody()?.string()
-                            val errorResponse = Gson().fromJson(errorBody,
-                                InputResponse::class.java)
-                            showToast(errorResponse.message.toString())
-                            showLoading(false)
-                        }
-                    }
+                try {
+                    val response = viewModel.updateUser(nama,tanggal,gender)
+                    showToast(response.message.toString())
+                    val intent = Intent(this@UpdateUserActivity,
+                        MainActivity::class.java)
+                    intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or
+                            Intent.FLAG_ACTIVITY_NEW_TASK
+                    showLoading(false)
+                    startActivity(intent)
+                }catch (e : HttpException){
+                    val errorBody = e.response()?.errorBody()?.string()
+                    val errorResponse = Gson().fromJson(errorBody,
+                        InputResponse::class.java)
+                    showToast(errorResponse.message.toString())
+                    showLoading(false)
                 }
             }
         }

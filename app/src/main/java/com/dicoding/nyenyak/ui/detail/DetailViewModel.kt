@@ -2,13 +2,19 @@ package com.dicoding.nyenyak.ui.detail
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.asLiveData
-import com.dicoding.nyenyak.session.DataModel
-import com.dicoding.nyenyak.session.SessionPreference
+import com.dicoding.nyenyak.data.repository.AppRepository
+import com.dicoding.nyenyak.data.response.DeleteResponse
+import com.dicoding.nyenyak.data.response.GetDiagnosisResponseItem
 
-class DetailViewModel(private val pref : SessionPreference): ViewModel() {
-    fun getToken(): LiveData<DataModel>{
-        return pref.getToken().asLiveData()
+class DetailViewModel(private val repository: AppRepository): ViewModel() {
+    var getDetailDiagnosisResponse: LiveData<GetDiagnosisResponseItem> = repository.getDetailDiagnosisResponseItem
+
+    fun getDetailDiagnosis(uid: String){
+        return repository.getDetailDiagnosis(uid)
+    }
+
+    suspend fun deleteDiagnosis(uid: String): DeleteResponse {
+        return repository.deleteDiagnosis(uid)
     }
 }
 

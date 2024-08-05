@@ -16,7 +16,6 @@ import com.dicoding.nyenyak.ui.welcome.WelcomeActivity
 import com.google.gson.Gson
 import kotlinx.coroutines.launch
 import retrofit2.HttpException
-import java.util.regex.Pattern
 
 class ForgotPasswordActivity : AppCompatActivity() {
 

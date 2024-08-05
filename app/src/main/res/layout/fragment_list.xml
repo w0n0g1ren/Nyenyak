@@ -28,8 +28,20 @@
             android:text="@string/list_pengecekan"
             android:textColor="@color/white"
             android:textSize="30dp" />
-
     </LinearLayout>
+
+    <TextView
+        android:id="@+id/tv_null"
+        style="@style/tvdetailresult3"
+        android:layout_marginBottom="50dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/data_null"
+        android:textAlignment="center"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:paddingBottom="95dp"

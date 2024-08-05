@@ -1,13 +1,11 @@
 package com.dicoding.nyenyak.ui.updatepassword
 
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.asLiveData
-import com.dicoding.nyenyak.session.DataModel
-import com.dicoding.nyenyak.session.SessionPreference
+import com.dicoding.nyenyak.data.repository.AppRepository
+import com.dicoding.nyenyak.data.response.ForgotResponse
 
-class UpdatePasswordViewModel(private val pref: SessionPreference): ViewModel() {
-    fun getToken() : LiveData<DataModel> {
-        return pref.getToken().asLiveData()
+class UpdatePasswordViewModel(private val repository: AppRepository): ViewModel() {
+    suspend fun updatePassword(password: String): ForgotResponse{
+        return repository.updatePassword(password)
     }
 }

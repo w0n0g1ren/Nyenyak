@@ -2,11 +2,7 @@ package com.dicoding.nyenyak.ui.setelan
 
 import android.content.Intent
 import android.os.Bundle
-import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
-import com.dicoding.nyenyak.R
 import com.dicoding.nyenyak.databinding.ActivitySettingsBinding
 import com.dicoding.nyenyak.ui.update.UpdateUserActivity
 import com.dicoding.nyenyak.ui.updatepassword.UpdatePasswordActivity
